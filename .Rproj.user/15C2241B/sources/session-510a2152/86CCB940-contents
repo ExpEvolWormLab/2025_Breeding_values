@@ -1,0 +1,190 @@
+rm(list=ls());gc()
+library(vcfR)
+library(ggplot2)
+#install.packages("~/Downloads/rutilstimflutre-0.170.0.tar.gz")
+library(rutilstimflutre)
+library(ASRgenomics)
+library(GridLMM)
+library(MCMCglmm)
+#vcf <- read.vcfR("/Volumes/nematode_genetics/Cemee_data/vcf/Founders_944Lines.imputed.SNP.filtered.final_renamed.vcf.gz")
+#snp_positions <- vcf@fix[, 1:5]
+#genotype_info <- vcf@gt
+#rm(vcf);gc()
+
+## remove format column. # colnames(genotype_info)[1]
+#genotype_info <- genotype_info[,!colnames(genotype_info)=="FORMAT"]
+#genotype_info <- apply(genotype_info,2,function(x){
+#  x=as.numeric(substring(x,1,1))
+#})
+#table(genotype_info[,1:5])
+#genotype_info=apply(genotype_info,2,function(x){
+#  x[substring(x,1,3)=="0|0"]=0
+#  x[substring(x,1,3)=="1|1"]=2
+#  as.numeric(substring(x,1,1))})
+#gc()
+
+#snp_positions=data.frame(snp_positions)
+#snp_positions$POS=as.numeric(snp_positions$POS)
+### Remove MtDNA chromosome
+#genotype_info <- genotype_info[!snp_positions$CHROM=="MtDNA",]
+#snp_positions=subset(snp_positions,CHROM!="MtDNA")
+
+#M=as.matrix(t(genotype_info)) 
+#colnames(M)=snp_positions$ID
+
+#M_filtered <- qc.filtering(M=M,map=snp_positions,chrom="CHROM",marker="ID",pos="POS",maf = 0.05,plots=TRUE)
+#dim(M_filtered$M.clean)
+
+## Generate the Kinship matrix
+#G <- G.matrix(M = M_filtered$M.clean, method = "VanRaden", na.string = NA)$G
+#check_G <- kinship.diagnostics(K = G, diagonal.thr.small = 0.8,
+#                               diagonal.thr.large = 1.2, duplicate.thr = 0.95)
+
+#pdf('plots/kinship.heatmap.pdf',h=20,w=20)
+#kinship.heatmap(K = G, dendrogram = TRUE, row.label = FALSE,
+#                col.label = FALSE)
+#dev.off()
+
+
+###### Pruning does not work ...
+### Save the genomics / G matrix
+#save(list=ls(),file='Rdata/Genomics_analyzed.RData')
+
+# load('Rdata/Genomics_analyzed.RData')
+# 
+# ### Load the phenotype table and filter for the phenotyped lineages only
+# phen <- read.table(file="data/Final_estimates_July2024_with_lst_v3.txt",sep='\t',h=TRUE)
+# ### Load the isotype information to rename lines
+# main_cemee <- read.table("data/CeMEE_list_FM_20241024.txt",sep='\t',h=TRUE)
+# not_sequenced <- unique(subset(phen,!pop_label%in%colnames(genotype_info))$pop_label)
+# phen_with_iso = phen
+# for(i in not_sequenced){
+#   if(i%in%main_cemee$lineID){
+#     if(!is.na(subset(main_cemee,lineID==i)$isotype)[1]){
+#       phen_with_iso[phen_with_iso$pop_label==i,]$pop_label=unique(subset(main_cemee,lineID==i)$isotype)
+#     }
+#   }
+# }
+# length(unique(subset(phen_with_iso,!pop_label%in%colnames(genotype_info))$pop_label))
+# length(unique(subset(phen,!pop_label%in%colnames(genotype_info))$pop_label))
+# ## restored 80 lines
+# dim(subset(phen_with_iso,pop_label%in%colnames(genotype_info))) 
+# table(unique(phen$pop_label)%in%colnames(genotype_info))
+# table(unique(phen_with_iso$pop_label)%in%colnames(genotype_info))
+# phen_with_iso=subset(phen_with_iso,pop_label%in%colnames(genotype_info))
+# dim(phen_with_iso) # 4320 movies retained out of 5604
+# 
+# ##############################################################################
+# ### Remove also all founder lines ? only N2/PB306 ?
+# #######################################
+# phen_with_iso=subset(phen_with_iso,!pop_label=="N2")
+# genotype_info <- genotype_info[,colnames(genotype_info)%in%unique(phen_with_iso$pop_label)]
+# dim(genotype_info) # 930 out of 944 !
+# 
+# 
+# #Gsub.inv.sparse <- G.inverse(G = G_subset, sparseform = TRUE)$Ginv
+# ## 
+# M_sub <- M_filtered$M.clean[row.names(M_filtered$M.clean)%in%unique(phen_with_iso$pop_label),]
+# ## Remove Nas
+# M_sub <- t(na.omit(t(M_sub)))
+# 
+# G.final <- G.matrix(M = M_sub, method = "VanRaden", na.string = NA)$G
+# check_G.final <- kinship.diagnostics(K = G.final, diagonal.thr.small = 0.8,
+#                                diagonal.thr.large = 1.2, duplicate.thr = 0.95)
+# 
+# d = phen_with_iso
+# dim(d) # 4316
+# 
+# ## Create the population ID
+# d$population = tstrsplit(d$pop_label,"L")[[1]]
+# d$population[d$population==""]=paste0("L",tstrsplit(d$pop_label,"L")[[2]])[d$population==""]
+# d$population2=d$population
+# d$population2=substring(d$population,1,2)
+# d$population2[d$population=="EEV1401"]="A6"
+# 
+# ## Create the session ID 
+# d$session_id <- substring(d$date_str,1,4)
+# d$session_id[d$session_id=="2014"] <- "2013"
+# d$session_id[substring(d$block_id,1,1)=="F"] <- "F"
+# d$session_id[substring(d$block_id,1,2)=="SB"] <- "SB"
+# 
+# ## Set the env. covariates as numeric
+# for(i in c("temperature","rel_humidity","logD")){
+#   d[,i]=as.numeric(d[,i])
+# }
+# 
+# d$date_str = as.factor(as.character(d$date_str))
+# 
+# d=subset(d,!is.na(d$temperature))
+# d=subset(d,!is.na(d$rel_humidity))
+# 
+# for(i in c("temperature","rel_humidity","logD")){
+#   d[,i]= (d[,i]-mean(d[,i],na.rm=TRUE))/sd(d[,i])
+# }
+# 
+# vect_P_traits=c("SF","SB","FS","FB","BS","BF")
+# 
+# save(list=ls(),file='Rdata/Genomics_analyzed_withGM.RData')
+
+load('Rdata/Genomics_analyzed_withGM.RData')
+for(ii in vect_P_traits){
+d$y=d[,ii]
+is_NGM <- d$env_label=='NGM'
+is_NaCl <- d$env_label=='NaCl'
+
+d$y[is_NGM]= ((d$y[is_NGM]-mean(d$y[is_NGM]))/sd(d$y[is_NGM]))
+d$y[is_NaCl]= ((d$y[is_NaCl]-mean(d$y[is_NaCl]))/sd(d$y[is_NaCl]))
+
+gwas.NGM = GridLMM_GWAS(formula = y~1+(1|date_str)+(1|pop_label)+population2+temperature+rel_humidity+session_id, test_formula = ~1, reduced_formula = ~0, method='REML', 
+                         data = subset(d,env_label=='NGM'), X = M_sub, X_ID = 'pop_label', relmat = list(pop_label = G.final), mc.cores = 1)
+gwas.NaCl = GridLMM_GWAS(formula = y~1+(1|date_str)+(1|pop_label)+population2+temperature+rel_humidity+session_id, test_formula = ~1, reduced_formula = ~0, method='REML', 
+                         data = subset(d,env_label=='NaCl'), X = M_sub, X_ID = 'pop_label', relmat = list(pop_label = G.final), mc.cores = 1)
+
+### Univariate
+#### GBLUP ####
+# Model as: y = Xb + Wr + u + e 
+# X: fixed effects
+# W: random effects
+# u: follows normal distribution with variance of A*Var(u)
+
+# Define prior model for GBLUP
+# Convert Ginv to sparse matrix format
+G_subset <- G[colnames(G)%in%unique(phen_with_iso$pop_label),colnames(G)%in%unique(phen_with_iso$pop_label)]
+Ginv <- G.inverse(G = G_subset)$Ginv
+Ginv.mat <- as(Ginv, "dgCMatrix")
+nb_trait = 1
+
+phen.var = diag(nb_trait) * diag(var(subset(d, select = ii)))
+prior_mod <- list(G = list(G1 = list(V = phen.var / 3, nu = nb_trait),
+                           G2 = list(V = phen.var / 3, nu = nb_trait)), 
+                  R = list(V = phen.var / 3, nu = nb_trait))
+
+model_MCMC.NGM <- MCMCglmm(y ~ (logD + rel_humidity + temperature + session_id + population2) - 1, 
+                           random = ~pop_label + date_str, 
+                           #rcov = ~us(trait):units, 
+                           family = rep("gaussian", nb_trait), 
+                           prior = prior_mod, 
+                           ginverse = list(pop_label = Ginv.mat), 
+                           data = subset(d,env_label=='NGM'), 
+                           nitt = 11000, 
+                           burnin = 1000, 
+                           thin = 100, 
+                           pr = TRUE)
+
+model_MCMC.NaCl <- MCMCglmm(y ~ (logD + rel_humidity + temperature + session_id + population2)  - 1, 
+                           random = ~pop_label + date_str, 
+                           #rcov = ~us(trait):units, 
+                           family = rep("gaussian", nb_trait), 
+                           prior = prior_mod, 
+                           ginverse = list(pop_label = Ginv.mat), 
+                           data = subset(d,env_label=='NaCl'), 
+                           nitt = 11000, 
+                           burnin = 1000, 
+                           thin = 100, 
+                           pr = TRUE)
+
+save(list=c("gwas.NGM","gwas.NaCl","model_MCMC.NaCl","model_MCMC.NGM"),file=paste0('RData/Univariate_gridLMM_',ii,"_fixed.RData"))
+
+}
+
+
