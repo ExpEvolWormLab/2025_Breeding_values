@@ -91,8 +91,10 @@ model_MCMC.NGM <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_hu
 
 save(list=ls(),file="NGM_MCMCglmm.RData")
 
+# rownames(sol.conv2)
+
 # #to check convergence
-# col_subset <- colnames(model_MCMC.NGM[["Sol"]])[grepl('pop_label', colnames(model_MCMC.NGM[["Sol"]]))]
+
 # 
 # sol.conv <- heidel.diag(model_MCMC.NGM[["Sol"]][,col_subset])
 # VCV.conv <- heidel.diag(model_MCMC.NGM[["VCV"]])
@@ -104,3 +106,4 @@ save(list=ls(),file="NGM_MCMCglmm.RData")
 # autocorr.plot(model_MCMC.NGM[["Sol"]])
 # 
 # 
+

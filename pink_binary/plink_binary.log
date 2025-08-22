@@ -1,0 +1,31 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --allow-extra-chr
+  --file Pruned/plink.data
+  --make-bed
+  --out pink_binary/plink_binary
+
+Hostname: gevpc10
+Working directory: /mnt/data2/mallard/2025_Cemee_panel_update
+Start time: Thu Aug  7 15:46:09 2025
+
+Random number seed: 1754574369
+128832 MB RAM detected; reserving 64416 MB for main workspace.
+Scanning .ped file... done.
+Performing single-pass .bed write (317611 variants, 1001 people).
+--file: pink_binary/plink_binary-temporary.bed +
+pink_binary/plink_binary-temporary.bim + pink_binary/plink_binary-temporary.fam
+written.
+317611 variants loaded from .bim file.
+1001 people (0 males, 0 females, 1001 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to pink_binary/plink_binary.nosex .
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 1001 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.999958.
+317611 variants and 1001 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to pink_binary/plink_binary.bed + pink_binary/plink_binary.bim +
+pink_binary/plink_binary.fam ... done.
+
+End time: Thu Aug  7 15:46:28 2025

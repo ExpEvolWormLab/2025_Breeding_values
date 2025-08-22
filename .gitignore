@@ -1,2 +1,10 @@
 .Rhistory
 .Rproj.user
+*.RData
+*.pdf
+*.bed
+*.bim
+*.bk
+*.fam
+*.pper
+*.ld
