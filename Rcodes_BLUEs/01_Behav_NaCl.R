@@ -72,22 +72,21 @@ dim(data_for_GBLUP_NGM) # 3045
 ##############################@
 nb_trait=7
 phen.var = diag(nb_trait) * diag(var(subset(data_for_GBLUP_NaCl, select = vect_P_traits)))
-prior_mod <- list(G = list(G1 = list(V = phen.var / 3, nu = nb_trait),
-                           G2 = list(V = phen.var / 3, nu = nb_trait)), 
+prior_mod <- list(G = list(G1 = list(V = phen.var / 3, nu = nb_trait)), 
                   R = list(V = phen.var / 3, nu = nb_trait))
 
 
-model_MCMC.NaCl <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_humidity + temperature + session_id) + trait - 1, 
-                           random = ~us(trait):pop_label + us(trait):date_str, 
+model_MCMC.NaCl <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_humidity + temperature + session_id) + pop_label + trait - 1, 
+                           random = ~us(trait):date_str, 
                            rcov = ~us(trait):units, 
                            family = rep("gaussian", nb_trait), 
                            prior = prior_mod, 
                            data = data_for_GBLUP_NaCl, 
                            nitt = 1100000, 
                            burnin = 100000, 
-                           thin = 1000, 
+                           thin = 100, 
                            pr = TRUE)
 
 
-save(list=ls(),file="NaCl_MCMCglmm.RData")
+save(list=ls(),file="RData_BLUEs/NaCl_MCMCglmm_BLUEs.RData")
 
