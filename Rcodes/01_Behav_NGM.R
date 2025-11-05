@@ -88,7 +88,6 @@ model_MCMC.NGM <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_hu
                            thin = 1000, 
                            pr = TRUE)
 
-
 save(list=ls(),file="NGM_MCMCglmm.RData")
 
 # rownames(sol.conv2)

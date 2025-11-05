@@ -71,22 +71,27 @@ dim(data_for_GBLUP_NGM) # 3045
 
 ##############################@
 nb_trait=7
-phen.var = diag(nb_trait) * diag(var(subset(data_for_GBLUP_NaCl, select = vect_P_traits)))
-prior_mod <- list(G = list(G1 = list(V = phen.var / 3, nu = nb_trait)), 
-                  R = list(V = phen.var / 3, nu = nb_trait))
 
+library(lme4)
 
-model_MCMC.NaCl <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_humidity + temperature + session_id) + pop_label + trait - 1, 
-                           random = ~us(trait):date_str, 
-                           rcov = ~us(trait):units, 
-                           family = rep("gaussian", nb_trait), 
-                           prior = prior_mod, 
-                           data = data_for_GBLUP_NaCl, 
-                           nitt = 1100000, 
-                           burnin = 100000, 
-                           thin = 100, 
-                           pr = TRUE)
+newdata=data.frame(logD=0,rel_humidity=0, temperature=0,
+                   pop_label=sort(unique(data_for_GBLUP_NGM$pop_label)))
+all_traits_corrected=NULL
+for(i in vect_P_traits){
+  print(i)
+  data_for_GBLUP_NGM$trait=data_for_GBLUP_NGM[,i]
+  trait_lmer <- lmer(trait~ logD + rel_humidity + temperature  + pop_label + (1|date_str) + (1|session_id), data=data_for_GBLUP_NGM)
+  if(i=="SF"){
+    all_traits_corrected <- data.frame(pop_label=newdata$pop_label,trait=predict(trait_lmer,newdata,re.form=NA))
+    names(all_traits_corrected)[2]=i
+  }else{
+    all_traits_corrected <- cbind(all_traits_corrected,predict(trait_lmer,newdata,re.form=NA))
+  }
+  
+  
+}
 
+names(all_traits_corrected)[2:8]=vect_P_traits
+save(list=ls(),file="RData_BLUEs/NGM_LMER_BLUEs.RData")
 
-save(list=ls(),file="RData_BLUEs/NaCl_MCMCglmm_BLUEs.RData")
 
