@@ -77,8 +77,8 @@ prior_mod <- list(G = list(G1 = list(V = phen.var / 3, nu = nb_trait),
                   R = list(V = phen.var / 3, nu = nb_trait))
 
 
-model_MCMC.NGM <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_humidity + temperature + session_id) + trait - 1, 
-                           random = ~us(trait):pop_label + us(trait):date_str, 
+model_MCMC.NGM <- MCMCglmm(cbind(SF, SB, FS, FB, BS, BF,area.F) ~ (logD + rel_humidity + temperature + session_id) + pop_label + trait - 1, 
+                           random = ~ us(trait):date_str, 
                            rcov = ~us(trait):units, 
                            family = rep("gaussian", nb_trait), 
                            prior = prior_mod, 
