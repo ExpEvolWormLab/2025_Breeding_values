@@ -1,0 +1,28 @@
+##
+## GEMMA Version    = 0.98.1 (2018-12-10)
+## Build profile    = 
+## GCC version      = 8.2.0
+## GSL Version      = 2.5
+## Eigen Version    = 3.3.5
+## OpenBlas         = OpenBLAS 0.3.4  - OpenBLAS 0.3.8 NO_LAPACKE DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=64
+##   arch           = Haswell
+##   threads        = 32
+##   parallel type  = threaded
+##
+## Command Line Input = gemma -bfile pink_binary_pruned_09/plink_binary.pruned09 -gk 1 -o kinship_matrix 
+##
+## Date = Thu Aug  7 13:09:45 2025
+##
+## Summary Statistics:
+## number of total individuals = 1001
+## number of analyzed individuals = 1001
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var = 36518
+## number of analyzed SNPs/var = 36518
+##
+## Computation Time:
+## total computation time = 0.793692 min 
+## computation time break down: 
+##      time on calculating relatedness matrix = 0.724627 min 
+##
