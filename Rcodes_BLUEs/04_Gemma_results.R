@@ -3,8 +3,8 @@ gc()
 library(qqman)
 
 
-t1=read.table("gemma_results/gwas_results_T7.assoc.txt",h=TRUE)
-t2=read.table("gemma_results/gwas_results_T14.assoc.txt",h=TRUE)
+t1=read.table("gemma_results_BLUE/gwas_results_BLUE_T7.assoc.txt",h=TRUE)
+t2=read.table("gemma_results_BLUE/gwas_results_BLUE_T14.assoc.txt",h=TRUE)
 pvals_fdr <-t1$p_wald# p.adjust(t1$p_wald, method = "BH")
 plot(-log10(pvals_fdr),pch=16,cex=.6)
 
