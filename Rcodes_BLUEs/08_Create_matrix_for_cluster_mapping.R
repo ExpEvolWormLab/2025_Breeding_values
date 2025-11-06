@@ -85,7 +85,7 @@ write.table(bimbam,"data_BLUE/genotypes_clusters.txt",row.names=FALSE,col.names=
 ### Only takes one column at a time
 #for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
-#cut -f $i phenotypic_data/gemma_pheno.txt > phenotypic_data/gemma_pheno_T${i}.txt
-#nohup gemma -bfile pink_binary_clusters/plink_binary_clusters -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p phenotypic_data/gemma_pheno_T${i}.txt -o gwas_results_clusters_T${i} > gemma_output_txt/output_gemma_clusters_t${i}.txt &
+#cut -f $i data_BLUE/gemma_pheno.txt > phenotypic_data/gemma_pheno_T${i}.txt
+#nohup gemma -g data_BLUE/genotypes_clusters.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o Permutation_Gemma_clusters_BLUE/gwas_results_clusters_BLUE_T${i} > gemma_output_BLUE_clusters_txt/output_gemma_clusters_t${i}.txt &
 #done
 
