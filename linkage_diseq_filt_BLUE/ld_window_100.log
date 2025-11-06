@@ -1,0 +1,22 @@
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--gzvcf /mnt/data3/mallard/2025_Breeding_values/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz
+	--ld-window 100
+	--max-alleles 2
+	--min-alleles 2
+	--hap-r2
+	--out linkage_diseq_filt_BLUE/ld_window_100
+	--phased
+
+Using zlib version: 1.2.11
+Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed">
+After filtering, kept 1001 out of 1001 Individuals
+Outputting Pairwise LD (phased bi-allelic only)
+After filtering, kept 124842 out of a possible 124842 Sites
+Run Time = 671.00 seconds

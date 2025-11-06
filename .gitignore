@@ -14,3 +14,4 @@ Cemee2025.sign.GWAS_BLUE.filt.vcf.gz
 txt_BLUEs/all_sign_GWAS_with_clusters.txt
 data_BLUE/genotypes_clusters.txt
 /Permutation_Gemma_clusters_BLUE
+/gemma_results_clusters_BLUE

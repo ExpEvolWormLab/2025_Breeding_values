@@ -19,7 +19,7 @@ all_GWAS$CHROM=factor(tstrsplit(all_GWAS$rs,"_")[[1]],levels=c("I","II","III","I
 all_GWAS=all_GWAS[order(all_GWAS$CHROM,all_GWAS$ps),]
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df)>=1) # ~108k SNPS at least sign for one trait
+table(rowSums(sign_all_df)>=1) # ~124k SNPS at least sign for one trait
 
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
@@ -83,7 +83,7 @@ table(snp_positions_sign$ID==all_GWAS_sign$rs) # In the same order #
 
 ### Now load the linkage blocks from plink
 
-ld_snps <- read.table("linkage_diseq_filt/ld_window_100.hap.ld",h=TRUE)
+ld_snps <- read.table("linkage_diseq_filt_BLUE/ld_window_100.hap.ld",h=TRUE)
 ### Create clusters from these
 threshold_clust <- 0.8
 
@@ -92,6 +92,8 @@ ld_snps$ID1 <- paste(ld_snps$CHR,ld_snps$POS1,sep="_")
 ld_snps$ID2 <- paste(ld_snps$CHR,ld_snps$POS2,sep="_")
 
 edges_clust <- subset(ld_snps, R.2 > threshold_clust)
+
+head(ld_snps)
 
 # Function to get groups per chromosome
 get_groups_per_chr <- function(data_chr) {
@@ -116,13 +118,13 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 3415 clusters
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 50437 unique SNPs with no clusters
+length(unique(all_GWAS_sign_with_clust$cluster)) # 4892 clusters
+sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3968 unique SNPs with no clusters
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
 })
-max(clust_length)/10^6 #1.9
+max(clust_length)/10^6 #1.8
 
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
@@ -130,11 +132,12 @@ clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,
 
 
 #plot(clust_mean,clust_length)
-#################################################################
+###############################################################################################
 ### Split the clusters if they are two far apparts ?
 ### Split the clusters if they affect the same trait in opposite direction
+###  Yes, as they are polarised ok ?
 ### (traits in each env. are considered different traits)
-#################################################################
+###############################################################################################
 
   #temp.snp.pos <- snps_pos
   #temp.snp.pos$idx = 1:nrow(temp.snp.pos)
@@ -213,9 +216,9 @@ dim(all_GWAS_sign_with_clust)
 all_cluster_merged[is.na(all_cluster_merged$cluster),]$group=all_cluster_merged[is.na(all_cluster_merged$cluster),]$rs
 table(is.na(all_cluster_merged$group))
 ## Number of clusters initially ?
-length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 14381
+length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 8860
 ## Number of clusters in the end ?
-length(unique(all_cluster_merged$group)) # 7741 (only ~100 additional that were incompatible)
+length(unique(all_cluster_merged$group)) # 8982 (only ~122 additional that were incompatible)
 
 all_cluster_merged=subset(all_cluster_merged,select= -ID1)
 ### Replace group ID by a number, first sort all_cluster_merged
