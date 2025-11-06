@@ -10,3 +10,6 @@
 *.ld
 NaCl_MCMCglmm.RData
 /pink_binary_pruned_09
+Cemee2025.sign.GWAS_BLUE.filt.vcf.gz
+txt_BLUEs/all_sign_GWAS_with_clusters.txt
+data_BLUE/genotypes_clusters.txt

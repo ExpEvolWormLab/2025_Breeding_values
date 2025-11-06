@@ -64,8 +64,8 @@ for(i_col in paste0("beta_T",1:14)){
 }
 
 ### Save the txt file with the significant positions
-write.table(snps_pos,file="data_BLUE//sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
-#bcftools view -T sign_positions.txt -O z Final_VCF/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz > Final_VCF/Cemee2025.sign.GWAS.filt.vcf.gz
+write.table(snps_pos,file="data_BLUE/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
+#bcftools view -T data_BLUE/sign_positions.txt -O z /mnt/data2/mallard/2025_Cemee_panel_update/Final_VCF/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz > Cemee2025.sign.GWAS_BLUE.filt.vcf.gz
 
 all_GWAS_sign <- subset(all_GWAS,sign_overall)
 
@@ -116,13 +116,13 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 4260 clusters
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3371 unique SNPs with no clusters
+length(unique(all_GWAS_sign_with_clust$cluster)) # 3415 clusters
+sum(is.na(all_GWAS_sign_with_clust$cluster)) # 50437 unique SNPs with no clusters
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
 })
-max(clust_length)/10^6
+max(clust_length)/10^6 #1.9
 
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
@@ -233,7 +233,7 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
   df.CHR.single=subset(all_cluster_merged,CHROM==idx_chr & is.na(cluster))
   df.CHR.single$group=as.numeric(as.factor(as.character(df.CHR.single$group)))
   
-  pdf(paste0("plots/Cluster_CHR_",idx_chr,"_Merged-noPruning.pdf"),h=10,w=20)
+  pdf(paste0("plots_BLUEs//Cluster_CHR_",idx_chr,"_Merged-noPruning.pdf"),h=10,w=20)
   par(mfrow=c(2,7))
   
   all_col_CHR <- sample(rainbow(max(df.CHR$cluster)))
@@ -268,5 +268,5 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
 }
 
 #### Output the clusters
-write.table(all_cluster_merged,file=paste0('txt/all_sign_GWAS_with_clusters.txt'),sep='\t',row.names=FALSE,quote=FALSE)
+write.table(all_cluster_merged,file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters.txt'),sep='\t',row.names=FALSE,quote=FALSE)
 
