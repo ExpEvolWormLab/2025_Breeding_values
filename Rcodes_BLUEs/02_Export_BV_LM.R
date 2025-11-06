@@ -21,6 +21,13 @@ boxplot(final_BLUE$BLUE[final_BLUE$traitID=="area"]~tstrsplit(final_BLUE$pop_lab
 boxplot(final_BLUE$BLUE[final_BLUE$traitID=="area"]~substring(final_BLUE$pop_label[final_BLUE$traitID=="area"],1,3),las=2,xlab="")
 boxplot(final_BLUE$BLUE[final_BLUE$traitID=="FS"]~substring(final_BLUE$pop_label[final_BLUE$traitID=="FS"],1,3),las=2,xlab="")
 
+## BV ?
+BV=read.table('Breeding_values_NGM.txt',h=TRUE)
+concat <- (merge(final_BLUE,BV))
+temp.concat=subset(concat,traitID=="area")
+plot(temp.concat$BLUE,temp.concat$BV)
+
+
 ### Export the breeding values for each trait - NaCl ###
 final_BLUE=NULL
 for(traitID in NaCl_env$vect_P_traits){
@@ -35,4 +42,14 @@ write.table(final_BLUE,file="BLUES_NaCl.txt",sep='\t',quote=FALSE,row.names=FALS
 
 boxplot(final_BLUE$BLUE~final_BLUE$traitID)
 boxplot(final_BLUE$BLUE[final_BLUE$traitID=="area"]~tstrsplit(final_BLUE$pop_label[final_BLUE$traitID=="area"],"L")[[1]],las=2,xlab="")
+
+## BV ?
+BV=read.table('Breeding_values_NaCl.txt',h=TRUE)
+concat <- (merge(final_BLUE,BV))
+
+temp.concat=subset(concat,traitID=="area")
+plot(temp.concat$BLUE,temp.concat$BV)
+
+
+
 

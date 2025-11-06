@@ -74,8 +74,10 @@ bimbam <- data.frame(id=paste0("rs",1:nrow(geno_matrix_groups)),major="A",minor=
 bimbam <- cbind(bimbam,geno_matrix_groups)
 head(bimbam[,1:10])
 
-write.table(bimbam,"data_BLUE/genotypes_clusters.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
+df_clusters$id=paste0("rs",1:nrow(geno_matrix_groups))
 
+write.table(bimbam,"data_BLUE/genotypes_clusters.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
+write.table(df_clusters,"data_BLUE/data_clusters_BLUE.txt",row.names=FALSE,quote=FALSE)
 
 ### Run Gemma
 ###

@@ -15,3 +15,4 @@ txt_BLUEs/all_sign_GWAS_with_clusters.txt
 data_BLUE/genotypes_clusters.txt
 /Permutation_Gemma_clusters_BLUE
 /gemma_results_clusters_BLUE
+data_BLUE/data_clusters_BLUE.txt
