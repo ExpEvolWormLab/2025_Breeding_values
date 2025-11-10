@@ -74,8 +74,8 @@ all_GWAS_sign <- subset(all_GWAS,sign_overall)
 #rowS_NGM <- table(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))
 #rowS_NaCl <-table(rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))
 
-#plot(rowS_NGM,type='b',col='cornflowerblue',ylim=c(50,60000),log="y")
-#points(rowS_NaCl,type='b',col='darkorange')
+#plot(rowS_NaCl,type='b',col='darkorange',ylim=c(1,60000),log="y",xlim=c(0,7))
+#points(rowS_NGM,type='b',col='cornflowerblue')
 #mean((rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))[(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))>0])
 #mean((rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))[(rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))>0])
 
