@@ -81,7 +81,7 @@ write.table(gemma_pheno,file="data_BLUE/gemma_pheno.txt",sep='\t',quote=FALSE,ro
 
 ### Make binary plink files for Gemma ###
 
-#mkdir pink_binary
+# mkdir pink_binary
 #/mnt/data2/desmarais/tool_plink/plink --file Pruned/plink.data --make-bed --allow-extra-chr --out pink_binary/plink_binary
 
 

@@ -10,7 +10,7 @@
 ##
 ## Command Line Input = gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T1.txt -o gwas_results_BLUE_T1 
 ##
-## Date = Wed Nov  5 18:35:30 2025
+## Date = Mon Nov 10 15:20:54 2025
 ##
 ## Summary Statistics:
 ## number of total individuals = 1001
@@ -19,19 +19,19 @@
 ## number of phenotypes = 1
 ## number of total SNPs/var = 317611
 ## number of analyzed SNPs/var = 317611
-## REMLE log-likelihood in the null model = -419.067
-## MLE log-likelihood in the null model = -418.929
+## REMLE log-likelihood in the null model = -714.612
+## MLE log-likelihood in the null model = -714.781
 ## pve estimate in the null model = 0.142772
 ## se(pve) in the null model = 0.0511406
-## vg estimate in the null model = 0.0308686
-## ve estimate in the null model = 0.121137
-## beta estimate in the null model =   -1.58211
-## se(beta) =   0.0111982
+## vg estimate in the null model = 0.0569554
+## ve estimate in the null model = 0.223509
+## beta estimate in the null model =   -0.373749
+## se(beta) =   0.015211
 ##
 ## Computation Time:
-## total computation time = 16.6533 min 
+## total computation time = 20.2349 min 
 ## computation time break down: 
-##      time on eigen-decomposition = 4.42588 min 
-##      time on calculating UtX = 2.13181 min 
-##      time on optimization = 9.4184 min 
+##      time on eigen-decomposition = 4.08402 min 
+##      time on calculating UtX = 1.66249 min 
+##      time on optimization = 13.6759 min 
 ##
