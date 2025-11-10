@@ -18,7 +18,7 @@ idx_temp <- abs(round(10000*rnorm(1)))
 pheno <- sample(phenotypes[,j])
 # save it
 write.table(pheno,file=paste("temp_perm/pheno",idx_temp,"_clusters.txt",sep='_'),quote=FALSE,row.names=FALSE,col.names=FALSE)
-gemma_cmd <- paste0("gemma -g data_BLUE/genotypes_clusters.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 1 -p ",paste("temp_perm/pheno",idx_temp,"_clusters.txt",sep='_')," -o gwas_results_clusters_BLUE",idx_temp)
+gemma_cmd <- paste0("gemma -g data_BLUE/genotypes_clusters_R02.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 1 -p ",paste("temp_perm/pheno",idx_temp,"_clusters.txt",sep='_')," -o gwas_results_clusters_BLUE",idx_temp)
 system(gemma_cmd)
 p_values <- read.table(file=paste0("output/gwas_results_clusters_BLUE",idx_temp,".assoc.txt"),sep='\t',h=TRUE)[,c("chr","rs","p_wald")]
 system(paste0("rm ",paste0("output/gwas_results_clusters_BLUE",idx_temp,".assoc.txt")))
@@ -41,6 +41,6 @@ List_output <-parLapply(cl, temp_list, run_randomized_GWAS)
 stopCluster(cl)
 # Stop the cluster
 
-save(list=ls(),file=paste0('Permutation_gemma_trait_clusters_BLUE',j,'.RData'))
+save(list=ls(),file=paste0('Permutation_gemma_trait_clusters_BLUE_R02_',j,'.RData'))
 
 }
