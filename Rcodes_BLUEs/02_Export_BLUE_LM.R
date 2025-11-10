@@ -28,7 +28,7 @@ temp.concat=subset(concat,traitID=="area")
 plot(temp.concat$BLUE,temp.concat$BV)
 
 
-### Export the breeding values for each trait - NaCl ###
+### Export the BLUE values for each trait - NaCl ###
 final_BLUE=NULL
 for(traitID in NaCl_env$vect_P_traits){
   final_BLUE.tp <- data.frame(traitID=traitID,pop_label=NaCl_env$all_traits_corrected$pop_label,BLUE=NaCl_env$all_traits_corrected[,traitID])
