@@ -1,5 +1,0 @@
-GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
-error! fail to open .bim file: pink_binary/plink_binary.bim
-error! fail to open .bed file: pink_binary/plink_binary.bed
-error! fail to open .fam file: pink_binary/plink_binary.fam
-ERROR: Enforce failed for file_kin kinship_matrix/kinship_matrix.cXX.txt: open file in src/param.cpp at line 934 in CheckParam
