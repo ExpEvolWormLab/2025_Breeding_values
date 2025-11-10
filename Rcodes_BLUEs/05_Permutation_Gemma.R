@@ -5,7 +5,7 @@ system("conda activate gemma-env")
 ## For the first trait:
 
 #j is the number of the trait
-for(j in 1:14){
+for(j in 10:14){
 
 phenotypes <- read.table("data_BLUE/gemma_pheno.txt")
 
@@ -29,7 +29,7 @@ return(p_values)
 
 library(parallel)
 
-n_cores <- 30
+n_cores <- 5
 cl <- makeCluster(n_cores)
 clusterExport(cl, varlist = c("phenotypes","j"), envir = environment())
 
