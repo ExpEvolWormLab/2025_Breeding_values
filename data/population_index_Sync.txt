@@ -1,0 +1,7 @@
+population ancestor generations replicate replicate_num
+A00 A0 0 A00 1
+A6G140 A0 140 A6 2
+GA1G36 A0 36 GA1 3
+GA2G36 A0 36 GA2 4
+GA3G36 A0 36 GA3 5
+GA4G36 A0 36 GA4 6
