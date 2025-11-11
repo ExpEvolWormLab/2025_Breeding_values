@@ -4,22 +4,22 @@ library(qqman)
 library(data.table)
 for(j in 1:14){
 
-traitJ = read.table(paste0("gemma_results_clusters_BLUE/gwas_results_clusters_BLUE_T",j,".assoc.txt"),h=TRUE)
+traitJ = read.table(paste0("gemma_results_clusters_BLUE_R02/gwas_results_clusters_BLUE_R02_T",j,".assoc.txt"),h=TRUE)
 head(traitJ)
 
 ### Should be removed
-df_clusters=read.table("data_BLUE/data_clusters_BLUE.txt",h=TRUE)
+df_clusters=read.table("data_BLUE/data_clusters_BLUE_R02.txt",h=TRUE)
 df_clusters$rs=df_clusters$id
 dim(traitJ)
 traitJ=merge(traitJ,df_clusters)
 dim(traitJ)
 traitJ$chr=traitJ$CHROM
 traitJ$ps=traitJ$POS
-traitJ=traitJ[,1:15]
+traitJ=traitJ[,1:18]
 
 # Load permutation results
 perm.temp <- new.env()
-load(paste0("Permutation_Gemma_clusters_BLUE/Permutation_gemma_trait_clusters_BLUE",j,".RData"),envir=perm.temp)
+load(paste0("Permutation_Gemma_clusters_BLUE_R02/Permutation_gemma_trait_clusters_BLUE_R02_",j,".RData"),envir=perm.temp)
 List_output=perm.temp$List_output
 ## Some errors - we will keep only complete lists
 list_length <- unlist(lapply(List_output,nrow))
@@ -45,7 +45,7 @@ traitJ = merge(traitJ,concat.perm.sorted[,c("rs","sign_thres")])
 traitJ$is_sign <- traitJ$p_wald<traitJ$sign_thres
 table(traitJ$is_sign)
 
-concat_GWAS.temp=traitJ[,c(1:9,13,17)]
+concat_GWAS.temp=traitJ[,c("rs","chr","ps","n_miss","allele1","allele0","af","beta","se","p_wald","is_sign","clusterID")]
 for(p in 8:11){
   names(concat_GWAS.temp)[p]=paste0(names(concat_GWAS.temp)[p],"_T",j)
 }
@@ -73,5 +73,5 @@ rm(all_GWAS)
 head(all_GWAS_clusters)
 
 
-save(list=ls(),file="RData_BLUEs/GWAS_cluster_results_BLUE_concatenated.RData")
+save(list=ls(),file="RData_BLUEs/GWAS_cluster_results_BLUE_concatenated_R02.RData")
 

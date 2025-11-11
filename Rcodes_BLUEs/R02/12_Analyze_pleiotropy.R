@@ -1,6 +1,6 @@
 rm(list=ls())
 gc()
-load("RData_BLUEs//GWAS_cluster_results_BLUE_concatenated.RData")
+load("RData_BLUEs//GWAS_cluster_results_BLUE_concatenated_R02.RData")
 load(file="RData_BLUEs/GWAS_results_concatenated.RData")
 
 #pheno_NGM=read.table("Breeding_values_NGM.txt",sep='\t',h=TRUE)
@@ -33,7 +33,7 @@ abline(h=0,lty=2)
 abline(v=0,lty=2)
 
 ## Export all volcano plots
-pdf("Volcano_plots_clusters_BLUE.pdf")
+pdf("Volcano_plots_clusters_BLUE_R02.pdf")
 vect_col=c(adjustcolor("grey",alpha=0.3),adjustcolor("firebrick3",alpha=1))
 for(i in 1:14){
   plot(-log10(all_GWAS_clusters[,paste0("p_wald_T",i)])~all_GWAS_clusters[,paste0("beta_T",i)],
@@ -65,7 +65,7 @@ points(rowS_NaCl_clust/sum(rowS_NaCl_clust),type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust/sum(rowS_NGM_clust),type='b',col='cornflowerblue',lty=2)
 
 ## Without the non-significant
-pdf('plots/Pleiotropie_NGM_NaCl_BLUE.pdf')
+pdf('plots/Pleiotropie_NGM_NaCl_BLUE_R02.pdf')
 rowS_NGM2=rowS_NGM;rowS_NGM_clust2=rowS_NGM_clust
 rowS_NaCl2=rowS_NaCl;rowS_NaCl_clust2=(rowS_NaCl_clust)
 plot(rowS_NGM2/sum(rowS_NGM2),type='b',col='cornflowerblue',ylim=c(.00001,1),log="y",
@@ -75,17 +75,13 @@ points(rowS_NaCl_clust2/sum(rowS_NaCl_clust2),type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust2/sum(rowS_NGM_clust2),type='b',col='cornflowerblue',lty=2)
 dev.off()
 
-pdf('plots/Pleiotropie_NGM_NaCl_absolute_BLUE.pdf')
+pdf('plots/Pleiotropie_NGM_NaCl_absolute_BLUE_R02.pdf')
 plot(rowS_NGM2,type='b',col='cornflowerblue',ylim=c(1,250000),log="y",
      ylab="Number of significant SNPs/Clusters",xlab='Number of traits',xlim=c(0,8))
 points(rowS_NaCl2,type='b',col='darkorange')
 points(rowS_NaCl_clust2,type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust2,type='b',col='cornflowerblue',lty=2)
 dev.off()
-
-(rowS_NaCl2/sum(rowS_NaCl2))/(c(rowS_NGM2,0)/sum(rowS_NGM2))
-# 12 times more SNPs with all 7 traits in NaCl
-sum(rowS_NGM2)/sum(rowS_NaCl2) # 17% more clusters !
 
 mean((rowSums(na.omit(all_GWAS_clusters)[,paste0("is_sign_T",1:7)]))[(rowSums(na.omit(all_GWAS_clusters)[,paste0("is_sign_T",1:7)]))>0])
 mean((rowSums(na.omit(all_GWAS_clusters)[,paste0("is_sign_T",8:14)],na.rm=TRUE))[(rowSums(na.omit(all_GWAS_clusters)[,paste0("is_sign_T",8:14)],na.rm=TRUE))>0])
@@ -97,8 +93,8 @@ vennDiagram(vennCounts(
   names=c("SF NGM","SF NaCl"),main='All')
 
 vennDiagram(vennCounts(
-  all_GWAS_clusters[,paste0("is_sign_T",c(14,11))]),
-  names=c("test","Area NGM"),main='All')
+  cbind(as.numeric(all_GWAS_clusters$is_sign_T7),as.numeric(all_GWAS_clusters$is_sign_T14))),
+  names=c("area NGM","area NaCl"),main='All')
 
 ### Could there be SNPs in the same genes but not the same variants 
 ### affecting the traits ? -> would be nice to give examples ????
@@ -161,9 +157,9 @@ for(i in 1:nrow(pleiot.idx_mixed)){
 }
 
 par(mfrow=c(1,3))
-hist(pleiot.idx$NGM.cor,main='NGM',xlim=c(0,6),ylim=c(0,3000))
-hist(pleiot.idx$NaCl.cor,main='NaCl',xlim=c(0,6),ylim=c(0,3000))
-hist(pleiot.idx_mixed$Neff,main='ALl 12',xlim=c(0,12),ylim=c(0,5000))
+hist(pleiot.idx$NGM.cor,main='NGM',xlim=c(0,6),ylim=c(0,500))
+hist(pleiot.idx$NaCl.cor,main='NaCl',xlim=c(0,6),ylim=c(0,500))
+hist(pleiot.idx_mixed$Neff,main='ALl 12',xlim=c(0,12),ylim=c(0,500))
 
 ##### Now compute the summed effect of the top SNP of each signicant cluster ? ####
 
@@ -193,7 +189,7 @@ for(i in 1:nrow(all_GWAS_clusters_sign_std)){
   
 }
 
-pdf("plots/Scaling_pleiotropy_Neff_BLUE.pdf",h=10,w=12)
+pdf("plots_BLUEs/Scaling_pleiotropy_Neff_BLUE_R02.pdf",h=10,w=12)
 
 coefs_euc <- as.numeric((lm(log(euclidian_summed)~log(pleiot.idx_mixed$Neff)))$coef)
 temp.NGM <- euclidian_NGM>0
