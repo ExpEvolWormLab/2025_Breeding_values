@@ -17,7 +17,7 @@ idx_temp <- abs(round(10000*rnorm(1)))
 pheno <- sample(phenotypes[,j])
 # save it
 write.table(pheno,file=paste("temp_perm/pheno",idx_temp,".txt",sep='_'),quote=FALSE,row.names=FALSE,col.names=FALSE)
-gemma_cmd <- paste0("gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 1 -p ",paste("temp_perm/pheno",idx_temp,".txt",sep='_')," -o gwas_results_",idx_temp)
+gemma_cmd <- paste0("gemma -g data_BLUE/genotypes_for_gemma.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 1 -p ",paste("temp_perm/pheno",idx_temp,".txt",sep='_')," -o gwas_results_",idx_temp)
 system(gemma_cmd)
 p_values <- read.table(file=paste0("output/gwas_results_",idx_temp,".assoc.txt"),sep='\t',h=TRUE)[,c("chr","rs","p_wald")]
 system(paste0("rm ",paste0("output/gwas_results_",idx_temp,".assoc.txt")))
@@ -29,7 +29,7 @@ return(p_values)
 
 library(parallel)
 
-n_cores <- 5
+n_cores <- 20
 cl <- makeCluster(n_cores)
 clusterExport(cl, varlist = c("phenotypes","j"), envir = environment())
 

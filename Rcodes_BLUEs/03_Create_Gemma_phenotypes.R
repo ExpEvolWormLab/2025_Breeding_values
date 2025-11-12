@@ -109,9 +109,9 @@ write.table(gemma_pheno,file="data_BLUE/gemma_pheno.txt",sep='\t',quote=FALSE,ro
 #conda activate gemma-env 
 
 ### Only takes one column at a time
-#  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+#for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
 #cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/gemma_pheno_T${i}.txt
 #nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
-#  done
+#done
 
