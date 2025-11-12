@@ -5,7 +5,7 @@ system("conda activate gemma-env")
 ## For the first trait:
 
 #j is the number of the trait
-for(j in 10:14){
+for(j in 1:14){
 
 phenotypes <- read.table("data_BLUE/gemma_pheno.txt")
 
