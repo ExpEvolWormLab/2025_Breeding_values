@@ -119,18 +119,25 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 4892 clusters -> 397 clusters
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3968 unique SNPs with no clusters > 539
+length(unique(all_GWAS_sign_with_clust$cluster)) # 4892 clusters -> 377 clusters
+sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3968 unique SNPs with no clusters > 22k out of 129k
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
 })
-max(clust_length)/10^6 #11
+max(clust_length)/10^6 #11.9
 
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
 })
+
+clust_mb_mark<- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
+  length(x)
+})
+
+
 plot(clust_mean,clust_length,log="y")
+hist(clust_mb_mark)
 
 ###############################################################################################
 ### Split the clusters if they are two far apparts ?

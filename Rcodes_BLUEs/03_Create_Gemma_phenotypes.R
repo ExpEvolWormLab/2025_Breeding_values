@@ -57,6 +57,24 @@ head(fam)
 dim(gemma_pheno)
 dim(fam)
 
+### We will use the bimbam format which is simple for GEMMA
+## First load the genotypes
+## Load Cemee data
+load('RData/Genotype_info_Cemee.RData')
+snp_positions=as.data.frame(snp_positions)
+snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
+snp_positions$POS=as.numeric(as.character(snp_positions$POS))
+snp_positions <- snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
+head(snp_positions)
+
+table(fam$V1==colnames(genotype_info)) # OK, all TRUE
+
+bimbam <- data.frame(id=snp_positions$ID,major=snp_positions$REF,minor=snp_positions$ALT)
+bimbam <- cbind(bimbam,genotype_info)
+head(bimbam[,1:10])
+
+write.table(bimbam,"data_BLUE/genotypes_for_gemma.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
+
 fam$V6[rowSums(is.na(gemma_pheno))<14]=1
 #Set to female
 fam$V5=2
@@ -87,21 +105,13 @@ write.table(gemma_pheno,file="data_BLUE/gemma_pheno.txt",sep='\t',quote=FALSE,ro
 
 ### Run Gemma
 ###
-# Use the latest installed gemma version
+# Use the latest installed gemma version - use BIMBAM format
 #conda activate gemma-env 
 
 ### Only takes one column at a time
-#cut -f 1 data_BLUE/gemma_pheno.txt > data_BLUE/gemma_pheno_T1.txt
-#nohup gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T1.txt -o gwas_results_T1 &
-  
 #  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
 #cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/gemma_pheno_T${i}.txt
-#nohup gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
+#nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
 #  done
 
-
-
-######## Could we do permutations ? How long would it take ?
-#nohup gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 1 -p phenotypic_data/gemma_pheno_T1.txt -o gwas_results_T1 &
-  
