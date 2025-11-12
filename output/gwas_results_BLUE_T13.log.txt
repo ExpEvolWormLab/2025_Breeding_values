@@ -1,0 +1,37 @@
+##
+## GEMMA Version    = 0.98.5 (2021-08-25)
+## Build profile    = /gnu/store/8rvid272yb53bgascf5c468z0jhsyflj-profile
+## GCC version      = 11.2.0
+## GSL Version      = 2.7.1
+## OpenBlas         = OpenBLAS 0.3.18  - OpenBLAS 0.3.20 NO_LAPACKE DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=64
+##   arch           = Haswell
+##   threads        = 32
+##   parallel type  = threaded
+##
+## Command Line Input = gemma -g data_BLUE/genotypes_for_gemma.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T13.txt -o gwas_results_BLUE_T13 
+##
+## Date = Wed Nov 12 11:50:33 2025
+##
+## Summary Statistics:
+## number of total individuals = 1001
+## number of analyzed individuals = 940
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var = 317611
+## number of analyzed SNPs/var = 317611
+## REMLE log-likelihood in the null model = -1093.85
+## MLE log-likelihood in the null model = -1094.44
+## pve estimate in the null model = 0.141528
+## se(pve) in the null model = 0.0601952
+## vg estimate in the null model = 0.131742
+## ve estimate in the null model = 0.522643
+## beta estimate in the null model =   -0.0915725
+## se(beta) =   0.0235797
+##
+## Computation Time:
+## total computation time = 13.294 min 
+## computation time break down: 
+##      time on eigen-decomposition = 0.276763 min 
+##      time on calculating UtX = 1.63596 min 
+##      time on optimization = 10.0042 min 
+##
