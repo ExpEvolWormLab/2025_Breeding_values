@@ -38,7 +38,7 @@ traitJ$is_sign <- traitJ$p_wald<traitJ$sign_thres
 traitJ$chr = factor(tstrsplit(traitJ$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
 traitJ$ps = as.numeric(tstrsplit(traitJ$rs,"_")[[2]])
 traitJ=traitJ[order(traitJ$chr,traitJ$ps),]
-
+dim(traitJ)
 #plot((1:length(traitJ$beta))[!traitJ$is_sign],traitJ$beta[!traitJ$is_sign],col=adjustcolor("grey",alpha=.6),pch=16,cex=.6,
 #     ylim=c(min(traitJ$beta),max(traitJ$beta)))
 #points((1:length(traitJ$beta))[traitJ$is_sign],traitJ$beta[traitJ$is_sign],col=adjustcolor("red",alpha=.6),pch=16,cex=.6)
