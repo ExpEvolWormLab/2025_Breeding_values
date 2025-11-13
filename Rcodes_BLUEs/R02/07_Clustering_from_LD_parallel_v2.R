@@ -14,12 +14,13 @@ load("RData_BLUEs//GWAS_results_concatenated.RData")
 #### Create the clusters and save - Merged ####
 ###############################################
 
+all_GWAS$CHROM=factor(tstrsplit(all_GWAS$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
 ## Re-order
-all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
-all_GWAS$CHROM=all_GWAS$chr
+all_GWAS=all_GWAS[order(all_GWAS$CHROM,all_GWAS$ps),]
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df)>=1) # ~127k SNPS at least sign for one trait
+table(rowSums(sign_all_df)>=1) # ~124k SNPS at least sign for one trait
+
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
 #####################################
@@ -62,12 +63,27 @@ for(i_col in paste0("beta_T",1:14)){
   all_GWAS[,i_col] = -all_GWAS[,i_col]
 }
 
+### Save the txt file with the significant positions
+write.table(snps_pos,file="data_BLUE/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
+#bcftools view -T data_BLUE/sign_positions.txt -O z /mnt/data2/mallard/2025_Cemee_panel_update/Final_VCF/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz > Cemee2025.sign.GWAS_BLUE.filt.vcf.gz
+
 all_GWAS_sign <- subset(all_GWAS,sign_overall)
+
+#barplot(table(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:14)])))
+#par(mfrow=c(1,2))
+#rowS_NGM <- table(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))
+#rowS_NaCl <-table(rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))
+
+#plot(rowS_NGM,type='b',col='cornflowerblue',ylim=c(50,60000),log="y")
+#points(rowS_NaCl,type='b',col='darkorange')
+#mean((rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))[(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))>0])
+#mean((rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))[(rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))>0])
+
 table(snp_positions_sign$ID==all_GWAS_sign$rs) # In the same order #
 
 ### Now load the linkage blocks from plink
-ld_snps <- read.table("linkage_diseq_filt_BLUE/ld_window_100.hap.ld",h=TRUE)
 
+ld_snps <- read.table("linkage_diseq_filt_BLUE/ld_window_100.hap.ld",h=TRUE)
 ### Create clusters from these
 threshold_clust <- 0.2
 
@@ -75,11 +91,8 @@ threshold_clust <- 0.2
 ld_snps$ID1 <- paste(ld_snps$CHR,ld_snps$POS1,sep="_")
 ld_snps$ID2 <- paste(ld_snps$CHR,ld_snps$POS2,sep="_")
 
-## Ensure all significant SNPs are present
-length(unique(c(ld_snps$ID1,ld_snps$ID2)))
-table(snp_positions_sign$ID%in%(c(ld_snps$ID1,ld_snps$ID2)))
-
 edges_clust <- subset(ld_snps, R.2 > threshold_clust)
+
 head(ld_snps)
 
 # Function to get groups per chromosome
@@ -96,6 +109,7 @@ get_groups_per_chr <- function(data_chr) {
 # Apply per chromosome and combine results
 clusters_by_chr <- edges_clust %>%
   group_by(CHR) %>% get_groups_per_chr
+
 row.names(clusters_by_chr)=NULL
 clusters_by_chr$CHROM=tstrsplit(clusters_by_chr$ID1,"_")[[1]]
 clusters_by_chr$POS=tstrsplit(clusters_by_chr$ID1,"_")[[2]]
@@ -105,19 +119,26 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 5106 clusters -> 310
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 478 unique SNPs with no clusters
+length(unique(all_GWAS_sign_with_clust$cluster)) # 4892 clusters -> 377 clusters
+sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3968 unique SNPs with no clusters > 22k out of 129k
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
 })
-max(clust_length)/10^6 #11.9 !
+max(clust_length)/10^6 #11.9
 
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
 })
-#hist(log10(clust_length))
-#plot(clust_mean,log10(clust_length))
+
+clust_mb_mark<- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
+  length(x)
+})
+
+
+plot(clust_mean,clust_length,log="y")
+hist(clust_mb_mark)
+
 ###############################################################################################
 ### Split the clusters if they are two far apparts ?
 ### Split the clusters if they affect the same trait in opposite direction
@@ -125,61 +146,61 @@ clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,
 ### (traits in each env. are considered different traits)
 ###############################################################################################
 
-#temp.snp.pos <- snps_pos
-#temp.snp.pos$idx = 1:nrow(temp.snp.pos)
-max_clust_nb=max(all_GWAS_sign_with_clust$cluster,na.rm=TRUE)
+  #temp.snp.pos <- snps_pos
+  #temp.snp.pos$idx = 1:nrow(temp.snp.pos)
+  max_clust_nb=max(all_GWAS_sign_with_clust$cluster,na.rm=TRUE)
 
 split_clusters <- function(sign_all){
-  ## Get their effects for each trait
-  sign_direction=sign_all[,paste0('beta_T',1:14)]
-  ## Becomes null if not significant
-  sign_direction[!sign_all[,paste0('is_sign_T',1:14)]]=0
-  names(sign_direction)=vect_P_traits_bothEnv
+    ## Get their effects for each trait
+    sign_direction=sign_all[,paste0('beta_T',1:14)]
+    ## Becomes null if not significant
+    sign_direction[!sign_all[,paste0('is_sign_T',1:14)]]=0
+    names(sign_direction)=vect_P_traits_bothEnv
+    
+    for(i_trait in vect_P_traits_bothEnv){
+      sign_direction[,i_trait]=sign(sign_direction[,i_trait])
+       }
+    
+    sign_direction=cbind(sign_all$rs,sign_direction)
+    names(sign_direction)[1]="rs"
+    
+    # test compatible lines
+    compatible_lines <- function(r1, r2) {
+      all(r1 == r2 | r1==0 | r2==0)
+    }
+    # identify groups
+    current_group <- 1
+    sign_direction$group=NA
+    ## Reorder to put the max. non-zero first
+    sign_direction$nonzero=rowSums(sign_direction[,vect_P_traits_bothEnv]!=0)
+    sign_direction=sign_direction[order(sign_direction$nonzero,decreasing=TRUE),]
+    
+    ### Simplify the matrix in unique blocks
+    sign_direction_simple <- unique(sign_direction[,2:ncol(sign_direction)])
   
-  for(i_trait in vect_P_traits_bothEnv){
-    sign_direction[,i_trait]=sign(sign_direction[,i_trait])
-  }
-  
-  sign_direction=cbind(sign_all$rs,sign_direction)
-  names(sign_direction)[1]="rs"
-  
-  # test compatible lines
-  compatible_lines <- function(r1, r2) {
-    all(r1 == r2 | r1==0 | r2==0)
-  }
-  # identify groups
-  current_group <- 1
-  sign_direction$group=NA
-  ## Reorder to put the max. non-zero first
-  sign_direction$nonzero=rowSums(sign_direction[,vect_P_traits_bothEnv]!=0)
-  sign_direction=sign_direction[order(sign_direction$nonzero,decreasing=TRUE),]
-  
-  ### Simplify the matrix in unique blocks
-  sign_direction_simple <- unique(sign_direction[,2:ncol(sign_direction)])
-  
-  for (i_snp in 1:nrow(sign_direction_simple)){
-    if(is.na(sign_direction_simple$group[i_snp])){
-      sign_direction_simple$group[i_snp] <- current_group
-      if(i_snp<nrow(sign_direction_simple)){
-        for(j_snp in ((i_snp+1):nrow(sign_direction_simple))){
-          if(is.na(sign_direction_simple$group[j_snp]) && compatible_lines(sign_direction_simple[i_snp,vect_P_traits_bothEnv], sign_direction_simple[j_snp, vect_P_traits_bothEnv])){
-            ## Make sure it is compatible with all previous current group as well ##
-            all_compatible=TRUE
-            for(old_group in c(1:nrow(sign_direction_simple))[sign_direction_simple$group==current_group & !is.na(sign_direction_simple$group)]){
-              if(!compatible_lines(sign_direction_simple[old_group,vect_P_traits_bothEnv], sign_direction_simple[j_snp, vect_P_traits_bothEnv]))
-                all_compatible=FALSE 
-            }
-            if(all_compatible){
-              sign_direction_simple$group[j_snp] <- current_group
+    for (i_snp in 1:nrow(sign_direction_simple)){
+      if(is.na(sign_direction_simple$group[i_snp])){
+        sign_direction_simple$group[i_snp] <- current_group
+        if(i_snp<nrow(sign_direction_simple)){
+          for(j_snp in ((i_snp+1):nrow(sign_direction_simple))){
+            if(is.na(sign_direction_simple$group[j_snp]) && compatible_lines(sign_direction_simple[i_snp,vect_P_traits_bothEnv], sign_direction_simple[j_snp, vect_P_traits_bothEnv])){
+              ## Make sure it is compatible with all previous current group as well ##
+              all_compatible=TRUE
+              for(old_group in c(1:nrow(sign_direction_simple))[sign_direction_simple$group==current_group & !is.na(sign_direction_simple$group)]){
+                if(!compatible_lines(sign_direction_simple[old_group,vect_P_traits_bothEnv], sign_direction_simple[j_snp, vect_P_traits_bothEnv]))
+                  all_compatible=FALSE 
+              }
+              if(all_compatible){
+                sign_direction_simple$group[j_snp] <- current_group
+              }
             }
           }
         }
+        current_group <-   current_group + 1
       }
-      current_group <-   current_group + 1
     }
-  }
-  sign_direction=(merge(subset(sign_direction,select= -group),sign_direction_simple))
-  return(sign_direction)
+    sign_direction=(merge(subset(sign_direction,select= -group),sign_direction_simple))
+    return(sign_direction)
 }
 
 clusters_split <- mclapply(split(all_GWAS_sign_with_clust, all_GWAS_sign_with_clust$cluster), split_clusters, mc.cores = detectCores()-2)
@@ -202,9 +223,9 @@ dim(all_GWAS_sign_with_clust)
 all_cluster_merged[is.na(all_cluster_merged$cluster),]$group=all_cluster_merged[is.na(all_cluster_merged$cluster),]$rs
 table(is.na(all_cluster_merged$group))
 ## Number of clusters initially ?
-length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 9457 -> 788
+length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 8860 -> 936
 ## Number of clusters in the end ?
-length(unique(all_cluster_merged$group)) # 932 (10762) (only ~144 (1305) additional that were incompatible)
+length(unique(all_cluster_merged$group)) # 1059 (only ~123 additional that were incompatible)
 
 all_cluster_merged=subset(all_cluster_merged,select= -ID1)
 ### Replace group ID by a number, first sort all_cluster_merged
@@ -213,7 +234,7 @@ all_cluster_merged$group=as.numeric(factor(as.character(all_cluster_merged$group
 #barplot(log(table(table(all_cluster_merged$group))))
 
 for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
-  
+
   print(idx_chr)
   # No singletons
   df.CHR=subset(all_cluster_merged,CHROM==idx_chr & !is.na(cluster))
@@ -227,7 +248,7 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
   
   all_col_CHR <- sample(rainbow(max(df.CHR$cluster)))
   all_pch_CHR <- sample(1:25,max(df.CHR$cluster),replace=TRUE)
-  
+
   kept_chr = all_GWAS$CHROM==idx_chr
   
   for(i_env in c("NGM","NaCl")){

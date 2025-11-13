@@ -19,7 +19,7 @@ all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
 all_GWAS$CHROM=all_GWAS$chr
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df)>=1) # ~127k SNPS at least sign for one trait
+table(rowSums(sign_all_df)>=1) # ~124k SNPS at least sign for one trait
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
 #####################################
@@ -62,30 +62,35 @@ for(i_col in paste0("beta_T",1:14)){
   all_GWAS[,i_col] = -all_GWAS[,i_col]
 }
 
-### Save the txt file with the significant positions and compute linkage
+### Save the txt file with the significant positions
 write.table(snps_pos,file="data_BLUE/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
 #bcftools view -T data_BLUE/sign_positions.txt -O z /mnt/data2/mallard/2025_Cemee_panel_update/Final_VCF/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz > Cemee2025.sign.GWAS_BLUE.filt.vcf.gz
-#vcftools --gzvcf Cemee2025.sign.GWAS_BLUE.filt.vcf.gz --hap-r2 --ld-window 100 --out linkage_diseq_filt_BLUE/ld_window_100
-
 
 all_GWAS_sign <- subset(all_GWAS,sign_overall)
+
+#barplot(table(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:14)])))
+#par(mfrow=c(1,2))
+#rowS_NGM <- table(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))
+#rowS_NaCl <-table(rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))
+
+#plot(rowS_NaCl,type='b',col='darkorange',ylim=c(1,60000),log="y",xlim=c(0,7))
+#points(rowS_NGM,type='b',col='cornflowerblue')
+#mean((rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))[(rowSums(all_GWAS_sign[,paste0("is_sign_T",1:7)]))>0])
+#mean((rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))[(rowSums(all_GWAS_sign[,paste0("is_sign_T",8:14)]))>0])
+
 table(snp_positions_sign$ID==all_GWAS_sign$rs) # In the same order #
 
 ### Now load the linkage blocks from plink
-ld_snps <- read.table("linkage_diseq_filt_BLUE/ld_window_100.hap.ld",h=TRUE)
 
+ld_snps <- read.table("linkage_diseq_filt_BLUE/ld_window_100.hap.ld",h=TRUE)
 ### Create clusters from these
 threshold_clust <- 0.8
 
 # Create an undirected graph
 ld_snps$ID1 <- paste(ld_snps$CHR,ld_snps$POS1,sep="_")
 ld_snps$ID2 <- paste(ld_snps$CHR,ld_snps$POS2,sep="_")
-
-## Ensure all significant SNPs are present
-length(unique(c(ld_snps$ID1,ld_snps$ID2)))
-table(snp_positions_sign$ID%in%(c(ld_snps$ID1,ld_snps$ID2)))
-
 edges_clust <- subset(ld_snps, R.2 > threshold_clust)
+
 head(ld_snps)
 
 # Function to get groups per chromosome
@@ -111,13 +116,13 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 5106 clusters
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 4351 unique SNPs with no clusters
+length(unique(all_GWAS_sign_with_clust$cluster)) # 4892 clusters
+sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3968 unique SNPs with no clusters
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
 })
-max(clust_length)/10^6 #2.38
+max(clust_length)/10^6 #1.8
 
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
@@ -208,9 +213,9 @@ dim(all_GWAS_sign_with_clust)
 all_cluster_merged[is.na(all_cluster_merged$cluster),]$group=all_cluster_merged[is.na(all_cluster_merged$cluster),]$rs
 table(is.na(all_cluster_merged$group))
 ## Number of clusters initially ?
-length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 9457
+length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 8860
 ## Number of clusters in the end ?
-length(unique(all_cluster_merged$group)) # 10762 (only ~1305 additional that were incompatible)
+length(unique(all_cluster_merged$group)) # 8982 (only ~122 additional that were incompatible)
 
 all_cluster_merged=subset(all_cluster_merged,select= -ID1)
 ### Replace group ID by a number, first sort all_cluster_merged
