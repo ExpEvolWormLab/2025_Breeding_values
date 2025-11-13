@@ -14,13 +14,12 @@ load("RData_BLUEs//GWAS_results_concatenated.RData")
 #### Create the clusters and save - Merged ####
 ###############################################
 
-all_GWAS$CHROM=factor(tstrsplit(all_GWAS$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
 ## Re-order
-all_GWAS=all_GWAS[order(all_GWAS$CHROM,all_GWAS$ps),]
+all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
+all_GWAS$CHROM=all_GWAS$chr
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
 table(rowSums(sign_all_df)>=1) # ~124k SNPS at least sign for one trait
-
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
 #####################################
@@ -90,7 +89,6 @@ threshold_clust <- 0.8
 # Create an undirected graph
 ld_snps$ID1 <- paste(ld_snps$CHR,ld_snps$POS1,sep="_")
 ld_snps$ID2 <- paste(ld_snps$CHR,ld_snps$POS2,sep="_")
-
 edges_clust <- subset(ld_snps, R.2 > threshold_clust)
 
 head(ld_snps)
@@ -129,7 +127,6 @@ max(clust_length)/10^6 #1.8
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
 })
-
 
 #plot(clust_mean,clust_length)
 ###############################################################################################

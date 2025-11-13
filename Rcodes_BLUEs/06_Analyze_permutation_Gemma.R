@@ -31,17 +31,22 @@ concat.perm.sorted$sign_thres=sign_thres
 rm(concat.perm,sign_thres,mat,mat_sorted);gc()
 
 ## We will use the top 5% as sign threshold - keep this even if less col
-traitJ = merge(traitJ,concat.perm.sorted[,c("chr","rs","sign_thres")])
+traitJ = merge(traitJ,concat.perm.sorted[,c("rs","sign_thres")])
 traitJ$is_sign <- traitJ$p_wald<traitJ$sign_thres
+
+
+traitJ$chr = factor(tstrsplit(traitJ$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
+traitJ$ps = as.numeric(tstrsplit(traitJ$rs,"_")[[2]])
+traitJ=traitJ[order(traitJ$chr,traitJ$ps),]
 
 #plot((1:length(traitJ$beta))[!traitJ$is_sign],traitJ$beta[!traitJ$is_sign],col=adjustcolor("grey",alpha=.6),pch=16,cex=.6,
 #     ylim=c(min(traitJ$beta),max(traitJ$beta)))
 #points((1:length(traitJ$beta))[traitJ$is_sign],traitJ$beta[traitJ$is_sign],col=adjustcolor("red",alpha=.6),pch=16,cex=.6)
 
-data_manhattan = data.frame(CHR=as.numeric(as.factor(traitJ$chr)),BP=as.numeric(traitJ$ps),SNP=c(1:nrow(traitJ)),
+data_manhattan = data.frame(CHR=as.numeric(traitJ$chr),BP=traitJ$ps,SNP=c(1:nrow(traitJ)),
                             P=-log10(traitJ$p_wald),is_sign=traitJ$is_sign)
-data_manhattan=subset(data_manhattan,CHR!=6)
-data_manhattan$CHR=as.numeric(factor(data_manhattan$CHR,levels = c(2:5,7,1)))
+data_manhattan=subset(data_manhattan,CHR!=7)
+
 pdf(paste0("plots_BLUEs/Manhattan_GWAS_Trait_",j,".pdf"),w=10)
 manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
           highlight=data_manhattan$SNP[data_manhattan$is_sign],cex=.6,suggestiveline=FALSE,genomewideline=FALSE)

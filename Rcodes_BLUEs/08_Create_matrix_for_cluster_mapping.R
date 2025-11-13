@@ -58,23 +58,25 @@ for(i in 1:max(all_cluster_merged$group)){
 }
 
 geno_matrix_groups[is.na(geno_matrix_groups)] <- 3
+
 table(geno_matrix_groups==3)
 table(rowSums(geno_matrix_groups==3)>50)
 
 ### Create CHR/POS info for the clusters
-df_clusters = data.frame(clusterID=1:max(all_cluster_merged$group),
+df_clusters = data.frame(group=names(tapply((all_cluster_merged$POS),all_cluster_merged$group,mean)),
   CHROM= tapply(as.character(all_cluster_merged$CHROM),all_cluster_merged$group,unique),
-  POS= tapply((all_cluster_merged$POS),all_cluster_merged$group,mean))
+  POS= floor(tapply((all_cluster_merged$POS),all_cluster_merged$group,mean)))
+## Ensure unique clusterID by adding a gp info
+df_clusters$clusterID = paste(df_clusters$group,df_clusters$CHROM,df_clusters$POS,sep='_')
+head(df_clusters)
 
 ### Change this - BIMBAM FORMAT
 
 head(df_clusters)
 
-bimbam <- data.frame(id=paste0("rs",1:nrow(geno_matrix_groups)),major="A",minor="a")
+bimbam <- data.frame(id=df_clusters$clusterID,major="A",minor="a")
 bimbam <- cbind(bimbam,geno_matrix_groups)
 head(bimbam[,1:10])
-
-df_clusters$id=paste0("rs",1:nrow(geno_matrix_groups))
 
 write.table(bimbam,"data_BLUE/genotypes_clusters.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
 write.table(df_clusters,"data_BLUE/data_clusters_BLUE.txt",row.names=FALSE,quote=FALSE)
