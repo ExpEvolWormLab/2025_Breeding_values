@@ -44,37 +44,40 @@ for(i in 1:max(all_cluster_merged$group)){
   if(sum(all_cluster_merged$group==i)==1){
     geno_matrix_groups[i,]=as.numeric(genotype_info[all_cluster_merged$group==i,])
   }else{
-  geno_group <- genotype_info[all_cluster_merged$group==i,]
-  #geno_clusters <- rep(3,1001)
-  #n_snp = sum(all_cluster_merged$group==i)
-  #n_alt = colSums(geno_group)/2
-  #geno_clusters[n_alt<(n_snp/5)]=0
-  #geno_clusters[n_alt>(n_snp-(n_snp/5))]=2
-  #geno_matrix_groups[i,]=geno_clusters
-  
-  ## Instead, just take the mean
-  geno_matrix_groups[i,] = colMeans(geno_group,na.rm=TRUE)
-}
+    geno_group <- genotype_info[all_cluster_merged$group==i,]
+    #geno_clusters <- rep(3,1001)
+    #n_snp = sum(all_cluster_merged$group==i)
+    #n_alt = colSums(geno_group)/2
+    #geno_clusters[n_alt<(n_snp/5)]=0
+    #geno_clusters[n_alt>(n_snp-(n_snp/5))]=2
+    #geno_matrix_groups[i,]=geno_clusters
+    
+    ## Instead, just take the mean
+    geno_matrix_groups[i,] = colMeans(geno_group,na.rm=TRUE)
+  }
 }
 
 geno_matrix_groups[is.na(geno_matrix_groups)] <- 3
+
 table(geno_matrix_groups==3)
 table(rowSums(geno_matrix_groups==3)>50)
 
 ### Create CHR/POS info for the clusters
-df_clusters = data.frame(clusterID=1:max(all_cluster_merged$group),
-  CHROM= tapply(as.character(all_cluster_merged$CHROM),all_cluster_merged$group,unique),
-  POS= tapply((all_cluster_merged$POS),all_cluster_merged$group,mean))
+df_clusters = data.frame(group=names(tapply((all_cluster_merged$POS),all_cluster_merged$group,mean)),
+                         CHROM= tapply(as.character(all_cluster_merged$CHROM),all_cluster_merged$group,unique),
+                         POS= floor(tapply((all_cluster_merged$POS),all_cluster_merged$group,mean)))
+## Ensure unique clusterID by adding a gp info
+df_clusters$clusterID = paste(df_clusters$group,df_clusters$CHROM,df_clusters$POS,sep='_')
+head(df_clusters)
 
 ### Change this - BIMBAM FORMAT
 
 head(df_clusters)
 
-bimbam <- data.frame(id=paste0("rs",1:nrow(geno_matrix_groups)),major="A",minor="a")
+bimbam <- data.frame(id=df_clusters$clusterID,major="A",minor="a")
 bimbam <- cbind(bimbam,geno_matrix_groups)
 head(bimbam[,1:10])
 
-df_clusters$id=paste0("rs",1:nrow(geno_matrix_groups))
 
 write.table(bimbam,"data_BLUE/genotypes_clusters_R02.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
 write.table(df_clusters,"data_BLUE/data_clusters_BLUE_R02.txt",row.names=FALSE,quote=FALSE)
