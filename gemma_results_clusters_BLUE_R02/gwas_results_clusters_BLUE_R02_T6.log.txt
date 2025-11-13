@@ -10,15 +10,15 @@
 ##
 ## Command Line Input = gemma -g data_BLUE/genotypes_clusters_R02.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T6.txt -o gwas_results_clusters_BLUE_R02_T6 
 ##
-## Date = Mon Nov 10 22:30:58 2025
+## Date = Thu Nov 13 17:04:35 2025
 ##
 ## Summary Statistics:
 ## number of total individuals = 1001
 ## number of analyzed individuals = 966
 ## number of covariates = 1
 ## number of phenotypes = 1
-## number of total SNPs/var = 1059
-## number of analyzed SNPs/var = 1059
+## number of total SNPs/var = 932
+## number of analyzed SNPs/var = 932
 ## REMLE log-likelihood in the null model = -1032.18
 ## MLE log-likelihood in the null model = -1032.58
 ## pve estimate in the null model = 0.315868
@@ -29,9 +29,9 @@
 ## se(beta) =   0.0192342
 ##
 ## Computation Time:
-## total computation time = 4.41528 min 
+## total computation time = 4.82735 min 
 ## computation time break down: 
-##      time on eigen-decomposition = 4.28789 min 
-##      time on calculating UtX = 0.0341218 min 
-##      time on optimization = 0.0407276 min 
+##      time on eigen-decomposition = 4.72423 min 
+##      time on calculating UtX = 0.0236594 min 
+##      time on optimization = 0.0301732 min 
 ##
