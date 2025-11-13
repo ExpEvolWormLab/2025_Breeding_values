@@ -116,8 +116,8 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 4892 clusters
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 3968 unique SNPs with no clusters
+length(unique(all_GWAS_sign_with_clust$cluster)) # 5106 clusters
+sum(is.na(all_GWAS_sign_with_clust$cluster)) # 4351 unique SNPs with no clusters
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
@@ -213,9 +213,9 @@ dim(all_GWAS_sign_with_clust)
 all_cluster_merged[is.na(all_cluster_merged$cluster),]$group=all_cluster_merged[is.na(all_cluster_merged$cluster),]$rs
 table(is.na(all_cluster_merged$group))
 ## Number of clusters initially ?
-length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 8860
+length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 9457
 ## Number of clusters in the end ?
-length(unique(all_cluster_merged$group)) # 8982 (only ~122 additional that were incompatible)
+length(unique(all_cluster_merged$group)) # 10762 (only ~1305 additional that were incompatible)
 
 all_cluster_merged=subset(all_cluster_merged,select= -ID1)
 ### Replace group ID by a number, first sort all_cluster_merged
