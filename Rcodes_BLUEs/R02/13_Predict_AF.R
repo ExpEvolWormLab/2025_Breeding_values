@@ -93,10 +93,10 @@ clusters_af = do.call(rbind,temp_af)
 colnames(clusters_af)=populations$population
 
 clusters_af=data.frame(clusters_af)
-clusters_af$clusterID=as.numeric(names(group_rs))
+clusters_af$group=as.numeric(names(group_rs))
 #names(clusters_af)[7]="group"
 dim(clusters_af)
-dim(na.omit(clusters_af)) # 903 with allele frequencies
+dim(na.omit(clusters_af)) # 809 with allele frequencies
 
 ## Load GWAS results
 load(file="RData_BLUEs/GWAS_results_concatenated.RData")
@@ -113,7 +113,7 @@ all_GWAS_clusters$sign_NaCl <- rowSums(all_GWAS_clusters[,names(all_GWAS_cluster
 
 all_GWAS_clusters=all_GWAS_clusters[order(all_GWAS_clusters$chr,all_GWAS_clusters$ps),]
 head(all_GWAS_clusters)
-
+dim(all_GWAS_clusters)
 
 df_clusters=read.table("data_BLUE/data_clusters_BLUE_R02.txt",h=TRUE)
 #df_clusters$rs=df_clusters$id
@@ -123,13 +123,17 @@ all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 dim(all_GWAS_clusters)
 dim(merge(clusters_af,all_GWAS_clusters))
 
-all_GWAS_clusters2=merge(all_GWAS_clusters,clusters_af)
+all_GWAS_clusters=merge(all_GWAS_clusters,clusters_af)
 
-test=subset(all_GWAS_clusters2,is_sign_T14)
+test=subset(all_GWAS_clusters,is_sign_T14)
 test$GA_mean = (test$GA1G36 + test$GA2G36 + test$GA4G36)/3
 plot((test$GA_mean-test$A6G140),test$beta_T7)
 abline(h=0)
 abline(v=0)
+
+##############################################
+################ STOPPED HERE ################
+##############################################
 
 
 hist(all_GWAS_clusters$beta_T14[all_GWAS_clusters$is_sign_T14],n=100)

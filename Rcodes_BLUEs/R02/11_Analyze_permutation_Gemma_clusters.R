@@ -5,17 +5,18 @@ library(data.table)
 for(j in 1:14){
 
 traitJ = read.table(paste0("gemma_results_clusters_BLUE_R02/gwas_results_clusters_BLUE_R02_T",j,".assoc.txt"),h=TRUE)
-head(traitJ)
+traitJ$group = tstrsplit(traitJ$rs,"_")[[1]]
+traitJ$chr = tstrsplit(traitJ$rs,"_")[[2]]
+traitJ$ps = tstrsplit(traitJ$rs,"_")[[3]]
 
 ### Should be removed
 df_clusters=read.table("data_BLUE/data_clusters_BLUE_R02.txt",h=TRUE)
-df_clusters$rs=df_clusters$id
+df_clusters$rs=df_clusters$clusterID
 dim(traitJ)
 traitJ=merge(traitJ,df_clusters)
 dim(traitJ)
-traitJ$chr=traitJ$CHROM
-traitJ$ps=traitJ$POS
-traitJ=traitJ[,1:18]
+table(traitJ$chr==traitJ$CHROM)
+table(traitJ$ps==traitJ$POS)
 
 # Load permutation results
 perm.temp <- new.env()

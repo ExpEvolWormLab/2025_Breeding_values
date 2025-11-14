@@ -5,17 +5,18 @@ library(data.table)
 for(j in 1:14){
 
 traitJ = read.table(paste0("gemma_results_clusters_BLUE/gwas_results_clusters_BLUE_T",j,".assoc.txt"),h=TRUE)
-head(traitJ)
+traitJ$group = tstrsplit(traitJ$rs,"_")[[1]]
+traitJ$chr = tstrsplit(traitJ$rs,"_")[[2]]
+traitJ$ps = tstrsplit(traitJ$rs,"_")[[3]]
 
 ### Should be removed
 df_clusters=read.table("data_BLUE/data_clusters_BLUE.txt",h=TRUE)
-df_clusters$rs=df_clusters$id
+df_clusters$rs=df_clusters$clusterID
 dim(traitJ)
 traitJ=merge(traitJ,df_clusters)
 dim(traitJ)
-traitJ$chr=traitJ$CHROM
-traitJ$ps=traitJ$POS
-traitJ=traitJ[,1:15]
+table(traitJ$chr==traitJ$CHROM)
+table(traitJ$ps==traitJ$POS)
 
 # Load permutation results
 perm.temp <- new.env()
@@ -45,7 +46,8 @@ traitJ = merge(traitJ,concat.perm.sorted[,c("rs","sign_thres")])
 traitJ$is_sign <- traitJ$p_wald<traitJ$sign_thres
 table(traitJ$is_sign)
 
-concat_GWAS.temp=traitJ[,c(1:9,13,17)]
+concat_GWAS.temp=traitJ[,c("rs","chr","ps","n_miss","allele1","allele0","af","beta","se","p_wald","is_sign","clusterID")] 
+
 for(p in 8:11){
   names(concat_GWAS.temp)[p]=paste0(names(concat_GWAS.temp)[p],"_T",j)
 }

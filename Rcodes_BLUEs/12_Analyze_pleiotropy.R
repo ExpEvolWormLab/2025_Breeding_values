@@ -12,7 +12,7 @@ vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_N
 
 # Clusters
 sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df_clust)>=1) # ~5411 Clusters / 1360 are no longer significant
+table(rowSums(sign_all_df_clust)>=1) # ~5104 Clusters / 5658 are no longer significant... we lose half of them ?
 all_GWAS_clusters$sign_overall <- rowSums(sign_all_df_clust)>=1
 
 # SNPs
