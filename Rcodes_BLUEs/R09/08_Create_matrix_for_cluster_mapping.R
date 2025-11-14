@@ -10,7 +10,7 @@ vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
 ## Load cluster data
-all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R02.txt'),sep='\t',h=TRUE)
+all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R09.txt'),sep='\t',h=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged=all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
@@ -79,8 +79,8 @@ bimbam <- cbind(bimbam,geno_matrix_groups)
 head(bimbam[,1:10])
 
 
-write.table(bimbam,"data_BLUE/genotypes_clusters_R02.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
-write.table(df_clusters,"data_BLUE/data_clusters_BLUE_R02.txt",row.names=FALSE,quote=FALSE)
+write.table(bimbam,"data_BLUE/genotypes_clusters_R09.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
+write.table(df_clusters,"data_BLUE/data_clusters_BLUE_R09.txt",row.names=FALSE,quote=FALSE)
 
 ### Run Gemma
 ###
@@ -91,6 +91,6 @@ write.table(df_clusters,"data_BLUE/data_clusters_BLUE_R02.txt",row.names=FALSE,q
 #for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
 #cut -f $i data_BLUE/gemma_pheno.txt > phenotypic_data/gemma_pheno_T${i}.txt
-#nohup gemma -g data_BLUE/genotypes_clusters_R02.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_clusters_BLUE_R02_T${i} > gemma_output_BLUE_clusters_txt/output_gemma_clusters_R02_t${i}.txt &
+#nohup gemma -g data_BLUE/genotypes_clusters_R09.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_clusters_BLUE_R09_T${i} > gemma_output_BLUE_clusters_txt/output_gemma_clusters_R09_t${i}.txt &
 #done
 

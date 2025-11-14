@@ -4,13 +4,13 @@ library(qqman)
 library(data.table)
 for(j in 1:14){
 
-traitJ = read.table(paste0("gemma_results_clusters_BLUE_R02/gwas_results_clusters_BLUE_R02_T",j,".assoc.txt"),h=TRUE)
+traitJ = read.table(paste0("gemma_results_clusters_BLUE_R09/gwas_results_clusters_BLUE_R09_T",j,".assoc.txt"),h=TRUE)
 traitJ$group = tstrsplit(traitJ$rs,"_")[[1]]
 traitJ$chr = tstrsplit(traitJ$rs,"_")[[2]]
 traitJ$ps = tstrsplit(traitJ$rs,"_")[[3]]
 
 ### Should be removed
-df_clusters=read.table("data_BLUE/data_clusters_BLUE_R02.txt",h=TRUE)
+df_clusters=read.table("data_BLUE/data_clusters_BLUE_R09.txt",h=TRUE)
 df_clusters$rs=df_clusters$clusterID
 dim(traitJ)
 traitJ=merge(traitJ,df_clusters)
@@ -20,7 +20,7 @@ table(traitJ$ps==traitJ$POS)
 
 # Load permutation results
 perm.temp <- new.env()
-load(paste0("Permutation_Gemma_clusters_BLUE_R02/Permutation_gemma_trait_clusters_BLUE_R02_",j,".RData"),envir=perm.temp)
+load(paste0("Permutation_Gemma_clusters_BLUE_R09/Permutation_gemma_trait_clusters_BLUE_R09_",j,".RData"),envir=perm.temp)
 List_output=perm.temp$List_output
 ## Some errors - we will keep only complete lists
 list_length <- unlist(lapply(List_output,nrow))
@@ -74,5 +74,5 @@ rm(all_GWAS)
 head(all_GWAS_clusters)
 
 
-save(list=ls(),file="RData_BLUEs/GWAS_cluster_results_BLUE_concatenated_R02.RData")
+save(list=ls(),file="RData_BLUEs/GWAS_cluster_results_BLUE_concatenated_R09.RData")
 
