@@ -88,9 +88,9 @@ write.table(df_clusters,"data_BLUE/data_clusters_BLUE_R09.txt",row.names=FALSE,q
 #conda activate gemma-env 
 
 ### Only takes one column at a time
-#for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
-#do
+for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+do
 #cut -f $i data_BLUE/gemma_pheno.txt > phenotypic_data/gemma_pheno_T${i}.txt
-#nohup gemma -g data_BLUE/genotypes_clusters_R09.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_clusters_BLUE_R09_T${i} > gemma_output_BLUE_clusters_txt/output_gemma_clusters_R09_t${i}.txt &
-#done
+nohup gemma -g data_BLUE/genotypes_clusters_R09.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_clusters_BLUE_R09_T${i} > gemma_output_BLUE_clusters_txt/output_gemma_clusters_R09_t${i}.txt &
+done
 

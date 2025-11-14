@@ -30,7 +30,7 @@ return(p_values)
 
 library(parallel)
 
-n_cores <- 10
+n_cores <- 5
 cl <- makeCluster(n_cores)
 clusterExport(cl, varlist = c("phenotypes","j"), envir = environment())
 
