@@ -2,6 +2,9 @@ rm(list=ls())
 library(data.table)
 library(poolSeq)
 
+### COMPARE THE RESULTS WITH OTHER A6140 - /mnt/data3/mallard/2025_Extra_sequencing/populations
+
+
 ### Extract the corresponding sync file
 #a=(read.table('/Users/mallard/Nextcloud/poolSeq_CA_populations/data/all_bam_list_Jan25.txt')$V1)
 #a=(tstrsplit(a,'_'))[[1]]
@@ -93,7 +96,7 @@ clusters_af = do.call(rbind,temp_af)
 colnames(clusters_af)=populations$population
 
 clusters_af=data.frame(clusters_af)
-clusters_af$clusterID=as.numeric(names(group_rs))
+clusters_af$group=as.numeric(names(group_rs))
 
 ## Load GWAS results
 load("RData_BLUEs//GWAS_cluster_results_BLUE_concatenated.RData")
@@ -115,22 +118,53 @@ all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 
 df_clusters=read.table("data_BLUE/data_clusters_BLUE.txt",h=TRUE)
-df_clusters$rs=df_clusters$id
-all_GWAS_clusters$CHROM=all_GWAS_clusters$chr
+#df_clusters$rs=df_clusters$id
+#all_GWAS_clusters$CHROM=all_GWAS_clusters$chr
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 
 dim(all_GWAS_clusters)
 dim(merge(clusters_af,all_GWAS_clusters))
 
-table(table(all_GWAS_clusters$clusterID)) # Weird ?
+all_GWAS_clusters=merge(all_GWAS_clusters,clusters_af)
 
-all_GWAS_clusters2=merge(all_GWAS_clusters,clusters_af)
-
-test=subset(all_GWAS_clusters2,is_sign_T14)
+test=subset(all_GWAS_clusters,is_sign_T14)
 test$GA_mean = (test$GA1G36 + test$GA2G36 + test$GA4G36)/3
 plot((test$GA_mean-test$A6G140),test$beta_T14)
 abline(h=0)
 abline(v=0)
+
+test=subset(all_GWAS_clusters,is_sign_T7)
+test$GA_mean = (test$GA1G36 + test$GA2G36 + test$GA4G36)/3
+plot((test$GA_mean-test$A6G140),test$beta_T7)
+abline(h=0)
+abline(v=0)
+
+sum((test$GA1G36-test$A6G140)*test$beta_T14,na.rm=TRUE)
+sum((test$GA2G36-test$A6G140)*test$beta_T14,na.rm=TRUE)
+sum((test$GA3G36-test$A6G140)*test$beta_T14,na.rm=TRUE)
+sum((test$GA4G36-test$A6G140)*test$beta_T14,na.rm=TRUE)
+
+sum(test$A6G140*test$beta_T7,na.rm=TRUE)
+
+sum((test$GA1G36-test$A6G140)*test$beta_T7,na.rm=TRUE)
+sum((test$GA2G36-test$A6G140)*test$beta_T7,na.rm=TRUE)
+sum((test$GA3G36-test$A6G140)*test$beta_T7,na.rm=TRUE)
+sum((test$GA4G36-test$A6G140)*test$beta_T7,na.rm=TRUE)
+
+sd((test$GA1G36-test$A6G140),na.rm=TRUE)
+
+aa=0
+for(i in 1:10000){
+aa=aa+sum(rnorm(length(test$beta_T14),0,0.09)*test$beta_T14,na.rm=TRUE)
+}
+aa/10000
+
+
+sum(rnorm(length(test$beta_T14),0,0.09)*test$beta_T7,na.rm=TRUE)
+
+
+
+
 
 
 hist(all_GWAS_clusters$beta_T14[all_GWAS_clusters$is_sign_T14],n=100)

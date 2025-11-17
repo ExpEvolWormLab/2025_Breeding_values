@@ -17,16 +17,8 @@ all_cluster_merged = read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clust
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
-#all_cluster_merged$group = as.numeric(factor(as.character(all_cluster_merged$group),levels=unique(all_cluster_merged$group)))
-
-#df_clusters = data.frame(clusterID=1:max(all_cluster_merged$group),
- #                        CHROM= tapply(as.character(all_cluster_merged$CHROM),all_cluster_merged$group,unique),
- #                        POS= tapply((all_cluster_merged$POS),all_cluster_merged$group,mean),
-#                         group=tapply(as.character(all_cluster_merged$group),all_cluster_merged$group,unique))
 
 df_clusters=read.table("data_BLUE/data_clusters_BLUE.txt",h=TRUE)
-df_clusters$rs=df_clusters$id
-all_GWAS_clusters$CHROM=all_GWAS_clusters$chr
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 
 ### Add the tip/arm/center tag
@@ -86,7 +78,6 @@ head(gp_length)
 plot(gp_length$nb_SNPs,gp_length$clust_length,pch=16,cex=.8,col=c("red","cornflowerblue","lightgreen","lightgreen","cornflowerblue")[as.numeric(as.factor(gp_length$chr_type))])
 
 ## ClusterID & group are the same thing
-all_GWAS_clusters$group=all_GWAS_clusters$clusterID
 all_GWAS_clusters=merge(all_GWAS_clusters,gp_length)
 head(all_GWAS_clusters)
 #plot(all_GWAS_clusters$ps,all_GWAS_clusters$clust_length/1000000,pch=16)
@@ -99,7 +90,6 @@ all_GWAS_clusters$af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.
 all_GWAS_clusters$af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]=temp.af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]
 
 plot((all_GWAS_clusters$af.NGM),(all_GWAS_clusters$af.NaCl),pch=16)
-
 
 boxplot(all_GWAS_clusters$af.NGM~all_GWAS_clusters$sign_NGM)
 boxplot(all_GWAS_clusters$af.NaCl~all_GWAS_clusters$sign_NaCl)
@@ -155,11 +145,11 @@ mean_NGM <- as.numeric(tapply(af.per.pleio.NGM$af,af.per.pleio.NGM$sign,mean))
 sd_NaCl <- as.numeric(tapply(af.per.pleio.NaCl$af,af.per.pleio.NaCl$sign,sd))
 mean_NaCl <- as.numeric(tapply(af.per.pleio.NaCl$af,af.per.pleio.NaCl$sign,mean))
 
-plot(mean_NGM~c(c(0:7)+0.1),pch=16,ylim=c(0,1),
+plot(mean_NGM~c(c(0:6)+0.1),pch=16,ylim=c(0,1),
      las=1,bty="n",ylab="Mean allele frequencies",xlab="Pleiotropy")
 #arrows(c(c(0:7)+0.1),mean_NGM-2*sd_NGM,c(c(0:7)+0.1),mean_NGM+2*sd_NGM,code=3,angle=90)
 
-points(mean_NaCl~c(c(0:7)-.1),pch=16,col="orange",bty="n",las=1)
+points(mean_NaCl~c(c(0:6)-.1),pch=16,col="orange",bty="n",las=1)
 #arrows(c(c(0:7)-0.1),mean_NaCl-2*sd_NaCl,c(c(0:7)-0.1),mean_NaCl+2*sd_NaCl,code=3,angle=90)
 
 
@@ -251,7 +241,7 @@ for(i in 1:14){
   }
 }
 table(all_GWAS_clusters$chr_type2)
-6324/1181
+
 boxplot(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)~all_GWAS_clusters$chr_type2)
 tapply(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM),all_GWAS_clusters$chr_type2,mean) # similar frequencies
 tapply(abs(all_GWAS_clusters$beta_T7),all_GWAS_clusters$chr_type2,mean) # strong
@@ -279,24 +269,12 @@ abline(a=0,b=1)
 abline(h=0,lty=2)
 abline(v=0,lty=2)
 
-## Export all volcano plots
-pdf("Volcano_plots_clusters_BLUEs.pdf")
 vect_col=c(adjustcolor("grey",alpha=0.3),adjustcolor("firebrick3",alpha=1))
-for(i in 1:14){
-  plot(-log10(all_GWAS_clusters[,paste0("p_wald_T",i)])~all_GWAS_clusters[,paste0("beta_T",i)],
-       pch=16,xlab='Beta coefficient',ylab="-log(p)",
-       col=vect_col[1+as.numeric(all_GWAS_clusters[,paste0("is_sign_T",i)])],
-       main=paste0('Trait: ',vect_P_traits_bothEnv[i]))
-}
-dev.off()
-
 i=7
 plot(-log10(all_GWAS_clusters[,paste0("p_wald_T",i)])~all_GWAS_clusters[,paste0("beta_T",i)],
      pch=16,xlab='Beta coefficient',ylab="-log(p)",
      col=vect_col[1+as.numeric(all_GWAS_clusters[,paste0("is_sign_T",i)])],
      main=paste0('Trait: ',vect_P_traits_bothEnv[i]))
-subset(all_GWAS,p_wald_T7<0.0000001)[,1:5]
--log10(0.00000001)
 
 plot((all_GWAS_clusters$beta_T7),(all_GWAS_clusters$beta_T14),pch=16)
 plot((all_GWAS_clusters$beta_T7),(all_GWAS_clusters$beta_T14),pch=16,xlim=c(-.1,.1),ylim=c(-.1,.1))
@@ -308,33 +286,14 @@ heatmap(cor(na.omit(all_GWAS_clusters[,paste0("beta_T",1:14)])),
         labCol=vect_P_traits_bothEnv)
 
 ## With the non-significant
-plot(rowS_NGM/sum(rowS_NGM),type='b',col='cornflowerblue',ylim=c(.0001,1),log="y")
+plot(rowS_NGM/sum(rowS_NGM),type='b',col='cornflowerblue',ylim=c(.00001,1),log="y",xlim=c(0,7))
 points(rowS_NaCl/sum(rowS_NaCl),type='b',col='darkorange')
 points(rowS_NaCl_clust/sum(rowS_NaCl_clust),type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust/sum(rowS_NGM_clust),type='b',col='cornflowerblue',lty=2)
 
-## Without the non-significant
-pdf('plots_BLUEs/Pleiotropie_NGM_NaCl_BLUEs.pdf')
-rowS_NGM2=c(rowS_NGM[2:7],0);rowS_NGM_clust2=c(rowS_NGM_clust[2:7],0)
-rowS_NaCl2=rowS_NaCl[2:8];rowS_NaCl_clust2=c(rowS_NaCl_clust[2:7],0)
-plot(rowS_NGM2/sum(rowS_NGM2),type='b',col='cornflowerblue',ylim=c(.0001,1),log="y",
-     ylab="Number of significant SNPs/Clusters",xlab='Number of traits')
-points(rowS_NaCl2/sum(rowS_NaCl2),type='b',col='darkorange')
-points(rowS_NaCl_clust2/sum(rowS_NaCl_clust2),type='b',col='darkorange',lty=2)
-points(rowS_NGM_clust2/sum(rowS_NGM_clust2),type='b',col='cornflowerblue',lty=2)
-dev.off()
-
-pdf('plots_BLUEs/Pleiotropie_NGM_NaCl_absolute.pdf')
-plot(rowS_NGM2,type='b',col='cornflowerblue',ylim=c(1,45000),log="y",
-     ylab="Number of significant SNPs/Clusters",xlab='Number of traits')
-points(rowS_NaCl2,type='b',col='darkorange')
-points(rowS_NaCl_clust2,type='b',col='darkorange',lty=2)
-points(rowS_NGM_clust2,type='b',col='cornflowerblue',lty=2)
-dev.off()
-
-(rowS_NaCl2/sum(rowS_NaCl2))/(rowS_NGM2/sum(rowS_NGM2))
+#(rowS_NaCl2/sum(rowS_NaCl2))/(rowS_NGM2/sum(rowS_NGM2))
 # 12 times more SNPs with all 7 traits in NaCl
-sum(rowS_NGM2)/sum(rowS_NaCl2) # Same number of clusters
+#sum(rowS_NGM2)/sum(rowS_NaCl2) # Same number of clusters
 
 
 library(gplots)
@@ -459,7 +418,7 @@ for(i in 1:14){
 
  
  ### With nls - replace all
- pdf("plots_BLUEs/Scaling_pleiotropy_Neff_BLUE.pdf",h=10,w=12)
+ pdf("plots_BLUEs/Scaling_pleiotropy_Neff_BLUE_Arm_Centers.pdf",h=10,w=12)
  
  is_arm <- all_GWAS_clusters_sign$chr_type2=="arm"
  is_center <- all_GWAS_clusters_sign$chr_type2=="center"
@@ -602,113 +561,146 @@ for(i in 1:14){
  
  dev.off()
  
- # 
-# 
-# 
-# coefs_euc <- as.numeric((lm(log(euclidian_summed)~log(pleiot.idx_mixed$Neff)))$coef)
-# temp.NGM <- euclidian_NGM>0
-# coefs_euc.NGM <- as.numeric((lm(log(euclidian_NGM[temp.NGM])~log(pleiot.idx$NGM.cor[temp.NGM])))$coef)
-# temp.NaCl <- euclidian_NaCl>0
-# coefs_euc.NaCl <- as.numeric((lm(log(euclidian_NaCl[temp.NaCl])~log(pleiot.idx$NaCl.cor[temp.NaCl])))$coef)
-# 
-# par(mfrow=c(2,3))
-# plot(euclidian_summed~pleiot.idx_mixed$Neff,pch=16,ylab='TE (euc. distance)',xlab="Neff",xlim=c(0,11),ylim=c(0,14))
-# lines(seq(0,12,0.1),I(exp(coefs_euc[1])*(seq(0,12,0.1)^coefs_euc[2])),col="red")
-# abline(lm(euclidian_summed~pleiot.idx_mixed$Neff-1))
-# text(2,12,paste0("b=",round(coefs_euc[2],digits=3)))
-# 
-# plot(euclidian_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM],pch=16,ylab='TE (euc. distance)',xlab="Neff",main='NGM',xlim=c(0,5.5),ylim=c(0,10))
-# lines(seq(0,12,0.1),I(exp(coefs_euc.NGM[1])*(seq(0,12,0.1)^coefs_euc.NGM[2])),col="red")
-# abline(lm(euclidian_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM]-1))
-# text(1.5,7.5,paste0("b=",round(coefs_euc.NGM[2],digits=3)))
-# 
-# plot(euclidian_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl],pch=16,ylab='TE (euc. distance)',xlab="Neff",main='NaCl',xlim=c(0,5.5),ylim=c(0,10))
-# lines(seq(0,12,0.1),I(exp(coefs_euc.NaCl[1])*(seq(0,12,0.1)^coefs_euc.NaCl[2])),col="red")
-# abline(lm(euclidian_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]-1))
-# text(1,8.5,paste0("b=",round(coefs_euc.NaCl[2],digits=3)))
-# 
-# # mod1 <- lm(log(manh_summed)~log(pleiot.idx_mixed$Neff))
-# # mod2 <- lm(log(manh_summed)~offset(log(pleiot.idx_mixed$Neff)))
-# # summary(mod1)
-# # summary(mod2)
-# # anova(mod1,mod2)
-# # AIC(mod1)
-# # AIC(mod2)
-# 
-# coefs_man <- as.numeric((lm(log(manh_summed)~log(pleiot.idx_mixed$Neff)))$coef)
-# temp.NGM <- manh_NGM>0
-# coefs_man.NGM <- as.numeric((lm(log(manh_NGM[temp.NGM])~log(pleiot.idx$NGM.cor[temp.NGM])))$coef)
-# temp.NaCl <- manh_NaCl>0
-# coefs_man.NaCl <- as.numeric((lm(log(manh_NaCl[temp.NaCl])~log(pleiot.idx$NaCl.cor[temp.NaCl])))$coef)
-# 
-# plot(manh_summed~pleiot.idx_mixed$Neff,pch=16,ylab='TM ',xlab="Neff",xlim=c(0,11),ylim=c(0,40))
-# lines(seq(0,12,0.1),I(exp(coefs_man[1])*(seq(0,12,0.1)^coefs_man[2])),col="red")
-# abline(lm(manh_summed~pleiot.idx_mixed$Neff-1))
-# text(2,30,paste0("b=",round(coefs_man[2],digits=3)))
-# 
-# plot(manh_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM],pch=16,ylab='TM',xlab="Neff",main='NGM',xlim=c(0,5.5),ylim=c(0,25))
-# lines(seq(0,12,0.1),I(exp(coefs_man.NGM[1])*(seq(0,12,0.1)^coefs_man.NGM[2])),col="red")
-# abline(lm(manh_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM]-1))
-# text(1.5,20,paste0("b=",round(coefs_man.NGM[2],digits=3)))
-# 
-# plot(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl],pch=16,ylab='TM',xlab="Neff",main='NaCl',xlim=c(0,5.5),ylim=c(0,25))
-# lines(seq(0,12,0.1),I(exp(coefs_man.NaCl[1])*(seq(0,12,0.1)^coefs_man.NaCl[2])),col="red")
-# abline(lm(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]-1))
-# text(1,20,paste0("b=",round(coefs_man.NaCl[2],digits=3)))
-# 
-# dev.off()
-# 
-# 
+
 # 
 # #################
 # 
 # ### The same with N ? ##
-# pdf("plots/Scaling_pleiotropy_N.pdf",h=14,w=12)
-# 
-# coefs_euc <- as.numeric((lm(log(euclidian_summed)~log(pleiot.idx_mixed$N)))$coef)
-# temp.NGM <- euclidian_NGM>0
-# coefs_euc.NGM <- as.numeric((lm(log(euclidian_NGM[temp.NGM])~log(pleiot.idx$NGM[temp.NGM])))$coef)
-# temp.NaCl <- euclidian_NaCl>0
-# coefs_euc.NaCl <- as.numeric((lm(log(euclidian_NaCl[temp.NaCl])~log(pleiot.idx$NaCl.[temp.NaCl])))$coef)
-# 
-# par(mfrow=c(2,3))
-# plot(euclidian_summed~pleiot.idx_mixed$N,pch=16,ylab='TE (euc. distance)',xlab="Neff",xlim=c(0,13),ylim=c(0,14))
-# lines(seq(0,12,0.1),I(exp(coefs_euc[1])*(seq(0,12,0.1)^coefs_euc[2])),col="red")
-# abline(lm(euclidian_summed~pleiot.idx_mixed$N-1))
-# text(2,12,paste0("b=",round(coefs_euc[2],digits=3)))
-# 
-# plot(euclidian_NGM[temp.NGM]~pleiot.idx$NGM[temp.NGM],pch=16,ylab='TE (euc. distance)',xlab="Neff",main='NGM',xlim=c(0,6.5),ylim=c(0,10))
-# lines(seq(0,12,0.1),I(exp(coefs_euc.NGM[1])*(seq(0,12,0.1)^coefs_euc.NGM[2])),col="red")
-# abline(lm(euclidian_NGM[temp.NGM]~pleiot.idx$NGM[temp.NGM]-1))
-# text(1.5,7.5,paste0("b=",round(coefs_euc.NGM[2],digits=3)))
-# 
-# plot(euclidian_NaCl[temp.NaCl]~pleiot.idx$NaCl[temp.NaCl],pch=16,ylab='TE (euc. distance)',xlab="Neff",main='NaCl',xlim=c(0,6.5),ylim=c(0,10))
-# lines(seq(0,12,0.1),I(exp(coefs_euc.NaCl[1])*(seq(0,12,0.1)^coefs_euc.NaCl[2])),col="red")
-# abline(lm(euclidian_NaCl[temp.NaCl]~pleiot.idx$NaCl[temp.NaCl]-1))
-# text(1,8.5,paste0("b=",round(coefs_euc.NaCl[2],digits=3)))
-# 
-# coefs_man <- as.numeric((lm(log(manh_summed)~log(pleiot.idx_mixed$N)))$coef)
-# temp.NGM <- manh_NGM>0
-# coefs_man.NGM <- as.numeric((lm(log(manh_NGM[temp.NGM])~log(pleiot.idx$NGM[temp.NGM])))$coef)
-# temp.NaCl <- manh_NaCl>0
-# coefs_man.NaCl <- as.numeric((lm(log(manh_NaCl[temp.NaCl])~log(pleiot.idx$NaCl[temp.NaCl])))$coef)
-# 
-# plot(manh_summed~pleiot.idx_mixed$N,pch=16,ylab='TM ',xlab="Neff",xlim=c(0,12),ylim=c(0,40))
-# lines(seq(0,12,0.1),I(exp(coefs_man[1])*(seq(0,12,0.1)^coefs_man[2])),col="red")
-# abline(lm(manh_summed~pleiot.idx_mixed$N-1))
-# text(2,30,paste0("b=",round(coefs_man[2],digits=3)))
-# 
-# plot(manh_NGM[temp.NGM]~pleiot.idx$NGM.[temp.NGM],pch=16,ylab='TM',xlab="Neff",main='NGM',xlim=c(0,6.5),ylim=c(0,25))
-# lines(seq(0,12,0.1),I(exp(coefs_man.NGM[1])*(seq(0,12,0.1)^coefs_man.NGM[2])),col="red")
-# abline(lm(manh_NGM[temp.NGM]~pleiot.idx$NGM.[temp.NGM]-1))
-# text(1.5,20,paste0("b=",round(coefs_man.NGM[2],digits=3)))
-# 
-# plot(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl[temp.NaCl],pch=16,ylab='TM',xlab="Neff",main='NaCl',xlim=c(0,6.5),ylim=c(0,25))
-# lines(seq(0,12,0.1),I(exp(coefs_man.NaCl[1])*(seq(0,12,0.1)^coefs_man.NaCl[2])),col="red")
-# abline(lm(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl[temp.NaCl]-1))
-# text(1,20,paste0("b=",round(coefs_man.NaCl[2],digits=3)))
-# 
-# dev.off()
+ ### With nls - replace all
+ pdf("plots_BLUEs/Scaling_pleiotropy_N_BLUE_Arm_Centers.pdf",h=10,w=12)
+ 
+ is_arm <- all_GWAS_clusters_sign$chr_type2=="arm"
+ is_center <- all_GWAS_clusters_sign$chr_type2=="center"
+ 
+ temp=pleiot.idx_mixed$N
+ coefs_euc <- coef(nls(euclidian_summed~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ temp=pleiot.idx_mixed$N[is_arm]
+ coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ temp=pleiot.idx_mixed$N[is_center]
+ coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ 
+ temp.NGM <- euclidian_NGM>0
+ temp=pleiot.idx$NGM.cor[temp.NGM]
+ coefs_euc.NGM <- coef(nls(euclidian_NGM[temp.NGM]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ temp=pleiot.idx$NGM.cor[temp.NGM & is_arm]
+ ## a=0 here
+ coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
+ temp=pleiot.idx$NGM.cor[temp.NGM & is_center]
+ coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ 
+ temp.NaCl <- euclidian_NaCl>0
+ temp=pleiot.idx$NaCl.cor[temp.NaCl]
+ coefs_euc.NaCl <- coef(nls(euclidian_NaCl[temp.NaCl]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ temp=pleiot.idx$NaCl.cor[temp.NaCl & is_arm]
+ coefs_euc.NaCl.arm <- coef(nls(euclidian_NaCl[temp.NaCl & is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ temp=pleiot.idx$NaCl.cor[temp.NaCl & is_center]
+ coefs_euc.NaCl.center <- coef(nls(euclidian_summed[temp.NaCl & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ 
+ #par(mfrow=c(2,3))
+ plot(euclidian_summed~pleiot.idx_mixed$N,pch=16,ylab='TE (euc. distance)',xlab="N",xlim=c(0,11),ylim=c(0,14),type='n')
+ points(euclidian_summed[is_arm]~pleiot.idx_mixed$N[is_arm],pch=16,col='green')
+ points(euclidian_summed[is_center]~pleiot.idx_mixed$N[is_center],pch=16,col='lightblue')
+ 
+ lines(seq(0,12,0.1),I(coefs_euc[1]+(coefs_euc[2])*(seq(0,12,0.1)^coefs_euc[3])),col="red")
+ lines(seq(0,12,0.1),I(coefs_euc_arm[1]+(coefs_euc_arm[2])*(seq(0,12,0.1)^coefs_euc_arm[3])),col="green")
+ lines(seq(0,12,0.1),I(coefs_euc_center[1]+(coefs_euc_center[2])*(seq(0,12,0.1)^coefs_euc_center[3])),col="lightblue")
+ 
+ abline(lm(euclidian_summed~pleiot.idx_mixed$N))
+ text(2,12,paste0("c=",round(coefs_euc[3],digits=3)),col='red')
+ text(2,11,paste0("c=",round(coefs_euc_arm[3],digits=3)),col="green")
+ text(2,10,paste0("c=",round(coefs_euc_center[3],digits=3)),col='lightblue')
+ 
+ plot(euclidian_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM],pch=16,ylab='TE (euc. distance)',xlab="N",main='NGM',xlim=c(0,7),ylim=c(0,10),
+      type='n')
+ points(euclidian_NGM[temp.NGM & is_arm]~pleiot.idx$NGM.cor[temp.NGM & is_arm],pch=16,col='green')
+ points(euclidian_NGM[temp.NGM & is_center]~pleiot.idx$NGM.cor[temp.NGM & is_center],pch=16,col='lightblue')
+ 
+ lines(seq(0,12,0.1),I(coefs_euc.NGM[1]+(coefs_euc.NGM[2])*(seq(0,12,0.1)^coefs_euc.NGM[3])),col="red")
+ lines(seq(0,12,0.1),I(coefs_euc.NGM.arm[1]+(coefs_euc.NGM.arm[2])*(seq(0,12,0.1)^coefs_euc.NGM.arm[3])),col="green")
+ lines(seq(0,12,0.1),I(coefs_euc.NGM.center[1]+(coefs_euc.NGM.center[2])*(seq(0,12,0.1)^coefs_euc.NGM.center[3])),col="lightblue")
+ 
+ abline(lm(euclidian_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM]))
+ text(1.5,7.5,paste0("c=",round(coefs_euc.NGM[3],digits=3)),col='red')
+ text(1.5,6.5,paste0("c=",round(coefs_euc.NGM.arm[3],digits=3)),col="green")
+ text(1.5,5.5,paste0("c=",round(coefs_euc.NGM.center[3],digits=3)),col="lightblue")
+ 
+ plot(euclidian_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl],pch=16,ylab='TE (euc. distance)',xlab="N",main='NaCl',xlim=c(0,5.5),ylim=c(0,10),type='n')
+ points(euclidian_NaCl[temp.NaCl & is_arm]~pleiot.idx$NaCl.cor[temp.NaCl & is_arm],pch=16,col='green')
+ points(euclidian_NaCl[temp.NaCl & is_center]~pleiot.idx$NaCl.cor[temp.NaCl & is_center],pch=16,col='lightblue')
+ 
+ lines(seq(0,12,0.1),I(coefs_euc.NaCl[1]+(coefs_euc.NaCl[2])*(seq(0,12,0.1)^coefs_euc.NaCl[3])),col="red")
+ lines(seq(0,12,0.1),I(coefs_euc.NaCl.arm[1]+(coefs_euc.NaCl.arm[2])*(seq(0,12,0.1)^coefs_euc.NaCl.arm[3])),col="green")
+ lines(seq(0,12,0.1),I(coefs_euc.NaCl.center[1]+(coefs_euc.NaCl.center[2])*(seq(0,12,0.1)^coefs_euc.NaCl.center[3])),col="lightblue")
+ 
+ abline(lm(euclidian_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]))
+ text(1,8.5,paste0("c=",round(coefs_euc.NaCl[3],digits=3)),col="red")
+ text(1,7.5,paste0("c=",round(coefs_euc.NaCl.arm[3],digits=3)),col="green")
+ text(1,6.5,paste0("c=",round(coefs_euc.NaCl.center[3],digits=3)),col='lightblue')
+ 
+ temp=pleiot.idx_mixed$N
+ coefs_man <- coef(nls(manh_summed~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ temp=pleiot.idx_mixed$N[is_arm]
+ coefs_man.arm <- coef(nls(manh_summed[is_arm]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ temp=pleiot.idx_mixed$N[is_center]
+ coefs_man.center <- coef(nls(manh_summed[is_center]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ 
+ temp.NGM <- manh_NGM>0
+ temp=pleiot.idx$NGM.cor[temp.NGM]
+ coefs_man.NGM <- coef(nls(manh_NGM[temp.NGM]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ temp=pleiot.idx$NGM.cor[temp.NGM & is_arm]
+ coefs_man.NGM.arm <- coef(nls(manh_NGM[temp.NGM & is_arm]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ temp=pleiot.idx$NGM.cor[temp.NGM & is_center]
+ coefs_man.NGM.center <- coef(nls(manh_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ 
+ temp.NaCl <- manh_NaCl>0
+ temp=pleiot.idx$NaCl.cor[temp.NaCl]
+ coefs_man.NaCl <- coef(nls(manh_NaCl[temp.NaCl]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ temp=pleiot.idx$NaCl.cor[temp.NaCl & is_arm]
+ coefs_man.NaCl.arm <- coef(nls(manh_NaCl[temp.NaCl & is_arm]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ temp=pleiot.idx$NaCl.cor[temp.NaCl & is_center]
+ coefs_man.NaCl.center <- coef(nls(manh_NaCl[temp.NaCl & is_center]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ 
+ plot(manh_summed~pleiot.idx_mixed$N,pch=16,ylab='TM ',xlab="N",xlim=c(0,11),ylim=c(0,40),type='n')
+ points(manh_summed[is_arm]~pleiot.idx_mixed$N[is_arm],pch=21,ylab='TM ',xlab="N",bg=adjustcolor('green',alpha=.6))
+ points(manh_summed[is_center]~pleiot.idx_mixed$N[is_center],pch=21,ylab='TM ',xlab="N",bg=adjustcolor('lightblue',alpha=.6))
+ 
+ lines(seq(0,12,0.1),I(coefs_man[1]+(coefs_man[2])*(seq(0,12,0.1)^coefs_man[3])),col="red")
+ lines(seq(0,12,0.1),I(coefs_man.arm[1]+(coefs_man.arm[2])*(seq(0,12,0.1)^coefs_man.arm[3])),col="green")
+ lines(seq(0,12,0.1),I(coefs_man.center[1]+(coefs_man.center[2])*(seq(0,12,0.1)^coefs_man.center[3])),col="lightblue")
+ 
+ abline(lm(manh_summed~pleiot.idx_mixed$N))
+ text(2,30,paste0("c=",round(coefs_man[3],digits=3)),col="red")
+ text(2,28,paste0("c=",round(coefs_man.arm[3],digits=3)),col='green')
+ text(2,26,paste0("c=",round(coefs_man.center[3],digits=3)),col='lightblue')
+ 
+ plot(manh_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM],pch=16,ylab='TM',xlab="N",main='NGM',xlim=c(1,7),ylim=c(0,25),type='n')
+ points(manh_NGM[temp.NGM & is_arm]~pleiot.idx$NGM.cor[temp.NGM & is_arm],pch=21,ylab='TM ',xlab="N",bg=adjustcolor('green',alpha=.6))
+ points(manh_NGM[temp.NGM & is_center]~pleiot.idx$NGM.cor[temp.NGM & is_center],pch=21,ylab='TM ',xlab="N",bg=adjustcolor('lightblue',alpha=.6))
+ 
+ lines(seq(0,12,0.1),I(coefs_man.NGM[1]+(coefs_man.NGM[2])*(seq(0,12,0.1)^coefs_man.NGM[3])),col="red")
+ lines(seq(0,12,0.1),I(coefs_man.NGM.arm[1]+(coefs_man.NGM.arm[2])*(seq(0,12,0.1)^coefs_man.NGM.arm[3])),col="green")
+ lines(seq(0,12,0.1),I(coefs_man.NGM.center[1]+(coefs_man.NGM.center[2])*(seq(0,12,0.1)^coefs_man.NGM.center[3])),col="lightblue")
+ 
+ abline(lm(manh_NGM[temp.NGM]~pleiot.idx$NGM.cor[temp.NGM]))
+ text(1.5,20,paste0("c=",round(coefs_man.NGM[3],digits=3)),col="red")
+ text(1.5,18,paste0("c=",round(coefs_man.NGM.arm[3],digits=3)),col='green')
+ text(1.5,16,paste0("c=",round(coefs_man.NGM.center[3],digits=3)),col='lightblue')
+ 
+ plot(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl],pch=16,ylab='TM',xlab="N",main='NaCl',xlim=c(0,7),ylim=c(0,25),type='n')
+ points(manh_NaCl[temp.NaCl & is_arm]~pleiot.idx$NaCl.cor[temp.NaCl & is_arm],pch=21,ylab='TM ',xlab="N",bg=adjustcolor('green',alpha=.6))
+ points(manh_NaCl[temp.NaCl & is_center]~pleiot.idx$NaCl.cor[temp.NaCl & is_center],pch=21,ylab='TM ',xlab="N",bg=adjustcolor('lightblue',alpha=.6))
+ 
+ lines(seq(0,12,0.1),I(coefs_man.NaCl[1]+(coefs_man.NaCl[2])*(seq(0,12,0.1)^coefs_man.NaCl[3])),col="red")
+ lines(seq(0,12,0.1),I(coefs_man.NaCl.arm[1]+(coefs_man.NaCl.arm[2])*(seq(0,12,0.1)^coefs_man.NaCl.arm[3])),col="green")
+ lines(seq(0,12,0.1),I(coefs_man.NaCl.center[1]+(coefs_man.NaCl.center[2])*(seq(0,12,0.1)^coefs_man.NaCl.center[3])),col="lightblue")
+ 
+ abline(lm(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]))
+ text(1.5,20,paste0("c=",round(coefs_man.NaCl[3],digits=3)),col="red")
+ text(1.5,18,paste0("c=",round(coefs_man.NaCl.arm[3],digits=3)),col='green')
+ text(1.5,16,paste0("c=",round(coefs_man.NaCl.center[3],digits=3)),col='lightblue')
+ 
+
+ dev.off()
 
 
 ########################################################################
@@ -803,14 +795,14 @@ plot(scale(eigen(G_mat)$vectors[,1]),scale(eigen(G_mat_P1)$vectors[,1]))
  drop1(model2,test='F')
  anova(model,model2,test="F")
  
- model3 <- lm(allPcor$nbClust~abs(allPcor$Pcor)*as.factor(allPcor$same_T))
+ model3 <- lm(allPcor$nbClust~abs(allPcor$Pcor)+as.factor(allPcor$same_env_NaCl)+as.factor(allPcor$same_T)+as.factor(allPcor$same_env_NGM))
  summary(model3)
  drop1(model3,test='F')
  
  
 allPcor$same_env=as.numeric(allPcor$same_env)-1
  plot(abs(allPcor$Pcor),allPcor$nbClust,pch=c(16,11)[as.numeric(allPcor$same_T)],
-      col=c("black","blue","orange")[as.numeric(allPcor$same_env)],xlab="Phenotypic correlation (BV)",ylab="Nb of  shared pleiotropic clusters")
+      col=c("black","blue","orange")[1+as.numeric(allPcor$same_env)],xlab="Phenotypic correlation (BV)",ylab="Nb of  shared pleiotropic clusters")
  abline(a=coef(model3)[1]+coef(model3)[3],b=coef(model3)[2]+coef(model3)[4])
  abline(a=coef(model3)[1],b=coef(model3)[2],col="blue")
  abline(a=(coef(model2)[1]+coef(model2)[4]),b=coef(model2)[2],col="orange")
