@@ -17,16 +17,8 @@ all_cluster_merged = read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clust
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
-#all_cluster_merged$group = as.numeric(factor(as.character(all_cluster_merged$group),levels=unique(all_cluster_merged$group)))
-
-#df_clusters = data.frame(clusterID=1:max(all_cluster_merged$group),
- #                        CHROM= tapply(as.character(all_cluster_merged$CHROM),all_cluster_merged$group,unique),
- #                        POS= tapply((all_cluster_merged$POS),all_cluster_merged$group,mean),
-#                         group=tapply(as.character(all_cluster_merged$group),all_cluster_merged$group,unique))
 
 df_clusters=read.table("data_BLUE/data_clusters_BLUE_R02.txt",h=TRUE)
-df_clusters$rs=df_clusters$id
-all_GWAS_clusters$CHROM=all_GWAS_clusters$chr
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 
 ### Add the tip/arm/center tag
