@@ -226,6 +226,7 @@ table(is.na(all_cluster_merged$group))
 length(unique(all_GWAS_sign_with_clust$cluster))+ sum(is.na(all_GWAS_sign_with_clust$cluster)) # 788
 ## Number of clusters in the end ?
 length(unique(all_cluster_merged$group)) # 932
+sum(table(all_cluster_merged$group)==1) # 497 singletons
 
 all_cluster_merged=subset(all_cluster_merged,select= -ID1)
 ### Replace group ID by a number, first sort all_cluster_merged
