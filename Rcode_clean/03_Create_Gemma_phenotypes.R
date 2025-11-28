@@ -1,7 +1,7 @@
 rm(list=ls())
 gc()
 library(AGHmatrix)
-
+library(data.table)
 ## load the phenotypes
 BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
 BLUE2 <- read.table("BLUES_NaCl.txt",sep='\t',h=TRUE)
@@ -82,31 +82,33 @@ write.table(gemma_pheno,file="data_BLUE/gemma_pheno.txt",sep='\t',quote=FALSE,ro
 
 ### Compute a GRM
 ##### Pruning
+for(i in c(1,2,4,6,8,9,99)){
+  system(paste0("mkdir plink_pruning/pruning0",i))
+  system(paste0("/mnt/data2/desmarais/tool_plink/plink --vcf /projects/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz --indep-pairwise 200 10 0.",i," --out plink_pruning/pruning0",i,"/CeMEE.pruned.0.",i," --allow-extra-chr --double-id"))
+  system(paste0("/mnt/data2/desmarais/tool_plink/plink --vcf /projects/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz --extract plink_pruning/pruning0",i,"/CeMEE.pruned.0.",i,".prune.in --recode vcf --out plink_pruning/pruning0",i,"/CeMEE.pruned.0.",i," --allow-extra-chr --double-id"))
+  system(paste0("bgzip plink_pruning/pruning0",i,"/CeMEE.pruned.0.",i,".vcf"))
+}
 
+library("vcfR")
+genotype_pruned <- read.vcfR('plink_pruning/pruning01/CeMEE.pruned.0.1.vcf.gz')
+genotype_pruned_matrix <- apply(genotype_pruned@gt[,2:1002],1,function(x){
+  as.numeric(substring(x,1,1))
+})
+str(genotype_pruned_matrix)
+genotype_pruned_matrix=2*genotype_pruned_matrix
+strainID <- tstrsplit(colnames(genotype_pruned@gt)[2:1002],'_')[[1]]
+GRM <- Gmatrix((genotype_pruned_matrix), method="VanRaden") # 2112 / 2112
+dim(GRM)
+## Re-order
 
-genotype_info_kept <- Gmatrix(t(genotype_info_kept), method="VanRaden")
-dim(genotype_info_kept)
+GRM_sub = GRM[strainID %in% colnames(genotype_info_kept),strainID %in% colnames(genotype_info_kept)]
+strainID_sub = strainID[strainID %in% colnames(genotype_info_kept)]
+table(strainID_sub==colnames(genotype_info_kept)) # Same order
 
+head(bimbam)
+head(gemma_pheno)
 
-### Create the kinship matrix using GEMMA
-#mkdir kinship_matrix
-## Rename the chromosome for GEMMA
-#cut -f1 pink_binary_pruned_09/plink_binary.pruned09.bim | sort | uniq > Pruned/chrom-map_renamed.txt
-#/mnt/data2/desmarais/tool_plink/plink --bfile pink_binary_pruned_09/plink_binary.pruned09 --update-chr Pruned/chrom-map_renamed.txt  --make-bed --out pink_binary_pruned_09/plink_binary.pruned09_renamed --allow-extra-chr
-
-## Fix sex info 
-#awk '{$5=2; $6=1; print}' pink_binary_pruned_09/plink_binary.pruned09.fam > pink_binary_pruned_09/plink_binary.pruned09_fixed.fam
-#mv pink_binary_pruned_09/plink_binary.pruned09_fixed.fam pink_binary_pruned_09/plink_binary.pruned09.fam
-#gemma -bfile pink_binary_pruned_09/plink_binary.pruned09 -gk 1 -o kinship_matrix
-#mv output/kinship_matrix.* kinship_matrix/
-#  /mnt/data2/desmarais/tool_plink/plink --bfile pink_binary_pruned_09/plink_binary.pruned09 --freq
-
-
-### Make binary plink files for Gemma ###
-
-# mkdir pink_binary
-#/mnt/data2/desmarais/tool_plink/plink --file Pruned/plink.data --make-bed --allow-extra-chr --out pink_binary/plink_binary
-
+write.table(GRM_sub,file="data_BLUE/kinship.txt",sep='\t',quote=FALSE,row.names=FALSE,col.names=FALSE)
 
 ### Run Gemma
 ###
@@ -116,7 +118,7 @@ dim(genotype_info_kept)
 ### Only takes one column at a time
 #for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
-#cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/gemma_pheno_T${i}.txt
-#nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
+#cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/split/gemma_pheno_T${i}.txt
+#nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k data_BLUE/kinship.txt -lmm 4 -p data_BLUE/split/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
 #done
 
