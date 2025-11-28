@@ -1,0 +1,31 @@
+PLINK v1.90b7.2 64-bit (11 Dec 2023)
+Options in effect:
+  --allow-extra-chr
+  --double-id
+  --extract plink_pruning/pruning01/CeMEE.pruned.0.1.prune.in
+  --out plink_pruning/pruning01/CeMEE.pruned.0.1
+  --recode vcf
+  --vcf /projects/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz
+
+Hostname: gevpc10
+Working directory: /mnt/data3/mallard/2025_Breeding_values
+Start time: Fri Nov 28 15:08:20 2025
+
+Random number seed: 1764338900
+128823 MB RAM detected; reserving 64411 MB for main workspace.
+--vcf: plink_pruning/pruning01/CeMEE.pruned.0.1-temporary.bed +
+plink_pruning/pruning01/CeMEE.pruned.0.1-temporary.bim +
+plink_pruning/pruning01/CeMEE.pruned.0.1-temporary.fam written.
+317611 variants loaded from .bim file.
+1001 people (0 males, 0 females, 1001 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to plink_pruning/pruning01/CeMEE.pruned.0.1.nosex .
+--extract: 2112 variants remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 1001 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.999.
+2112 variants and 1001 people pass filters and QC.
+Note: No phenotypes present.
+--recode vcf to plink_pruning/pruning01/CeMEE.pruned.0.1.vcf ... done.
+
+End time: Fri Nov 28 15:08:24 2025
