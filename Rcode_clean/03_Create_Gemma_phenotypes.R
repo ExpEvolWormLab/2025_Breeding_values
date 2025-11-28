@@ -1,22 +1,20 @@
 rm(list=ls())
 gc()
-
-## load the fam file
-
-fam <- read.table("data/plink_binary.fam")
+library(AGHmatrix)
 
 ## load the phenotypes
-BV1 <- read.table("Breeding_values_NGM.txt",sep='\t',h=TRUE)
-BV2 <- read.table("Breeding_values_NaCl.txt",sep='\t',h=TRUE)
+BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
+BLUE2 <- read.table("BLUES_NaCl.txt",sep='\t',h=TRUE)
 
-BV1$traitID=paste0(BV1$traitID,'_NGM')
-BV2$traitID=paste0(BV2$traitID,'_NaCl')
+BLUE1$traitID=paste0(BLUE1$traitID,'_NGM')
+BLUE2$traitID=paste0(BLUE2$traitID,'_NaCl')
 
-all_BV <- rbind(BV1,BV2)
+all_BLUEs <- rbind(BLUE1,BLUE2)
 
 # Load the isotype information
 removed_isotypes <- read.table("data/removed_isotypes_Cemee_2025.txt")
 corr_isotypes <- read.csv("data/correspondance_isotypes.csv")
+
 ### Remove the additional name info
 removed_isotypes$V1 <- gsub('CeMee', '', removed_isotypes$V1)
 removed_isotypes$V1 <- gsub('_sorted', '', removed_isotypes$V1)
@@ -30,38 +28,64 @@ corr_isotypes=subset(corr_isotypes,Line!=Representant_line)
 table(removed_isotypes$V1%in%corr_isotypes$Representant_line)
 replaced_iso <- subset(corr_isotypes,Line%in%removed_isotypes$V1)
 
-gemma_pheno <- NULL
 
-all_BV$traitID <- factor(as.character(all_BV$traitID),levels = 
+
+all_BLUEs$traitID <- factor(as.character(all_BLUEs$traitID),levels = 
                            paste0(rep(c("SF","SB","FS",'FB',"BS","BF",'area'),2),rep(c("_NGM","_NaCl"),each=7)))
-#levels(all_BV$traitID)
 
+### We will use the bimbam format which is simple for GEMMA
+## First load the genotypes
+## Load Cemee data
+load('RData/Genotype_info_Cemee.RData')
+snp_positions=as.data.frame(snp_positions)
+snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
+snp_positions$POS=as.numeric(as.character(snp_positions$POS))
+snp_positions <- snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
+
+## Order the genotype - keep shared lines
+genotyped_lines <- colnames(genotype_info)
+all_lines <- sort(unique(all_BLUEs$pop_label))
+phenotyped_lines = rep(TRUE,length(genotyped_lines))
+gemma_pheno <- NULL
 ### Now we will create the phenotype file for GEMMA
-for(i in fam$V1){
-  #i="A6140L102"
-  
+k=0
+for(i in genotyped_lines){
+  k=k+1
   ## Is there multiple isotypes ?
   temp_iso <- subset(replaced_iso,i==Line | i==Representant_line)
   all_lines_ID <- unique(c(i,temp_iso$Line,temp_iso$Representant_line))
+  # Phenotyped once ?
+  if(sum(all_BLUEs$pop_label%in%all_lines_ID)==0){
+    phenotyped_lines[k]=FALSE
+  }else{
+  temp_pheno <- subset(all_BLUEs,pop_label%in%all_lines_ID)
+  
   
   ## Now extract all phenotypic data for these lines
-  temp_pheno <- subset(all_BV,pop_label%in%all_lines_ID)
+  
   if(nrow(temp_pheno)==0){
     gemma_pheno=rbind(gemma_pheno,rep(NA,14))
   }else{
-    gemma_pheno <- rbind(gemma_pheno,tapply(temp_pheno$BV,temp_pheno$traitID,mean,na.rm=TRUE))
+    gemma_pheno <- rbind(gemma_pheno,tapply(temp_pheno$BLUE,temp_pheno$traitID,mean,na.rm=TRUE))
   }
 }
-head(fam)
-dim(gemma_pheno)
-dim(fam)
+}
+table(phenotyped_lines) # 966 TRUE
+dim(gemma_pheno) # 966 OK 
 
-fam$V6[rowSums(is.na(gemma_pheno))<14]=1
-#Set to female
-fam$V5=2
-sort(subset(fam,V6<0)$V1)
-write.table(fam,file="data/plink_binary_corrected.fam",sep='\t',quote=FALSE,row.names=FALSE,col.names=FALSE)
-write.table(gemma_pheno,file="data/gemma_pheno.txt",sep='\t',quote=FALSE,row.names=FALSE,col.names=FALSE)
+genotype_info_kept <- genotype_info[,phenotyped_lines]
+
+bimbam <- data.frame(id=snp_positions$ID,major=snp_positions$REF,minor=snp_positions$ALT)
+bimbam <- cbind(bimbam,genotype_info_kept)
+write.table(bimbam,"data_BLUE/genotypes_for_gemma.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
+write.table(gemma_pheno,file="data_BLUE/gemma_pheno.txt",sep='\t',quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+### Compute a GRM
+##### Pruning
+
+
+genotype_info_kept <- Gmatrix(t(genotype_info_kept), method="VanRaden")
+dim(genotype_info_kept)
 
 
 ### Create the kinship matrix using GEMMA
@@ -80,27 +104,19 @@ write.table(gemma_pheno,file="data/gemma_pheno.txt",sep='\t',quote=FALSE,row.nam
 
 ### Make binary plink files for Gemma ###
 
-#mkdir pink_binary
+# mkdir pink_binary
 #/mnt/data2/desmarais/tool_plink/plink --file Pruned/plink.data --make-bed --allow-extra-chr --out pink_binary/plink_binary
 
 
 ### Run Gemma
 ###
-# Use the latest installed gemma version
+# Use the latest installed gemma version - use BIMBAM format
 #conda activate gemma-env 
 
 ### Only takes one column at a time
-#cut -f 1 phenotypic_data/gemma_pheno.txt > phenotypic_data/gemma_pheno_T1.txt
-#nohup gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p phenotypic_data/gemma_pheno_T1.txt -o gwas_results_T1 &
-  
-#  for i in 2 3 4 5 6 7 8 9 10 11 12 13 14
+#for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
-#cut -f $i phenotypic_data/gemma_pheno.txt > phenotypic_data/gemma_pheno_T${i}.txt
-#nohup gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p phenotypic_data/gemma_pheno_T${i}.txt -o gwas_results_T${i} > gemma_output_txt/output_gemma_t${i}.txt &
-#  done
+#cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/gemma_pheno_T${i}.txt
+#nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k kinship_matrix/kinship_matrix.cXX.txt -lmm 4 -p data_BLUE/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
+#done
 
-
-
-######## Could we do permutations ? How long would it take ?
-#nohup gemma -bfile pink_binary/plink_binary -k kinship_matrix/kinship_matrix.cXX.txt -lmm 1 -p phenotypic_data/gemma_pheno_T1.txt -o gwas_results_T1 &
-  

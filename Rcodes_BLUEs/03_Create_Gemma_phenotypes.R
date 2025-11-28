@@ -75,6 +75,9 @@ head(bimbam[,1:10])
 
 write.table(bimbam,"data_BLUE/genotypes_for_gemma.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
 
+head(testK1[,1:4])
+
+
 fam$V6[rowSums(is.na(gemma_pheno))<14]=1
 #Set to female
 fam$V5=2
