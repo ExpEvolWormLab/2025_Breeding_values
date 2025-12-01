@@ -10,7 +10,7 @@
 ##
 ## Command Line Input = gemma -g data_BLUE/genotypes_for_gemma.txt -k data_BLUE/kinship.txt -lmm 4 -p data_BLUE/split/gemma_pheno_T4.txt -o gwas_results_BLUE_T4 
 ##
-## Date = Fri Nov 28 15:42:13 2025
+## Date = Mon Dec  1 14:51:14 2025
 ##
 ## Summary Statistics:
 ## number of total individuals = 966
@@ -29,9 +29,9 @@
 ## se(beta) =   0.0197703
 ##
 ## Computation Time:
-## total computation time = 18.1561 min 
+## total computation time = 16.558 min 
 ## computation time break down: 
-##      time on eigen-decomposition = 5.23354 min 
-##      time on calculating UtX = 2.17202 min 
-##      time on optimization = 9.37692 min 
+##      time on eigen-decomposition = 3.69535 min 
+##      time on calculating UtX = 2.19544 min 
+##      time on optimization = 9.51111 min 
 ##
