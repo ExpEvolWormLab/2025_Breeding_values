@@ -40,6 +40,9 @@ load('RData/Genotype_info_Cemee.RData')
 snp_positions=as.data.frame(snp_positions)
 snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 snp_positions$POS=as.numeric(as.character(snp_positions$POS))
+
+## Order the genotypes
+genotype_info <- genotype_info[order(snp_positions$CHROM,snp_positions$POS),]
 snp_positions <- snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
 
 ## Order the genotype - keep shared lines
@@ -79,6 +82,12 @@ bimbam <- data.frame(id=snp_positions$ID,major=snp_positions$REF,minor=snp_posit
 bimbam <- cbind(bimbam,genotype_info_kept)
 write.table(bimbam,"data_BLUE/genotypes_for_gemma.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
 write.table(gemma_pheno,file="data_BLUE/gemma_pheno.txt",sep='\t',quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+gemma_pheno_withlines=data.frame(gemma_pheno)
+gemma_pheno_withlines$strain=
+  as.character(genotyped_lines[phenotyped_lines])
+
+write.table(gemma_pheno_withlines,file="data_BLUE/gemma_pheno_withLines.txt",sep='\t',quote=FALSE,row.names=FALSE,col.names=FALSE)
 
 ### Compute a GRM
 ##### Pruning

@@ -3,7 +3,7 @@ gc()
 
 ## load the fam file
 
-fam <- read.table("pink_binary/plink_binary.fam")
+#fam <- read.table("pink_binary/plink_binary.fam")
 
 ## load the phenotypes
 BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
