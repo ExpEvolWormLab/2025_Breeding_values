@@ -33,6 +33,7 @@ n_cores <- 20
 cl <- makeCluster(n_cores)
 clusterExport(cl, varlist = c("phenotypes","j"), envir = environment())
 
+
 temp_list=list()
 for(i in 1:100) temp_list[[i]]=i
 # Parallel computations
