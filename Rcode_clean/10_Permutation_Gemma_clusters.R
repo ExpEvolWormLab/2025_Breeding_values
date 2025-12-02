@@ -1,6 +1,7 @@
 rm(list=ls())
 gc()
 
+system("conda init")
 system("conda activate gemma-env")
 
 ## For the first trait:
