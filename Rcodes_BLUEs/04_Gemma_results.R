@@ -17,10 +17,11 @@ plot((1:length(t1$beta))[(-log10(pvals_fdr)<=2)],t1$beta[(-log10(pvals_fdr)<=2)]
      ylim=c(min(t1$beta),max(t1$beta)))
 points((1:length(t1$beta))[(-log10(pvals_fdr)>2)],t1$beta[(-log10(pvals_fdr)>2)],col=adjustcolor("red",alpha=.6),pch=16,cex=.6)
 
-
+t1$chr=tstrsplit(t1$rs,"_")[[1]]
+t1$ps=tstrsplit(t1$rs,"_")[[2]]
 data_manhattan = data.frame(CHR=as.numeric(as.factor(t1$chr)),BP=as.numeric(t1$ps),SNP=c(1:nrow(t1)),
                          P=-log10(t1$p_wald))
-manhattan(subset(data_manhattan,P>.8), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
+manhattan(subset(data_manhattan), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
 subset(data_manhattan,P>6)
 
 sign1=t1$p_wald<0.05

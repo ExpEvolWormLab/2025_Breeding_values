@@ -125,7 +125,7 @@ write.table(GRM_sub,file="data_BLUE/kinship.txt",sep='\t',quote=FALSE,row.names=
 #conda activate gemma-env 
 
 ### Only takes one column at a time
-#for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+#for i in 2 3 4 5 6 7 8 9 10 11 12 13 14
 #do
 #cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/split/gemma_pheno_T${i}.txt
 #nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k data_BLUE/kinship.txt -lmm 4 -p data_BLUE/split/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &

@@ -128,7 +128,6 @@ load('RData/Genotype_info_Cemee.RData')
 snp_positions=as.data.frame(snp_positions)
 snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 snp_positions$POS=as.numeric(as.character(snp_positions$POS))
-genotype_info <- genotype_info[order(snp_positions$CHROM,snp_positions$POS),]
 snp_positions <- snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
 head(snp_positions)
 
