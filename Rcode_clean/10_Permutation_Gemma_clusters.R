@@ -1,7 +1,7 @@
 rm(list=ls())
 gc()
 
-system("conda init")
+
 system("conda activate gemma-env")
 
 ## For the first trait:
@@ -33,7 +33,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     
     n_cores <- 10
     cl <- makeCluster(n_cores)
-    clusterExport(cl, varlist = c("phenotypes","j"), envir = environment())
+    clusterExport(cl, varlist = c("phenotypes","j","threshold_clust"), envir = environment())
     
     temp_list=list()
     for(i in 1:100) temp_list[[i]]=i
