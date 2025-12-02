@@ -39,9 +39,6 @@ traitJ$chr = factor(tstrsplit(traitJ$rs,"_")[[1]],levels=c("I","II","III","IV","
 traitJ$ps = as.numeric(tstrsplit(traitJ$rs,"_")[[2]])
 traitJ=traitJ[order(traitJ$chr,traitJ$ps),]
 dim(traitJ)
-#plot((1:length(traitJ$beta))[!traitJ$is_sign],traitJ$beta[!traitJ$is_sign],col=adjustcolor("grey",alpha=.6),pch=16,cex=.6,
-#     ylim=c(min(traitJ$beta),max(traitJ$beta)))
-#points((1:length(traitJ$beta))[traitJ$is_sign],traitJ$beta[traitJ$is_sign],col=adjustcolor("red",alpha=.6),pch=16,cex=.6)
 
 data_manhattan = data.frame(CHR=as.numeric(traitJ$chr),BP=traitJ$ps,SNP=c(1:nrow(traitJ)),
                             P=-log10(traitJ$p_wald),is_sign=traitJ$is_sign)
@@ -83,5 +80,5 @@ all_GWAS[is.na(all_GWAS[,names(all_GWAS)==paste0("is_sign_T",i)]),paste0("is_sig
   }
 }
 rm(i)
-save(list=ls(),file="RData_BLUEs//GWAS_results_concatenated.RData")
+save(list=ls(),file="RData/GWAS_results_concatenated.RData")
 
