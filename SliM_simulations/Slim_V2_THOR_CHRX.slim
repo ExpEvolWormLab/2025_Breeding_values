@@ -78,17 +78,17 @@ Xb early() { p1.setSubpopulationSize(N2); }
 // ===================================================
 
 Xb late() { 
-	fname = paste("slimSimul", trialNumber, "G0.txt", sep = "");
+	fname = paste("CHRX_slimSimul", trialNumber, "G0.txt", sep = "");
 	filename=paste0(fname);
 	writeAF(fname); }
 
 38 late() {
-	fname = paste("slimSimul", trialNumber, "G36.txt", sep = "");
+	fname = paste("CHRX_slimSimul", trialNumber, "G36.txt", sep = "");
 	writeAF(fname); }
 
 Xg late()
 {
-	fname = paste("slimSimul", trialNumber, "G50.txt", sep = "");
+	fname = paste("CHRX_slimSimul", trialNumber, "G50.txt", sep = "");
 	writeAF(fname);
 	sim.simulationFinished();
 }
