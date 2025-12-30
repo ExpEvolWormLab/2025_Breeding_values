@@ -1,0 +1,35 @@
+
+
+bcftools query -l /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_noMAF_filtering_renamed.vcf.gz > all_sample_names.txt
+### kept only A6140 / CAXX samples : 572 samples
+
+bcftools view -S A6140_samples.txt -Oz -o A6140_derived.vcf.gz /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_noMAF_filtering_renamed.vcf.gz
+
+bcftools query -l A6140_derived.vcf.gz | wc -l 
+ bcftools index A6140_derived.vcf.gz
+
+ bcftools query -f '%CHROM\t%POS[\t%GT]\n' A6140_derived.vcf.gz | head
+
+
+ bcftools query -f '[%GT\n]' A6140_derived.vcf.gz | grep -c '|'
+bcftools query -f '[%GT\n]' A6140_derived.vcf.gz | grep -c '/'
+
+## All phased
+
+## Extract per CHR
+
+bcftools view -r "I" A6140_derived.vcf.gz -Oz -o A6140_derived.I.vcf.gz
+bcftools view -r "II" A6140_derived.vcf.gz -Oz -o A6140_derived.II.vcf.gz
+bcftools view -r "III" A6140_derived.vcf.gz -Oz -o A6140_derived.III.vcf.gz
+bcftools view -r "IV" A6140_derived.vcf.gz -Oz -o A6140_derived.IV.vcf.gz
+bcftools view -r "V" A6140_derived.vcf.gz -Oz -o A6140_derived.V.vcf.gz
+bcftools view -r "X" A6140_derived.vcf.gz -Oz -o A6140_derived.X.vcf.gz
+
+## Create the maps in R 
+
+library(vcfR)
+map <- read.table("map/c_elegans_genetic_map.tsv",sep='\t',h=TRUE)
+vcf_I <- read.vcfR("vcf/A6140_derived.I.vcf.gz")
+
+## Extract
+
