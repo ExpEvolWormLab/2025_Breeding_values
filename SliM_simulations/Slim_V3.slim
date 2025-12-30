@@ -1,0 +1,116 @@
+// ===================================================
+// 2. INITIALIZATION
+// ===================================================
+initialize()
+{
+	defineConstant("N1", 573); // population start (nb CHR in the vcf)
+	defineConstant("N11", 100000); // burn-in generations		
+	defineConstant("N2", 1000); // burn-in generations	
+	defineConstant("Xb", 10); // burn-in generations
+	defineConstant("Xg", 10); // total generations
+	defineConstant("SF", 0.5); // selfing rate after burn-in
+	defineConstant("CHR_L", 20000000); // chromosome length (bp)
+	defineConstant("VCF", "~/Documents/GitHub/2025_Breeding_values/SliM_simulations/vcf/A6140_derived.I_nomissing.vcf"); // founder VCF
+	defineConstant("RECMAP", "~/Documents/GitHub/2025_Breeding_values/SliM_simulations/map/CHRI.map.rates.txt"); // recombination map file
+	defineConstant("RECMAP2", "~/Documents/GitHub/2025_Breeding_values/SliM_simulations/map/CHRI.map.ends.txt"); // recombination map file
+	initializeSLiMModelType("nonWF");
+	initializeMutationRate(0.0);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	//initializeGenomicElementType("g1", m1, 1.0);
+	lines_rates = readFile(RECMAP);
+	lines_ends = readFile(RECMAP2);
+	rates = c();
+	ends = c();
+	for (i in seqAlong(lines_rates))
+	{
+		line_rate = lines_rates[i];
+		line_end = lines_ends[i];
+		//catn("LINE: [" + line_rate + "]");
+		//catn("LINE2: [" + line_end + "]");
+		rate = asFloat(line_rate);
+		end = asInteger(line_end);
+		rates = c(rates, rate);
+		ends = c(ends, end);
+	}
+	
+	// add the last point
+	rates = c(rates, 0.5);
+	ends = c(ends, CHR_L);
+	initializeGenomicElement(g1, 0, CHR_L - 1);
+	initializeRecombinationRate(rates, ends);
+}
+
+// ===================================================
+// 3. HELPER FUNCTION TO WRITE ALLELE FREQUENCIES
+// ===================================================
+function (void)writeAF(string fname)
+{
+	muts = sortBy(sim.mutations, "position");
+	freqs = sim.mutationFrequencies(p1, muts);
+	mut_lines = "position\tfrequency\n";
+	for (i in seqAlong(muts))
+	{
+		mut_lines = mut_lines + muts[i].position + "\t" + freqs[i] + "\n";
+	}
+	writeFile(fname, mut_lines);
+}
+
+// ===================================================
+// 4. CREATE POPULATION FROM VCF (generation 1)
+// ===================================================
+1 early()
+{
+	sim.addSubpop("p1", N1);
+	p1.genomes.readFromVCF(VCF, mutationType=m1);
+}
+
+// ===================================================
+// 5. REPRODUCTION: burn-in then selfing
+// ===================================================
+reproduction()
+{
+	if (sim.cycle <= Xb)
+	{
+		// burn-in: full random mating, high population size
+		mate = subpop.sampleIndividuals(1);
+		subpop.addCrossed(individual, mate);
+	}
+	else
+	{
+		// post-burn-in: selfing allowed
+		if (runif(1) < SF)
+		{
+			subpop.addSelfed(individual);
+		}
+		else
+		{
+			mate = subpop.sampleIndividuals(1);
+			subpop.addCrossed(individual, mate);
+		}
+	}
+}
+
+// ===================================================
+// 6. POPULATION CONTROL (constant N for nonWF)
+// ===================================================
+early()
+{
+	// Simple density dependence via fitness scaling (nonWF pattern)
+	if (p1.individualCount > 0)
+	{
+		p1.fitnessScaling = N2 / p1.individualCount;
+	}
+	else
+	{
+		p1.fitnessScaling = 1.0;
+	}
+}
+
+// ===================================================
+// 7. STOPPING AND OPTIONAL OUTPUT
+// ===================================================
+Xg late()
+{
+	// e.g. writeAF("allele_freqs.txt");
+	sim.simulationFinished();
+}
