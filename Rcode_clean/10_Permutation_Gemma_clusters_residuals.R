@@ -56,7 +56,7 @@ for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
     
     n_cores <- 10
     cl <- makeCluster(n_cores)
-    clusterExport(cl, varlist = c("phenotypes","j","threshold_clust"), envir = environment())
+    clusterExport(cl, varlist = c("mean_pheno","resid_pheno","j","threshold_clust"), envir = environment())
     
     temp_list=list()
     for(i in 1:100) temp_list[[i]]=i
