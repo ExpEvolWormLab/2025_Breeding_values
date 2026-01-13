@@ -54,3 +54,12 @@ write.table(recom.map[,1],file=paste0('map/CHR',chr_temp,'.map.rates.txt'),quote
 write.table(recom.map[,2],file=paste0('map/CHR',chr_temp,'.map.ends.txt'),quote=FALSE,row.names=FALSE,col.names=FALSE)
 
 }
+
+### Remove missing data:
+#bcftools view -i 'F_MISSING=0' A6140_derived.I.vcf.gz -o A6140_derived.I_nomissing.vcf
+#bcftools view -i 'F_MISSING=0' A6140_derived.II.vcf.gz -o A6140_derived.II_nomissing.vcf
+#bcftools view -i 'F_MISSING=0' A6140_derived.III.vcf.gz -o A6140_derived.III_nomissing.vcf
+#bcftools view -i 'F_MISSING=0' A6140_derived.IV.vcf.gz -o A6140_derived.IV_nomissing.vcf
+#bcftools view -i 'F_MISSING=0' A6140_derived.V.vcf.gz -o A6140_derived.V_nomissing.vcf
+#bcftools view -i 'F_MISSING=0' A6140_derived.X.vcf.gz -o A6140_derived.X_nomissing.vcf
+

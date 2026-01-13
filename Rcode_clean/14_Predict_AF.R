@@ -67,8 +67,9 @@ GA3_chi <- chi.sq.test(t(all.counts[,2]),t(all.counts.alt[,2]),t(all.counts[,7])
 GA4_chi <- chi.sq.test(t(all.counts[,2]),t(all.counts.alt[,2]),t(all.counts[,8]),t(all.counts.alt[,8]),min.cov=30,max.cov=300)
 
 CMH_GA36 = na.omit(data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),P=-log10(GA36_cmh)))
-manhattan(subset(CMH_GA36,P>2), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
-
+pdf("Lille_Man.pdf",h=5,w=9)
+manhattan(CMH_GA36, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,suggestiveline=FALSE,genomewideline=5)
+dev.off()
 CHI_GA136 = (data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),
                                P=-log10(GA1_chi)))
 CHI_GA236 = (data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),
@@ -93,14 +94,52 @@ manhattan(na.omit(subset(CHI_GA336,P>1)), chr="CHR", bp="BP", snp="SNP", p="Q" ,
 manhattan(na.omit(subset(CHI_GA436,P>1)), chr="CHR", bp="BP", snp="SNP", p="Q" ,logp=TRUE,genomewideline = -log10(0.05))
 dev.off()
 
-is_selected <- cbind(CHI_GA136$Q<0.05,CHI_GA236$Q<0.05,CHI_GA336$Q<0.05,CHI_GA436$Q<0.05)
+#is_selected <- cbind(CHI_GA136$Q<0.05,CHI_GA236$Q<0.05,CHI_GA336$Q<0.05,CHI_GA436$Q<0.05)
+is_selected <- cbind(CHI_GA136$P>2,CHI_GA236$P>2,CHI_GA336$P>2,CHI_GA436$P>2)
 table(rowSums(is_selected))
 nb_repl_selected <- rowSums(is_selected,na.rm=TRUE)
 table(nb_repl_selected)
 
+CHI_GA136$nb_repl_selected=nb_repl_selected
+CHI_GA236$nb_repl_selected=nb_repl_selected
+CHI_GA336$nb_repl_selected=nb_repl_selected
+CHI_GA436$nb_repl_selected=nb_repl_selected
+
+plot(na.omit(subset(CHI_GA136,CHR==1))$BP,(na.omit(subset(CHI_GA136, CHR==1))$P),pch=21,cex=.6,
+          bg=c("black","blue","yellow","orange","red")[1+na.omit(subset(CHI_GA136, CHR==1))$nb_repl_selected])
+abline(h=-log10(0.01))
+
+pdf('plots/test.pdf')
+i=3
+ymax_CHR = max(c(subset(CHI_GA136, CHR==i)$P,subset(CHI_GA236, CHR==i)$P,subset(CHI_GA336, CHR==i)$P,subset(CHI_GA436, CHR==i)$P),na.rm=TRUE)
+
+plot(na.omit(subset(CHI_GA136,CHR==i))$BP,(na.omit(subset(CHI_GA136, CHR==i))$P),pch=21,cex=.6,
+     bg=c("black","blue","yellow","orange","red")[1+na.omit(subset(CHI_GA136, CHR==i))$nb_repl_selected],ylim=c(0,ymax_CHR))
+abline(h=-log10(0.01))
+
+plot(na.omit(subset(CHI_GA236,CHR==i))$BP,(na.omit(subset(CHI_GA236, CHR==i))$P),pch=21,cex=.6,
+     bg=c("black","blue","yellow","orange","red")[1+na.omit(subset(CHI_GA236, CHR==i))$nb_repl_selected],ylim=c(0,ymax_CHR))
+abline(h=-log10(0.01))
+
+plot(na.omit(subset(CHI_GA336,CHR==i))$BP,(na.omit(subset(CHI_GA336, CHR==i))$P),pch=21,cex=.6,
+     bg=c("black","blue","yellow","orange","red")[1+na.omit(subset(CHI_GA336, CHR==i))$nb_repl_selected],ylim=c(0,ymax_CHR))
+abline(h=-log10(0.01))
+
+plot(na.omit(subset(CHI_GA436,CHR==i))$BP,(na.omit(subset(CHI_GA436, CHR==i))$P),pch=21,cex=.6,
+     bg=c("black","blue","yellow","orange","red")[1+na.omit(subset(CHI_GA436, CHR==i))$nb_repl_selected],ylim=c(0,ymax_CHR))
+abline(h=-log10(0.01))
+
+dev.off()
+
+
+
+###################################################
+### Little genetic overlap between replicates ? ###
+###################################################
 
 ### We want to estimate whether some founder haplotype are rising - how to link them with the GWAS haplotypes ?
 ### Load cluster data
+all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R8.txt'),sep='\t',h=TRUE)
 all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R8.txt'),sep='\t',h=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
@@ -132,6 +171,9 @@ boxplot(all_cluster_merged_selected_uniq_clust$pleiotropy~all_cluster_merged_sel
 boxplot(all_cluster_merged_selected_uniq_clust$pleiotropy_NaCl~all_cluster_merged_selected_uniq_clust$nb_clust)
 boxplot(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM~all_cluster_merged_selected_uniq_clust$nb_clust)
 
+
+summary(glm(pleiotropy_NaCl~nb_clust,family='poisson',data=all_cluster_merged_selected_uniq_clust))
+
 tapply(all_cluster_merged_selected_uniq_clust$pleiotropy,all_cluster_merged_selected_uniq_clust$nb_clust,mean)
 tapply(all_cluster_merged_selected_uniq_clust$pleiotropy_NaCl,all_cluster_merged_selected_uniq_clust$nb_clust,mean)
 tapply(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM,all_cluster_merged_selected_uniq_clust$nb_clust,mean)
@@ -140,13 +182,40 @@ mean(all_cluster_merged_selected_uniq_clust$pleiotropy)
 mean(all_cluster_merged_selected_uniq_clust$pleiotropy_NaCl)
 mean(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM)
 
+### OK but multiple SNPs per Cluster ?
+clust_env <- new.env()
+load("RData/GWAS_cluster_results_BLUE_concatenated_R8.RData",envir=clust_env)
+### Clusters with at least one selected SNPS
+clust_env$all_GWAS_clusters=merge(clust_env$all_GWAS_clusters,clust_env$df_clusters)
+slct_clust <- subset(clust_env$all_GWAS_clusters,group%in%all_cluster_merged_selected_uniq_clust$group)
+
+## Ok, only retain the maximum per cluster ?
+uniq_selected_clust = data.frame(group=sort(unique(all_cluster_merged_selected_uniq_clust$group)))
+uniq_selected_clust$nb_clust=NA
+for(i in 1:nrow(uniq_selected_clust)){
+  uniq_selected_clust$nb_clust[i]=max(subset(all_cluster_merged_selected_uniq_clust,group==uniq_selected_clust$group[i])$nb_clust)
+}
+
+slct_clust=merge(slct_clust,uniq_selected_clust)
+slct_clust$pleio = rowSums(slct_clust[,paste0("is_sign_T",1:14)],na.rm=TRUE)
+slct_clust$pleio_NGM = rowSums(slct_clust[,paste0("is_sign_T",1:7)],na.rm=TRUE)
+slct_clust$pleio_NaCl = rowSums(slct_clust[,paste0("is_sign_T",8:14)],na.rm=TRUE)
+
+clust_env$all_GWAS_clusters$pleio=rowSums(clust_env$all_GWAS_clusters[,paste0("is_sign_T",1:14)],na.rm=TRUE)
+clust_env$all_GWAS_clusters$pleio_NGM=rowSums(clust_env$all_GWAS_clusters[,paste0("is_sign_T",1:7)],na.rm=TRUE)
+clust_env$all_GWAS_clusters$pleio_NaCl=rowSums(clust_env$all_GWAS_clusters[,paste0("is_sign_T",8:14)],na.rm=TRUE)
+
+plot(tapply(slct_clust$pleio,slct_clust$nb_clust,mean))#,ylim=c(0,1.3),xlim=c(0,4.1))
+points(0,mean(clust_env$all_GWAS_clusters$pleio),pch=16)
+#arrows(0,mean(clust_env$all_GWAS_clusters$pleio)-sd(clust_env$all_GWAS_clusters$pleio),0,mean(clust_env$all_GWAS_clusters$pleio)+sd(clust_env$all_GWAS_clusters$pleio),code=3,angle=90)
+
+tapply(slct_clust$pleio,slct_clust$nb_clust,mean)
+tapply(slct_clust$pleio_NGM,slct_clust$nb_clust,mean)
+tapply(slct_clust$pleio_NaCl,slct_clust$nb_clust,mean)
+
+
 ##### So could we conclude for non parallelism ? Is it due to initial random variation among populations ?
 ##### We should try to detect clusters ? But at the level of a single population it is not really possible ???
-
-
-
-
-
 
 
 subset(CHI_GA136,CHR==4 & P >6)
@@ -177,7 +246,6 @@ heatmap(cor(na.omit(GA_af_changes)))
 
 snps_positions.sync$rs=paste(snps_positions.sync$CHROM,snps_positions.sync$POS,sep='_')
 
-
 plot(subset(CMH_GA36,CHR==2)$BP,subset(CMH_GA36,CHR==2)$P,pch=16,col=adjustcolor("grey",alpha=.5))#,col=rainbow(50)[subset(clust_with_Man,CHROM=="I")$group])
 #points(subset(clust_with_Man,CHROM=="II" & is_sign_T14)$BP,subset(clust_with_Man,CHROM=="II"  & is_sign_T14)$P,pch=16,col=adjustcolor("red",alpha=.3))
 points(subset(clust_with_Man,CHROM=="II" )$BP,subset(clust_with_Man,CHROM=="II" )$P,pch=16,col=adjustcolor("red",alpha=.3))
@@ -187,6 +255,10 @@ pdf("plots/Manhattan_G36_with_clusters.pdf")
 for(i in 1:14){
 manhattan(subset(CMH_GA36,P>2), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,highlight=subset(clust_with_Man,clust_with_Man[,paste0("is_sign_T",i)] & P>2)$SNP)
 }
+dev.off()
+
+pdf("Lille_Man_with_clust.pdf",h=5,w=9)
+manhattan(CMH_GA36, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,suggestiveline=FALSE,genomewideline=5,highlight=subset(clust_with_Man,clust_with_Man[,paste0("is_sign_T",i)])$SNP)
 dev.off()
 
 # Convert data.frames to data.tables for speed
@@ -263,17 +335,19 @@ dim(merge(clusters_af,all_GWAS_clusters))
 all_GWAS_clusters=merge(all_GWAS_clusters,clusters_af)
 head(all_GWAS_clusters)
 
-plot(all_GWAS_clusters$beta_T14,all_GWAS_clusters$GA136,pch=16,type="n")
+pdf("Lille_03.pdf",h=5)
+plot(all_GWAS_clusters$beta_T14,all_GWAS_clusters$GA236,pch=16,type="n",bty="n",xlab='SNP effect',ylab="Allele frequeny change")
 abline(h=0,lty=2,col="darkorange",lwd=2)
 points(all_GWAS_clusters$beta_T14[!all_GWAS_clusters$is_sign_T14],all_GWAS_clusters$GA136[!all_GWAS_clusters$is_sign_T14],pch=16)
 points(all_GWAS_clusters$beta_T14[all_GWAS_clusters$is_sign_T14],all_GWAS_clusters$GA136[all_GWAS_clusters$is_sign_T14],pch=16,col="red")
+dev.off()
 
-
-plot(all_GWAS_clusters$beta_T7,all_GWAS_clusters$GA136,pch=16,type="n")
+pdf("Lille_04.pdf",h=5)
+plot(all_GWAS_clusters$beta_T7,all_GWAS_clusters$GA136,pch=16,type="n",bty="n",xlab='SNP effect',ylab="Allele frequeny change")
 abline(h=0,lty=2,col="darkorange",lwd=2)
 points(all_GWAS_clusters$beta_T7[!all_GWAS_clusters$is_sign_T7],all_GWAS_clusters$GA136[!all_GWAS_clusters$is_sign_T7],pch=16)
 points(all_GWAS_clusters$beta_T7[all_GWAS_clusters$is_sign_T7],all_GWAS_clusters$GA136[all_GWAS_clusters$is_sign_T7],pch=16,col="red")
-
+dev.off()
 
 test=subset(all_GWAS_clusters,is_sign_T14)
 test$GA_mean = (test$GA136 + test$GA236 + test$GA436)/3
