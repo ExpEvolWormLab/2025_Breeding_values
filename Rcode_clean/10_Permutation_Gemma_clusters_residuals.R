@@ -65,7 +65,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     stopCluster(cl)
     # Stop the cluster
     
-    save(list=ls(),file=paste0('Permutation_gemma_trait_clusters_BLUE_with_residuals_R',round(10*threshold_clust),'_',j,'.RData'))
+    save(list=ls(),file=paste0('Permutation_Gemma_clusters_BLUE_with_residuals/Permutation_gemma_trait_clusters_BLUE_with_residuals_R',round(10*threshold_clust),'_',j,'.RData'))
     
   }
 }
