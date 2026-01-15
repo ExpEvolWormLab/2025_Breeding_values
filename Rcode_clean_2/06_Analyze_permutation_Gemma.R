@@ -7,7 +7,7 @@ for(j in 1:14){
 traitJ = read.table(paste0("gemma_results_BLUE/gwas_results_BLUE_T",j,".assoc.txt"),h=TRUE)
 # Load permutation results
 perm.temp <- new.env()
-load(paste0("Permutation_Gemma_BLUE/Permutation_gemma_trait_BLUE_",j,".RData"),envir=perm.temp)
+load(paste0("Permutation_Gemma_BLUE_with_residuals/Permutation_gemma_trait_BLUE_",j,".RData"),envir=perm.temp)
 List_output=perm.temp$List_output
 ## Some errors - we will keep only complete lists
 list_length <- unlist(lapply(List_output,nrow))

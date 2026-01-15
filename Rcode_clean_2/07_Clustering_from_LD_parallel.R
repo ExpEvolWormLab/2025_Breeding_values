@@ -8,7 +8,6 @@ library(parallel)
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
-
 load("RData//GWAS_results_concatenated.RData")
 ###############################################
 #### Create the clusters and save - Merged ####
@@ -19,7 +18,7 @@ all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
 all_GWAS$CHROM=all_GWAS$chr
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df)>=1) # ~135 k SNPS at least sign for one trait
+table(rowSums(sign_all_df)>=1) # ~ 95 k SNPS at least sign for one trait
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
 #####################################
@@ -219,6 +218,7 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
   print(idx_chr)
   # No singletons
   df.CHR=subset(all_cluster_merged,CHROM==idx_chr & !is.na(cluster))
+  if(nrow(df.CHR)>0){
   df.CHR$group=as.numeric(as.factor(as.character(df.CHR$group)))
   # Singletons
   df.CHR.single=subset(all_cluster_merged,CHROM==idx_chr & is.na(cluster))
@@ -257,7 +257,7 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
   }
   dev.off()
 }
-
+}
 #### Output the clusters
 write.table(all_cluster_merged,file=paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',row.names=FALSE,quote=FALSE)
 }
