@@ -23,11 +23,11 @@ system("conda activate gemma-env")
 
 
 ## For the first trait:
-for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
+for(threshold_clust in c(0.2,0.4,0.6,0.9,1)){
   print(threshold_clust)
   #j is the number of the trait
   
-  for(j in 1:14){
+  for(j in 1:5){
   print(j)    
     #Instead of phenotypes, we load mean + residuals
     #phenotypes <- read.table("data_BLUE/gemma_pheno.txt")

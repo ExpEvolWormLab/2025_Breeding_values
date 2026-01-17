@@ -4,9 +4,10 @@ Reading Files ...
 ## number of analyzed individuals = 966
 ## number of covariates = 1
 ## number of phenotypes = 1
-## number of total SNPs/var        =     2604
-## number of analyzed SNPs         =     2604
+## number of total SNPs/var        =     2431
+## number of analyzed SNPs         =     2431
 Start Eigen-Decomposition...
 pve estimate =0.105677
 se(pve) =0.0359712
-                                                   0%===================                                38%======================================             77%================================================== 100%================================================== 100%
+                                                   0%====================                               41%=========================================          82%================================================== 100%================================================== 100%
+**** INFO: Done.
