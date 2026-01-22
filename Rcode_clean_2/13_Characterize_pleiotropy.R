@@ -1,8 +1,8 @@
 rm(list=ls());gc()
 library(data.table)
 
-threshold_clust =0.8
-load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),".RData"))
+threshold_clust = 0.8
+load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
 load(file="RData/GWAS_results_concatenated.RData")
 gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
 #GWAS_with_clust <- read.table(paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
@@ -62,7 +62,7 @@ gp_min=tapply(all_GWAS_sign$ps,all_GWAS_sign$group,min)
 gp_max=tapply(all_GWAS_sign$ps,all_GWAS_sign$group,max)
 gp_type=tapply(all_GWAS_sign$chr_type,all_GWAS_sign$group,unique)
 table(as.numeric(lapply(gp_type,length)))
-## Only 37 with 2 types
+## Only 28 with 2 types
 #gp_type[as.numeric(lapply(gp_type,length))==2] # We decide center>arm>tip
 for(i in c(1:length(gp_type))[as.numeric(lapply(gp_type,length))==2]){
   if(gp_type[[i]][1]=="left_tip"){
@@ -306,9 +306,6 @@ points(rowS_NaCl_clust,type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust,type='b',col='cornflowerblue',lty=2)
 legend(4,1000000,pch=16,col=c("cornflowerblue","darkorange"),c('Low Salt',"High Salt"))
 dev.off()
-
-
-
 
 library(gplots)
 library(limma) 
@@ -836,9 +833,6 @@ plot(scale(eigen(G_mat)$vectors[,1]),scale(eigen(G_mat_P1)$vectors[,1]))
  
  legend(0,320,c("Low Salt","High Salt","Across environment","Same trait"),pch=c(16,16,16,11),col=c("blue","orange","black","red"),cex=.6,ncol=2)
  dev.off()
- 
- 
- 
  
  
  plot(abs(allPcor$Pcor)[vect_kept],allPcor$nbClust[vect_kept],pch=c(16,11)[1+allPcor$same_T[vect_kept]],

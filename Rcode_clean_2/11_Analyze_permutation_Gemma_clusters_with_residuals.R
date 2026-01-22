@@ -3,8 +3,7 @@ gc()
 library(qqman)
 library(data.table)
 
-#for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
-for(threshold_clust in c(0.8)){
+for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
   print(threshold_clust)
   for(j in 1:14){
     

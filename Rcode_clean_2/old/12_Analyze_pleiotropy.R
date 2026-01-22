@@ -51,7 +51,7 @@ heatmap(cor(na.omit(all_GWAS_clusters[,paste0("beta_T",1:14)])),
         labCol=vect_P_traits_bothEnv)
 
 ## With the non-significant
-plot(rowS_NGM/sum(rowS_NGM),type='b',col='cornflowerblue',ylim=c(.00001,1),log="y",xlim=c(0,8))
+plot(rowS_NGM/sum(rowS_NGM),type='b',col='cornflowerblue',ylim=c(.000001,1),log="y",xlim=c(0,8))
 points(rowS_NaCl/sum(rowS_NaCl),type='b',col='darkorange')
 points(rowS_NaCl_clust/sum(rowS_NaCl_clust),type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust/sum(rowS_NGM_clust),type='b',col='cornflowerblue',lty=2)
@@ -60,7 +60,7 @@ points(rowS_NGM_clust/sum(rowS_NGM_clust),type='b',col='cornflowerblue',lty=2)
 pdf('plots_BLUEs//Pleiotropie_NGM_NaCl_BLUE.pdf')
 rowS_NGM2=rowS_NGM;rowS_NGM_clust2=rowS_NGM_clust
 rowS_NaCl2=rowS_NaCl;rowS_NaCl_clust2=(rowS_NaCl_clust)
-plot(rowS_NGM2/sum(rowS_NGM2),type='b',col='cornflowerblue',ylim=c(.00001,1),log="y",
+plot(rowS_NGM2/sum(rowS_NGM2),type='b',col='cornflowerblue',ylim=c(.000001,1),log="y",
      ylab="Number of significant SNPs/Clusters",xlab='Number of traits',xlim=c(0,8))
 points(rowS_NaCl2/sum(rowS_NaCl2),type='b',col='darkorange')
 points(rowS_NaCl_clust2/sum(rowS_NaCl_clust2),type='b',col='darkorange',lty=2)
@@ -89,7 +89,11 @@ vennDiagram(vennCounts(
   names=c("SF NGM","SF NaCl"),main='All')
 
 vennDiagram(vennCounts(
-  all_GWAS_clusters[,paste0("is_sign_T",c(14,11))]),
+  all_GWAS_clusters[,paste0("is_sign_T",c(7,14))]),
+  names=c("area NGM","area NaCl"),main='All')
+
+vennDiagram(vennCounts(
+  all_GWAS_clusters[,paste0("is_sign_T",c(14,7))]),
   names=c("test","Area NGM"),main='All')
 
 ### Could there be SNPs in the same genes but not the same variants 
