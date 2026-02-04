@@ -49,6 +49,16 @@ snps_positions.sync$POS=tstrsplit(snps_positions.sync$ID,"[.]")[[2]]
 head(snps_positions.sync)
 dim(snps_positions.sync) # 307,600 SNPS
 
+a6140_data=snps_positions.sync
+a6140_data$freq=all.af[,populations$population=='A6G140']
+a6140_data$cov=all.cov[,populations$population=='A6G140']
+
+alleles <- as.data.frame(GA.sync@alleles)[,c("chr","pos","major","minor")]
+names(alleles)[1:2]=c("CHROM","POS")
+a6140_data=merge(alleles,a6140_data)
+write.table(a6140_data,file="data/A6140_frequencies.txt",sep='\t',quote=FALSE,row.names=FALSE)
+
+
 ## PCA between samples ?
 
 pca1 <- prcomp(t(na.omit(all.af)),center=TRUE,scale=FALSE)
