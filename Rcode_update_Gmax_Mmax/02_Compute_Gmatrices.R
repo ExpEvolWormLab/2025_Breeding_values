@@ -70,11 +70,11 @@ all(rownames(GRM_NaCl) == phen_NaCl_sub$line)
 
 Gmat_model_NGM <- brm(mvbind(SF,SB,FS,FB,BS,BF,area) ~ 1 + (1|p|gr(line,cov=K)),
            data  = phen_NGM_sub,data2=list(K=as.matrix(GRM_NGM)),chains = 20,iter = 50000,
-           cores = 10,control = list(adapt_delta = 0.99, max_treedepth = 15))
+           cores = 20,control = list(adapt_delta = 0.99, max_treedepth = 15))
 
 Gmat_model_NaCl <- brm(mvbind(SF,SB,FS,FB,BS,BF,area) ~ 1 + (1|p|gr(line,cov=K)),
                       data  = phen_NaCl_sub,data2=list(K=as.matrix(GRM_NaCl)),chains = 20,iter = 50000,
-                      cores = 10,control = list(adapt_delta = 0.99, max_treedepth = 15))
+                      cores = 20,control = list(adapt_delta = 0.99, max_treedepth = 15))
 
 
 save(list=ls(),file='RData/Gmatrix_output.RData')
