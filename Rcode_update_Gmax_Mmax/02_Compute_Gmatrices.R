@@ -5,6 +5,8 @@ library(data.table)
 library(AGHmatrix)
 library(brms)
 
+set.seed(10987345)
+
 vect_P_traits= c("SF","SB","FS","FB","BS","BF","area")
 # Load phenotypic data
 
