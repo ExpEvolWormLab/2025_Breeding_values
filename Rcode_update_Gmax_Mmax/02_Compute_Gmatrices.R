@@ -5,6 +5,7 @@ library(data.table)
 library(AGHmatrix)
 library(brms)
 
+
 set.seed(10987345)
 
 vect_P_traits= c("SF","SB","FS","FB","BS","BF","area")
@@ -70,7 +71,7 @@ all(rownames(GRM_NaCl) == phen_NaCl_sub$line)
 
 fit_pilot <- brm(mvbind(SF,SB,FS,FB,BS,BF,area) ~ 1 + (1|p|gr(line,cov=K)),
                  data  = phen_NGM_sub,data2=list(K=as.matrix(GRM_NGM)),
-                 chains = 15,iter = 1000,warmup = 500,   # short pilot
+                 chains = 10,cores=10,iter = 1000,warmup = 500,   # short pilot
                  control = list(adapt_delta = 0.99, max_treedepth = 15))
 
 #Gmat_model_NGM <- brm(mvbind(SF,SB,FS,FB,BS,BF,area) ~ 1 + (1|p|gr(line,cov=K)),
