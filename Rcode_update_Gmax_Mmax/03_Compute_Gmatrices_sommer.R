@@ -73,24 +73,27 @@ all(rownames(GRM_NaCl) == phen_NaCl_sub$line)
 ## With sommer
 
 library(sommer)
-fit <- mmer(
+
+fit_NGM <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
   random = ~ vs(line, Gu = GRM_NGM, Gtc = unsm(7)),
   rcov   = ~ vs(units, Gtc = unsm(7)),
   data   = phen_NGM_sub
 )
 
+save(list=ls(),file='RData/Gmat_sommer_NGM.RData')
+
 Gmat_NGM <- fit$sigma$`line`
 Rmat_NGM <- fit$sigma$`units`
 
 fit.NaCl <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
-  random = ~ vs(line, Gu = GRM_NaCl, Gtc = unsm(7), Gti = list(startG)),
-  rcov   = ~ vs(units, Gtc = unsm(7), Gti = list(startR)),
+  random = ~ vs(line, Gu = GRM_NaCl, Gtc = unsm(7)),
+  rcov   = ~ vs(units, Gtc = unsm(7)),
   data   = phen_NaCl_sub
 )
 
 Gmat_NaCl <- fit.NaCl$sigma$`line`
 Rmat_NaCl <- fit.NaCl$sigma$`units`
 
-save(list=ls(),file='RData/Gmat_sommer_NGM.RData')
+save(list=ls(),file='RData/Gmat_sommer_NaCl.RData')
