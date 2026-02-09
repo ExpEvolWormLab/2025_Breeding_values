@@ -71,7 +71,7 @@ all(rownames(GRM_NaCl) == phen_NaCl_sub$line)
 
 fit_pilot <- brm(mvbind(SF,SB,FS,FB,BS,BF,area) ~ 1 + (1|p|gr(line,cov=K)),
                  data  = phen_NGM_sub,data2=list(K=as.matrix(GRM_NGM)),
-                 chains = 10,cores=10,iter = 1000,warmup = 500)#,   # short pilot
+                 chains = 2,cores=2,iter = 1000,warmup = 500)#,   # short pilot
                  #control = list(adapt_delta = 0.99, max_treedepth = 15))
 
 #Gmat_model_NGM <- brm(mvbind(SF,SB,FS,FB,BS,BF,area) ~ 1 + (1|p|gr(line,cov=K)),
