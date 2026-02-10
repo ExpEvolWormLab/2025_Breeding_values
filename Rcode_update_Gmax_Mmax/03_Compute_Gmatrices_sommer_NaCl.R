@@ -76,8 +76,8 @@ library(sommer)
 
 fit.NaCl <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
-  random = ~ vs(line, Gu = GRM_NaCl, Gtc = unsm(7)),
-  rcov   = ~ vs(units, Gtc = unsm(7)),
+  random = ~ vsr(line, Gu = GRM_NaCl, Gtc = unsm(7)),
+  rcov   = ~ vsr(units, Gtc = unsm(7)),
   data   = phen_NaCl_sub
 )
 

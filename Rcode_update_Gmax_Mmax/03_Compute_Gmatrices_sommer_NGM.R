@@ -70,14 +70,19 @@ colnames(GRM_NaCl)=strainID_ordered_NaCl
 all(rownames(GRM_NGM) == phen_NGM_sub$line)
 all(rownames(GRM_NaCl) == phen_NaCl_sub$line)
 
+## Investigate GRM matrix
+E <- eigen(GRM_NGM)
+min(E$values)
+sum(E$values < 1e-8)
+
 ## With sommer
 
 library(sommer)
 
 fit_NGM <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
-  random = ~ vs(line, Gu = GRM_NGM, Gtc = unsm(7)),
-  rcov   = ~ vs(units, Gtc = unsm(7)),
+  random = ~ vsr(line, Gu = GRM_NGM, Gtc = unsm(7)),
+  rcov   = ~ vsr(units, Gtc = unsm(7)),
   data   = phen_NGM_sub
 )
 
@@ -88,8 +93,8 @@ Rmat_NGM <- fit$sigma$`units`
 
 fit.NaCl <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
-  random = ~ vs(line, Gu = GRM_NaCl, Gtc = unsm(7)),
-  rcov   = ~ vs(units, Gtc = unsm(7)),
+  random = ~ vsr(line, Gu = GRM_NaCl, Gtc = unsm(7)),
+  rcov   = ~ vsr(units, Gtc = unsm(7)),
   data   = phen_NaCl_sub
 )
 
