@@ -3,7 +3,7 @@ gc()
 #load libraries
 #library(coda)
 #library(matrixStats)
-#library(data.table)
+library(data.table)
 #library(lme4)
 #library(MCMCglmm)
 #library(parallel)

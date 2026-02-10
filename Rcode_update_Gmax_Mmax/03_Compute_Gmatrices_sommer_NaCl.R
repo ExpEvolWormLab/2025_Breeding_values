@@ -81,7 +81,7 @@ fit.NaCl <- mmer(
   data   = phen_NaCl_sub,tolParInv=1e-2
 )
 
-Gmat_NaCl <- fit.NaCl$sigma$`line`
-Rmat_NaCl <- fit.NaCl$sigma$`units`
+Gmat_NaCl <- fit.NaCl$sigma$`u:line`
+Rmat_NaCl <- fit.NaCl$sigma$`u:units`
 
 save(list=ls(),file='RData/Gmat_sommer_NaCl.RData')
