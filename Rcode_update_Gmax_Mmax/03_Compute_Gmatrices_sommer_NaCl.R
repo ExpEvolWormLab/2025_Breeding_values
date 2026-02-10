@@ -78,7 +78,7 @@ fit.NaCl <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
   random = ~ vsr(line, Gu = GRM_NaCl, Gtc = unsm(7)),
   rcov   = ~ vsr(units, Gtc = unsm(7)),
-  data   = phen_NaCl_sub
+  data   = phen_NaCl_sub,tolParInv=1e-2
 )
 
 Gmat_NaCl <- fit.NaCl$sigma$`line`
