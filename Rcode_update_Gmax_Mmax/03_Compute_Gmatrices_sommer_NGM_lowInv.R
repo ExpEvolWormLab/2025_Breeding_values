@@ -79,7 +79,7 @@ sum(E$values < 1e-8)
 
 library(sommer)
 
-fit_NGM <- mmer(
+fit.NGM <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
   random = ~ vsr(line, Gu = GRM_NGM, Gtc = unsm(7)),
   rcov   = ~ vsr(units, Gtc = unsm(7)),
@@ -88,9 +88,6 @@ fit_NGM <- mmer(
 
 save(list=ls(),file='RData/Gmat_sommer_NGM.RData')
 
-Gmat_NGM <- fit$sigma$`line`
-Rmat_NGM <- fit$sigma$`units`
-
 fit.NaCl <- mmer(
   cbind(SF,SB,FS,FB,BS,BF,area) ~ 1,
   random = ~ vsr(line, Gu = GRM_NaCl, Gtc = unsm(7)),
@@ -98,7 +95,5 @@ fit.NaCl <- mmer(
   data   = phen_NaCl_sub,tolParInv=1e-2
 )
 
-Gmat_NaCl <- fit.NaCl$sigma$`line`
-Rmat_NaCl <- fit.NaCl$sigma$`units`
 
 save(list=ls(),file='RData/Gmat_sommer_NaCl.RData')
