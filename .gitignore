@@ -24,3 +24,4 @@ data_BLUE/genotypes_for_gemma.txt
 *.vcf
 *.gz
 *.csi
+/temp_perm
