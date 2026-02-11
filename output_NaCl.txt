@@ -1,0 +1,79 @@
+         used (Mb) gc trigger (Mb) max used (Mb)
+Ncells 300467 16.1     707682 37.8   492918 26.4
+Vcells 521929  4.0    8388608 64.0  1973577 15.1
+
+   *****       ***   vcfR   ***       *****
+   This is vcfR 1.15.0 
+     browseVignettes('vcfR') # Documentation
+     citation('vcfR') # Citation
+   *****       *****      *****       *****
+
+Loading required package: Rcpp
+Loading 'brms' package (version 2.23.0). Useful instructions
+can be found by typing help('brms'). A more detailed introduction
+to the package is available through vignette('brms_overview').
+
+Attaching package: ‘brms’
+
+The following object is masked from ‘package:stats’:
+
+    ar
+
+[1] 1366    8
+[1] 1182    8
+Scanning file to determine attributes.
+File attributes:
+  meta lines: 12
+  header_line: 13
+  variant count: 2112
+  column count: 1010
+Meta line 12 read in.
+All meta lines processed.
+gt matrix initialized.
+Character matrix gt created.
+  Character matrix gt rows: 2112
+  Character matrix gt cols: 1010
+  skip: 0
+  nrows: 2112
+  row_num: 0
+Processed variant 1000Processed variant 2000Processed variant: 2112
+All variants processed
+ num [1:1001, 1:2112] 1 0 0 0 0 0 0 0 0 0 ...
+Initial data: 
+	Number of Individuals: 1001 
+	Number of Markers: 2112 
+
+Missing data check: 
+	Total SNPs: 2112 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 2112  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  2112 SNPs 
+	Final:  2112  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 3.386  seconds 
+[1] 1001 1001
+
+TRUE 
+ 964 
+
+TRUE 
+ 939 
+[1] TRUE
+[1] TRUE
+Loading required package: Matrix
+Loading required package: MASS
+Loading required package: crayon
+Loading required package: enhancer
+iteration    LogLik     wall    cpu(sec)   restrained
+    1      -4159.47   12:55:32      1711           0
+    2      -2631.61   13:24:42      3461           0
+    3      -1417.29   13:52:14      5113           0
+    4      -2176.6   14:16:54      6593           0

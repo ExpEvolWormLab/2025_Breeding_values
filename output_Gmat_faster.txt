@@ -1,0 +1,337 @@
+         used (Mb) gc trigger (Mb) max used (Mb)
+Ncells 300467 16.1     707682 37.8   492918 26.4
+Vcells 521929  4.0    8388608 64.0  1973577 15.1
+
+   *****       ***   vcfR   ***       *****
+   This is vcfR 1.15.0 
+     browseVignettes('vcfR') # Documentation
+     citation('vcfR') # Citation
+   *****       *****      *****       *****
+
+Loading required package: Rcpp
+Loading 'brms' package (version 2.23.0). Useful instructions
+can be found by typing help('brms'). A more detailed introduction
+to the package is available through vignette('brms_overview').
+
+Attaching package: ‘brms’
+
+The following object is masked from ‘package:stats’:
+
+    ar
+
+[1] 1366    8
+[1] 1182    8
+Scanning file to determine attributes.
+File attributes:
+  meta lines: 12
+  header_line: 13
+  variant count: 2112
+  column count: 1010
+Meta line 12 read in.
+All meta lines processed.
+gt matrix initialized.
+Character matrix gt created.
+  Character matrix gt rows: 2112
+  Character matrix gt cols: 1010
+  skip: 0
+  nrows: 2112
+  row_num: 0
+Processed variant 1000Processed variant 2000Processed variant: 2112
+All variants processed
+ num [1:1001, 1:2112] 1 0 0 0 0 0 0 0 0 0 ...
+Initial data: 
+	Number of Individuals: 1001 
+	Number of Markers: 2112 
+
+Missing data check: 
+	Total SNPs: 2112 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 2112  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  2112 SNPs 
+	Final:  2112  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.705  seconds 
+[1] 1001 1001
+
+TRUE 
+ 964 
+
+TRUE 
+ 939 
+[1] TRUE
+[1] TRUE
+Setting 'rescor' to TRUE by default for this model
+Compiling Stan program...
+Start sampling
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 5).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 6).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 7).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 8).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 9).
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 10).
+Chain 1: 
+Chain 1: Gradient evaluation took 1.73515 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 17351.5 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 2: 
+Chain 2: Gradient evaluation took 1.64605 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 16460.5 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 5: 
+Chain 5: Gradient evaluation took 2.08166 seconds
+Chain 5: 1000 transitions using 10 leapfrog steps per transition would take 20816.6 seconds.
+Chain 5: Adjust your expectations accordingly!
+Chain 5: 
+Chain 5: 
+Chain 8: 
+Chain Chain 38: : 
+Gradient evaluation took 1.9456 seconds
+Chain 8Chain : 3: 1000 transitions using 10 leapfrog steps per transition would take 19456 seconds.Gradient evaluation took 2.04903 seconds
+
+Chain 8Chain : 3Adjust your expectations accordingly!: 
+1000 transitions using 10 leapfrog steps per transition would take 20490.3 seconds.Chain 
+8Chain : 3
+: Chain Adjust your expectations accordingly!8
+: Chain 
+3: 
+Chain 3: 
+Chain 7: 
+Chain 7: Gradient evaluation took 2.01316 seconds
+Chain 7: 1000 transitions using 10 leapfrog steps per transition would take 20131.6 seconds.
+Chain 7: Adjust your expectations accordingly!
+Chain 7: 
+Chain 7: 
+Chain 6: 
+Chain 6: Gradient evaluation took 2.42391 seconds
+Chain 6: 1000 transitions using 10 leapfrog steps per transition would take 24239.1 seconds.
+Chain 6: Adjust your expectations accordingly!
+Chain 6: 
+Chain 6: 
+Chain 9: 
+Chain 9: Gradient evaluation took 2.41599 seconds
+Chain 9: 1000 transitions using 10 leapfrog steps per transition would take 24159.9 seconds.
+Chain 9: Adjust your expectations accordingly!
+Chain 9: 
+Chain 9: 
+Chain 4: 
+Chain 4: Gradient evaluation took 2.59234 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 25923.4 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 10: 
+Chain 10: Gradient evaluation took 2.59896 seconds
+Chain 10: 1000 transitions using 10 leapfrog steps per transition would take 25989.6 seconds.
+Chain 10: Adjust your expectations accordingly!
+Chain 10: 
+Chain 10: 
+Chain 8: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 7: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 3: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 4: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 9: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 2: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 10: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 5: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 6: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 1: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 10: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 8: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 3: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 9: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 6: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 5: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 2: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 7: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 4: Iteration: 100 / 1000 [ 10%]  (Warmup)
+Chain 1: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 9: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 3: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 10: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 5: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 2: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 7: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 1: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 6: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 4: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 3: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 9: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 10: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 5: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 1: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 7: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 9: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 3: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 8: Iteration: 200 / 1000 [ 20%]  (Warmup)
+Chain 4: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 10: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 6: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 1: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 1: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 5: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 7: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 3: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 3: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 9: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 9: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 4: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 6: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 10: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 10: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 5: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 2: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 5: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 1: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 8: Iteration: 300 / 1000 [ 30%]  (Warmup)
+Chain 7: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 7: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 3: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 4: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 4: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 9: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 6: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 6: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 10: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 5: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 8: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 1: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 7: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 3: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 4: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 9: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 6: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 10: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 8: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 8: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 5: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 7: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 3: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 2: Iteration: 400 / 1000 [ 40%]  (Warmup)
+Chain 4: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 9: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 6: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 10: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 8: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 5: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 7: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 4: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 9: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 6: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 10: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 5: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 8: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 120509 seconds (Warm-up)
+Chain 1:                72729.9 seconds (Sampling)
+Chain 1:                193238 seconds (Total)
+Chain 1: 
+Chain 7: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 2: Iteration: 500 / 1000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 2: Iteration: 501 / 1000 [ 50%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 124395 seconds (Warm-up)
+Chain 3:                72934 seconds (Sampling)
+Chain 3:                197329 seconds (Total)
+Chain 3: 
+Chain 9: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 9: 
+Chain 9:  Elapsed Time: 125136 seconds (Warm-up)
+Chain 9:                74134.4 seconds (Sampling)
+Chain 9:                199271 seconds (Total)
+Chain 9: 
+Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 6: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 10: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 10: 
+Chain 10:  Elapsed Time: 129285 seconds (Warm-up)
+Chain 10:                73424.7 seconds (Sampling)
+Chain 10:                202709 seconds (Total)
+Chain 10: 
+Chain 5: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 5: 
+Chain 5:  Elapsed Time: 133381 seconds (Warm-up)
+Chain 5:                69897 seconds (Sampling)
+Chain 5:                203278 seconds (Total)
+Chain 5: 
+Chain 8: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 7: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 7: 
+Chain 7:  Elapsed Time: 137955 seconds (Warm-up)
+Chain 7:                71173 seconds (Sampling)
+Chain 7:                209128 seconds (Total)
+Chain 7: 
+Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 140174 seconds (Warm-up)
+Chain 4:                71734.5 seconds (Sampling)
+Chain 4:                211909 seconds (Total)
+Chain 4: 
+Chain 6: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 6: 
+Chain 6:  Elapsed Time: 142626 seconds (Warm-up)
+Chain 6:                71546.7 seconds (Sampling)
+Chain 6:                214173 seconds (Total)
+Chain 6: 
+Chain 8: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 2: Iteration: 600 / 1000 [ 60%]  (Sampling)
+Chain 8: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 8: 
+Chain 8:  Elapsed Time: 160951 seconds (Warm-up)
+Chain 8:                66854.1 seconds (Sampling)
+Chain 8:                227805 seconds (Total)
+Chain 8: 
+Chain 2: Iteration: 700 / 1000 [ 70%]  (Sampling)
+Chain 2: Iteration: 800 / 1000 [ 80%]  (Sampling)
+Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 197235 seconds (Warm-up)
+Chain 2:                118034 seconds (Sampling)
+Chain 2:                315269 seconds (Total)
+Chain 2: 
+Warning messages:
+1: In the future, 'rescor' will be set to FALSE by default for all models. It is thus recommended to explicitely set 'rescor' via 'set_rescor' instead of using the default. 
+2: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#bulk-ess 
+3: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#tail-ess 
+Error in gzfile(file, "wb") : cannot open the connection
+Calls: save -> gzfile
+In addition: Warning message:
+In gzfile(file, "wb") :
+  cannot open compressed file 'RData/Gmatrix_output_faster.RData', probable reason 'No such file or directory'
+Execution halted
