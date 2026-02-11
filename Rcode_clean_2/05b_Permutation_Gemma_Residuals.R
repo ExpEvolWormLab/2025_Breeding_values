@@ -19,6 +19,7 @@ gc()
 #write.table(residuals_pheno,file='data_BLUE/residuals_pheno_for_permutations.txt',quote=FALSE,row.names=FALSE,col.names=FALSE)
 #write.table(y_hat,file='data_BLUE/mean_pheno_for_permutations.txt',quote=FALSE,row.names=FALSE,col.names=FALSE)
 
+system("conda init")
 system("conda activate gemma-env")
 ## For the first trait:
 
