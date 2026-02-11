@@ -3,8 +3,8 @@ gc()
 library(AGHmatrix)
 library(data.table)
 ## load the phenotypes
-BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
-BLUE2 <- read.table("BLUES_NaCl.txt",sep='\t',h=TRUE)
+BLUE1 <- read.table("RData_BLUEs/BLUES_NGM.txt",sep='\t',h=TRUE)
+BLUE2 <- read.table("RData_BLUEs/BLUES_NaCl.txt",sep='\t',h=TRUE)
 
 BLUE1$traitID=paste0(BLUE1$traitID,'_NGM')
 BLUE2$traitID=paste0(BLUE2$traitID,'_NaCl')
@@ -27,7 +27,6 @@ corr_isotypes <- corr_isotypes[,c(1,3)]
 corr_isotypes=subset(corr_isotypes,Line!=Representant_line)
 table(removed_isotypes$V1%in%corr_isotypes$Representant_line)
 replaced_iso <- subset(corr_isotypes,Line%in%removed_isotypes$V1)
-
 
 
 all_BLUEs$traitID <- factor(as.character(all_BLUEs$traitID),levels = 
