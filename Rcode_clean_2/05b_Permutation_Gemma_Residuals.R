@@ -25,7 +25,7 @@ gc()
 ## For the first trait:
 
 #j is the number of the trait
-for(j in 1){
+for(j in 1:14){
   
   mean_pheno <- read.table("data_BLUE/mean_pheno_for_permutations.txt")
   resid_pheno <- read.table("data_BLUE/residuals_pheno_for_permutations.txt")
