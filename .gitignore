@@ -25,3 +25,4 @@ data_BLUE/genotypes_for_gemma.txt
 *.gz
 *.csi
 /temp_perm
+/temp_perm
