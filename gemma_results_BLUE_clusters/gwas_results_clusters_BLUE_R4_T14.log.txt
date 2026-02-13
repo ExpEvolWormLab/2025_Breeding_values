@@ -10,28 +10,28 @@
 ##
 ## Command Line Input = gemma -g data_BLUE_clusters/genotypes_clusters_R4.txt -k data_BLUE/kinship.txt -lmm 4 -p data_BLUE/split/gemma_pheno_T14.txt -o gwas_results_clusters_BLUE_R4_T14 
 ##
-## Date = Fri Jan 16 15:38:38 2026
+## Date = Fri Feb 13 21:13:03 2026
 ##
 ## Summary Statistics:
 ## number of total individuals = 966
-## number of analyzed individuals = 940
+## number of analyzed individuals = 938
 ## number of covariates = 1
 ## number of phenotypes = 1
-## number of total SNPs/var = 2431
-## number of analyzed SNPs/var = 2431
-## REMLE log-likelihood in the null model = -548.98
-## MLE log-likelihood in the null model = -548.993
-## pve estimate in the null model = 0.149029
-## se(pve) in the null model = 0.0460312
-## vg estimate in the null model = 0.0143517
-## ve estimate in the null model = 0.16374
-## beta estimate in the null model =   0.256963
-## se(beta) =   0.0131982
+## number of total SNPs/var = 2353
+## number of analyzed SNPs/var = 2353
+## REMLE log-likelihood in the null model = -576.893
+## MLE log-likelihood in the null model = -576.939
+## pve estimate in the null model = 0.146217
+## se(pve) in the null model = 0.0460136
+## vg estimate in the null model = 0.0149729
+## ve estimate in the null model = 0.174687
+## beta estimate in the null model =   0.256888
+## se(beta) =   0.0136467
 ##
 ## Computation Time:
-## total computation time = 7.12719 min 
+## total computation time = 3.47578 min 
 ## computation time break down: 
-##      time on eigen-decomposition = 6.89547 min 
-##      time on calculating UtX = 0.0467214 min 
-##      time on optimization = 0.122867 min 
+##      time on eigen-decomposition = 3.30461 min 
+##      time on calculating UtX = 0.0399311 min 
+##      time on optimization = 0.0688592 min 
 ##
