@@ -8,7 +8,7 @@ library(parallel)
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
-load("RData//GWAS_results_concatenated.RData")
+load("RData/GWAS_results_concatenated.RData")
 ###############################################
 #### Create the clusters and save - Merged ####
 ###############################################

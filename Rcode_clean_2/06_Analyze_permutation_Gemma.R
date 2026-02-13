@@ -50,16 +50,8 @@ manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
 dev.off()
 
 concat_GWAS.temp=traitJ[,c(1:9,13,17)]
-for(p in 8:11){
+for(p in c(4,7,8:11)){
 names(concat_GWAS.temp)[p]=paste0(names(concat_GWAS.temp)[p],"_T",j)
-}
-
-if(j<=7){
-  names(concat_GWAS.temp)[4]="n_miss.NGM"
-  names(concat_GWAS.temp)[7]="af.NGM"
-}else{
-  names(concat_GWAS.temp)[4]="n_miss.NaCl"
-  names(concat_GWAS.temp)[7]="af.NaCl"
 }
 
 if(!exists("all_GWAS")){
