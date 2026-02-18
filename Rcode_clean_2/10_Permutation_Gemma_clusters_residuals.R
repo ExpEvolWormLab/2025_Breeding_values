@@ -34,7 +34,7 @@ for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
     
     library(parallel)
     
-    n_cores <- 10
+    n_cores <- 5
     cl <- makeCluster(n_cores)
     clusterExport(cl, varlist = c("mean_pheno","resid_pheno","j","threshold_clust"), envir = environment())
     
