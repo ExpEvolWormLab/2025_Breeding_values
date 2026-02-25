@@ -40,14 +40,14 @@ summary(abs(subset(all_GWAS_clusters,is_sign_T14)$beta_T14))
 
 ### Allele frequencies ?
 all_GWAS_clusters_T7=subset(all_GWAS_clusters,is_sign_T7)
-all_GWAS_clusters_T7$pq.NGM = all_GWAS_clusters_T7$af.NGM * (1-all_GWAS_clusters_T7$af.NGM)
+all_GWAS_clusters_T7$pq.NGM = all_GWAS_clusters_T7$af_T7 * (1-all_GWAS_clusters_T7$af_T7)
 plot(all_GWAS_clusters_T7$pq.NGM,abs(all_GWAS_clusters_T7$beta_T7),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters_T7$beta_T7)+2])
 plot(all_GWAS_clusters_T7$pq.NGM,1/(all_GWAS_clusters_T7$beta_T7^2),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters_T7$beta_T7)+2])
 
 
 all_GWAS_clusters_T14=subset(all_GWAS_clusters,is_sign_T14)
-plot(all_GWAS_clusters_T14$af.NGM,all_GWAS_clusters_T14$beta_T14,pch=16)
-all_GWAS_clusters_T14$pq.NGM = all_GWAS_clusters_T14$af.NGM * (1-all_GWAS_clusters_T14$af.NGM)
+plot(all_GWAS_clusters_T14$af_T7,all_GWAS_clusters_T14$beta_T14,pch=16)
+all_GWAS_clusters_T14$pq.NGM = all_GWAS_clusters_T14$af_T7 * (1-all_GWAS_clusters_T14$af_T7)
 plot(all_GWAS_clusters_T14$pq.NGM,abs(all_GWAS_clusters_T14$beta_T14),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters_T14$beta_T14)+2])
 plot(all_GWAS_clusters_T14$pq.NGM,1/(all_GWAS_clusters_T14$beta_T14^2),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters_T14$beta_T14)+2])
 
@@ -56,14 +56,14 @@ test.mod <- lm(I(1/all_GWAS_clusters_T14$beta_T14^2)~pq.NGM + as.factor(sign(all
 summary(test.mod)
 
 ### All SNPs ?
-all_GWAS_clusters$pq.NGM=all_GWAS_clusters$af.NGM * (1-all_GWAS_clusters$af.NGM)
+all_GWAS_clusters$pq.NGM=all_GWAS_clusters$af_T7 * (1-all_GWAS_clusters$af_T7)
 plot(all_GWAS_clusters$pq.NGM,1/(all_GWAS_clusters$beta_T7^2),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters$beta_T7)+2],ylim=c(0.1,2000000),log="y")
 
 
 ### Now plot both T7/T14
 
 all_GWAS_clusters_Area=subset(all_GWAS_clusters,is_sign_T7 | is_sign_T14)
-all_GWAS_clusters_Area$pq.NGM = all_GWAS_clusters_Area$af.NGM * (1-all_GWAS_clusters_Area$af.NGM)
+all_GWAS_clusters_Area$pq.NGM = all_GWAS_clusters_Area$af_T7 * (1-all_GWAS_clusters_Area$af_T7)
 
 all_GWAS_clusters_Area$sign_effect_retained = all_GWAS_clusters_Area$beta_T7
 all_GWAS_clusters_Area$sign_effect_retained[all_GWAS_clusters_Area$is_sign_T14 & !all_GWAS_clusters_Area$is_sign_T7] = all_GWAS_clusters_Area$beta_T14[all_GWAS_clusters_Area$is_sign_T14 & !all_GWAS_clusters_Area$is_sign_T7]

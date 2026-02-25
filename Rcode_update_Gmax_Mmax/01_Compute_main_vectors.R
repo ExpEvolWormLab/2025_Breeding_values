@@ -12,8 +12,8 @@ gc()
 vect_P_traits= c("SF","SB","FS","FB","BS","BF","area")
 # Load phenotypic data
 
-BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
-BLUE2 <- read.table("BLUES_NaCl.txt",sep='\t',h=TRUE)
+BLUE1 <- read.table("RData_BLUEs/BLUES_NGM.txt",sep='\t',h=TRUE)
+#BLUE2 <- read.table("RData_BLUEs/BLUES_NaCl.txt",sep='\t',h=TRUE)
 
 ## Create a data frame
 
@@ -131,8 +131,7 @@ ggplot(df.true.CI, aes(axis, true)) +
 
 vec_true
 
-
-trait_means <- colMeans(phen_NGM_with_fitness[, vect_P_traits])
+trait_means <- colMeans(phen_NGM_with_fitness[, vect_P_traits],na.rm=TRUE)
 # Define a grid (adjust resolution if needed)
 xseq <- seq(min(phen_NGM_with_fitness$SF), max(phen_NGM_with_fitness$SF), length.out = 50)
 yseq <- seq(min(phen_NGM_with_fitness$SB), max(phen_NGM_with_fitness$SB), length.out = 50)
@@ -194,7 +193,7 @@ e1 <- vectors[, 1]
 # Last eigenvector (smallest eigenvalue)
 e7 <- vectors[, length(values)]
 
-z0 <- colMeans(phen_NGM_with_fitness[, vect_P_traits])
+z0 <- colMeans(phen_NGM_with_fitness[, vect_P_traits],na.rm=TRUE)
 
 # Range in eigenvector coordinates
 s1 <- seq(-3, 3, length.out = 60)

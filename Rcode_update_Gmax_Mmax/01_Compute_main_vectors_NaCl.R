@@ -13,7 +13,7 @@ vect_P_traits= c("SF","SB","FS","FB","BS","BF","area")
 # Load phenotypic data
 
 #BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
-BLUE2 <- read.table("BLUES_NaCl.txt",sep='\t',h=TRUE)
+BLUE2 <- read.table("RData_BLUEs//BLUES_NaCl.txt",sep='\t',h=TRUE)
 
 ## Create a data frame
 
@@ -132,10 +132,10 @@ ggplot(df.true.CI, aes(axis, true)) +
 vec_true
 
 
-trait_means <- colMeans(phen_NGM_with_fitness[, vect_P_traits])
+trait_means <- colMeans(phen_NaCl_with_fitness[, vect_P_traits],na.rm=TRUE)
 # Define a grid (adjust resolution if needed)
-xseq <- seq(min(phen_NGM_with_fitness$SF), max(phen_NGM_with_fitness$SF), length.out = 50)
-yseq <- seq(min(phen_NGM_with_fitness$SB), max(phen_NGM_with_fitness$SB), length.out = 50)
+xseq <- seq(min(phen_NaCl_with_fitness$SF,na.rm=TRUE), max(phen_NaCl_with_fitness$SF,na.rm=TRUE), length.out = 50)
+yseq <- seq(min(phen_NaCl_with_fitness$SB,na.rm=TRUE), max(phen_NaCl_with_fitness$SB,na.rm=TRUE), length.out = 50)
 
 grid <- expand.grid(SF = xseq, SB = yseq)
 
@@ -173,9 +173,9 @@ ggplot(grid, aes(SF, SB, z = pred_fitness)) +
 
 ggplot(grid, aes(SF, SB, z = pred_fitness)) +
   geom_contour_filled(alpha = 0.8) +
-  geom_point(data = phen_NGM_with_fitness,
+  geom_point(data = phen_NaCl_with_fitness,
              aes(SF, SB),
-             color = phen_NGM_with_fitness$rel_fit,
+             color = phen_NaCl_with_fitness$rel_fit,
              size = 2,
              alpha = 0.7,inherit.aes = FALSE) +
   labs(title = "Fitness Landscape with Observed Data",
@@ -194,7 +194,7 @@ e1 <- vectors[, 1]
 # Last eigenvector (smallest eigenvalue)
 e7 <- vectors[, length(values)]
 
-z0 <- colMeans(phen_NGM_with_fitness[, vect_P_traits])
+z0 <- colMeans(phen_NaCl_with_fitness[, vect_P_traits])
 
 # Range in eigenvector coordinates
 s1 <- seq(-3, 3, length.out = 60)

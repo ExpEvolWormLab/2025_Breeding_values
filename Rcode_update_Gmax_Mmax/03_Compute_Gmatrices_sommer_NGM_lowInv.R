@@ -11,8 +11,8 @@ set.seed(10987345)
 vect_P_traits= c("SF","SB","FS","FB","BS","BF","area")
 # Load phenotypic data
 
-BLUE1 <- read.table("BLUES_NGM.txt",sep='\t',h=TRUE)
-BLUE2 <- read.table("BLUES_NaCl.txt",sep='\t',h=TRUE)
+BLUE1 <- read.table("RData_BLUEs/BLUES_NGM.txt",sep='\t',h=TRUE)
+BLUE2 <- read.table("RData_BLUEs/BLUES_NaCl.txt",sep='\t',h=TRUE)
 
 ## Create a data frame
 

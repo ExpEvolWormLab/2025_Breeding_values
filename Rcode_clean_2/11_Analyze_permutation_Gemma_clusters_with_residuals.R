@@ -51,17 +51,17 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     
     concat_GWAS.temp=traitJ[,c("rs","chr","ps","n_miss","allele1","allele0","af","beta","se","p_wald","is_sign","clusterID")] 
     
-    for(p in 8:11){
+    for(p in c(4,7:11)){
       names(concat_GWAS.temp)[p]=paste0(names(concat_GWAS.temp)[p],"_T",j)
     }
     
-    if(j<=7){
-      names(concat_GWAS.temp)[4]="n_miss.NGM"
-      names(concat_GWAS.temp)[7]="af.NGM"
-    }else{
-      names(concat_GWAS.temp)[4]="n_miss.NaCl"
-      names(concat_GWAS.temp)[7]="af.NaCl"
-    }
+    #if(j<=7){
+    #  names(concat_GWAS.temp)[4]="n_miss.NGM"
+    #  names(concat_GWAS.temp)[7]="af.NGM"
+    #}else{
+    #  names(concat_GWAS.temp)[4]="n_miss.NaCl"
+    #  names(concat_GWAS.temp)[7]="af.NaCl"
+    #}
     
     if(!exists("all_GWAS")){
       all_GWAS=concat_GWAS.temp

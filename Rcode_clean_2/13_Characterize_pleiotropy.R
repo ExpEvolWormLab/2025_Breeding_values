@@ -87,27 +87,27 @@ head(all_GWAS_clusters)
 #plot(all_GWAS_clusters$ps,all_GWAS_clusters$clust_length/1000000,pch=16)
 
 ### We will now replace minor af
-temp.af.NGM=1-all_GWAS_clusters$af.NGM
-temp.af.NaCl=1-all_GWAS_clusters$af.NaCl
-#temp.af.NGM[is.na(temp.af.NGM)]=1;temp.af.NaCl[is.na(temp.af.NaCl)]=1
-all_GWAS_clusters$af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.NGM]=temp.af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.NGM]
-all_GWAS_clusters$af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]=temp.af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]
+temp.af_T7=1-all_GWAS_clusters$af_T7
+temp.af_T14=1-all_GWAS_clusters$af_T14
+#temp.af_T7[is.na(temp.af_T7)]=1;temp.af_T14[is.na(temp.af_T14)]=1
+all_GWAS_clusters$af_T7[!is.na(temp.af_T7) & all_GWAS_clusters$af_T7>temp.af_T7]=temp.af_T7[!is.na(temp.af_T7) & all_GWAS_clusters$af_T7>temp.af_T7]
+all_GWAS_clusters$af_T14[!is.na(temp.af_T14) & all_GWAS_clusters$af_T14>temp.af_T14]=temp.af_T14[!is.na(temp.af_T14) & all_GWAS_clusters$af_T14>temp.af_T14]
 
-plot((all_GWAS_clusters$af.NGM),(all_GWAS_clusters$af.NaCl),pch=16)
+#plot((all_GWAS_clusters$af_T3),(all_GWAS_clusters$af_T14),pch=16)
 
-boxplot(all_GWAS_clusters$af.NGM~all_GWAS_clusters$sign_NGM)
-boxplot(all_GWAS_clusters$af.NaCl~all_GWAS_clusters$sign_NaCl)
+boxplot(all_GWAS_clusters$af_T7~all_GWAS_clusters$sign_NGM)
+boxplot(all_GWAS_clusters$af_T14~all_GWAS_clusters$sign_NaCl)
 
-tapply(all_GWAS_clusters$af.NGM,all_GWAS_clusters$sign_NGM,mean)
+tapply(all_GWAS_clusters$af_T7,all_GWAS_clusters$sign_NGM,mean)
 
 chr_type2=all_GWAS_clusters$chr_type
 all_GWAS_clusters$chr_type2=c("center","arm","tip","tip","arm")[as.numeric(as.factor(all_GWAS_clusters$chr_type))]
 
-summary(glm(sign_NGM~af.NGM,data=all_GWAS_clusters,family="quasipoisson"))
+summary(glm(sign_NGM~af_T7,data=all_GWAS_clusters,family="quasipoisson"))
 
 af.per.pleio <- rbind(
- data.frame(sign=all_GWAS_clusters$sign_NGM,env_label='NGM',af=all_GWAS_clusters$af.NGM,chr_type2=all_GWAS_clusters$chr_type2),
- data.frame(sign=all_GWAS_clusters$sign_NaCl,env_label='NaCl',af=all_GWAS_clusters$af.NaCl,chr_type2=all_GWAS_clusters$chr_type2))
+ data.frame(sign=all_GWAS_clusters$sign_NGM,env_label='NGM',af=all_GWAS_clusters$af_T7,chr_type2=all_GWAS_clusters$chr_type2),
+ data.frame(sign=all_GWAS_clusters$sign_NaCl,env_label='NaCl',af=all_GWAS_clusters$af_T14,chr_type2=all_GWAS_clusters$chr_type2))
 
 af.per.pleio$sign=as.factor(af.per.pleio$sign)
 af.per.pleio$sign_num=as.numeric(as.character(as.factor((af.per.pleio$sign))))
@@ -196,10 +196,10 @@ var_traits <- NULL
 for(i in 1:14){
   if(i %in% 1:7){
     var_traits = c(var_traits, 
-                 sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)]],na.rm=TRUE))
+                 sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)]],na.rm=TRUE))
   }else{
     var_traits = c(var_traits, 
-                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)]],na.rm=TRUE))
+                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af_T14*(1-all_GWAS_clusters$af_T14))[all_GWAS_clusters[,paste0("is_sign_T",i)]],na.rm=TRUE))
   }
 }
 plot(var_traits[1:7],var_traits[8:14],pch=16,asp=1)
@@ -215,14 +215,14 @@ var_traits_center <- NULL; var_traits_arm <- NULL
 for(i in 1:14){
   if(i %in% 1:7){
     var_traits_center = c(var_traits_center, 
-                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
+                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
     var_traits_arm = c(var_traits_arm, 
-                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
+                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
   }else{
     var_traits_center = c(var_traits_center, 
-                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
+                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af_T14*(1-all_GWAS_clusters$af_T14))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
     var_traits_arm = c(var_traits_arm, 
-                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
+                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af_T14*(1-all_GWAS_clusters$af_T14))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
   }
 }
 
@@ -237,21 +237,21 @@ G_mat_center =matrix(rep(NA,196),nrow=14,ncol=14)
 
 for(i in 1:14){
   for(j in 1:14){
-    G_mat[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)]],na.rm=TRUE)
-    G_mat_center[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE)
-    G_mat_arm[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE)
+    G_mat[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)]],na.rm=TRUE)
+    G_mat_center[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE)
+    G_mat_arm[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE)
   
   }
 }
 table(all_GWAS_clusters$chr_type2)
 
-boxplot(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)~all_GWAS_clusters$chr_type2)
-tapply(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM),all_GWAS_clusters$chr_type2,mean) # similar frequencies
+boxplot(all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7)~all_GWAS_clusters$chr_type2)
+tapply(all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7),all_GWAS_clusters$chr_type2,mean) # similar frequencies
 tapply(abs(all_GWAS_clusters$beta_T7),all_GWAS_clusters$chr_type2,mean) # strong
 boxplot(abs(all_GWAS_clusters$beta_T2)~all_GWAS_clusters$chr_type2) # strong
 
-all_GWAS_clusters$varianceT1 <- all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)*(all_GWAS_clusters$beta_T1)^2
-all_GWAS_clusters$varianceT7 <- all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)*(all_GWAS_clusters$beta_T7)^2
+all_GWAS_clusters$varianceT1 <- all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7)*(all_GWAS_clusters$beta_T1)^2
+all_GWAS_clusters$varianceT7 <- all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7)*(all_GWAS_clusters$beta_T7)^2
 
 summary(glm((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,family="Gamma"))
 summary(glm((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,family="inverse.gaussian"))
@@ -462,7 +462,7 @@ for(i in 1:14){
  temp=pleiot.idx$NaCl.cor[temp.NaCl]
  coefs_euc.NaCl <- coef(nls(euclidian_NaCl[temp.NaCl]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx$NaCl.cor[temp.NaCl & is_arm]
- coefs_euc.NaCl.arm <- coef(nls(euclidian_NaCl[temp.NaCl & is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ coefs_euc.NaCl.arm <- coef(nls(euclidian_NaCl[temp.NaCl & is_arm]~a+b*temp^c,start=list(a=0.0,b=0.2,c=1.5)))
  temp=pleiot.idx$NaCl.cor[temp.NaCl & is_center]
  coefs_euc.NaCl.center <- coef(nls(euclidian_summed[temp.NaCl & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  
@@ -739,22 +739,22 @@ vect_P3 <- sign_total>3 & all_GWAS_clusters$clust_length<10000
 
  for(i in 1:14){
    for(j in 1:14){
-     G_mat[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)]],na.rm=TRUE)
-     G_mat_center[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE)
-     G_mat_arm[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE)
+     G_mat[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)]],na.rm=TRUE)
+     G_mat_center[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE)
+     G_mat_arm[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af_T7*(1-all_GWAS_clusters$af_T7))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE)
      
 
-     G_mat_P1[i,j]=sum((2*all_GWAS_clusters[vect_P1,paste0("beta_T",i)]*all_GWAS_clusters[vect_P1,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P1]*(1-all_GWAS_clusters$af.NGM[vect_P1]))[all_GWAS_clusters[vect_P1,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P1,paste0("is_sign_T",j)]],na.rm=TRUE)
-     G_mat_center_P1[i,j]=sum((2*all_GWAS_clusters[vect_P1,paste0("beta_T",i)]*all_GWAS_clusters[vect_P1,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P1]*(1-all_GWAS_clusters$af.NGM[vect_P1]))[all_GWAS_clusters[vect_P1,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P1,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P1]=="center"],na.rm=TRUE)
-     G_mat_arm_P1[i,j]=sum((2*all_GWAS_clusters[vect_P1,paste0("beta_T",i)]*all_GWAS_clusters[vect_P1,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P1]*(1-all_GWAS_clusters$af.NGM[vect_P1]))[all_GWAS_clusters[vect_P1,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P1,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P1]=="arm"],na.rm=TRUE)
+     G_mat_P1[i,j]=sum((2*all_GWAS_clusters[vect_P1,paste0("beta_T",i)]*all_GWAS_clusters[vect_P1,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P1]*(1-all_GWAS_clusters$af_T7[vect_P1]))[all_GWAS_clusters[vect_P1,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P1,paste0("is_sign_T",j)]],na.rm=TRUE)
+     G_mat_center_P1[i,j]=sum((2*all_GWAS_clusters[vect_P1,paste0("beta_T",i)]*all_GWAS_clusters[vect_P1,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P1]*(1-all_GWAS_clusters$af_T7[vect_P1]))[all_GWAS_clusters[vect_P1,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P1,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P1]=="center"],na.rm=TRUE)
+     G_mat_arm_P1[i,j]=sum((2*all_GWAS_clusters[vect_P1,paste0("beta_T",i)]*all_GWAS_clusters[vect_P1,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P1]*(1-all_GWAS_clusters$af_T7[vect_P1]))[all_GWAS_clusters[vect_P1,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P1,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P1]=="arm"],na.rm=TRUE)
      
-     G_mat_P2[i,j]=sum((2*all_GWAS_clusters[vect_P2,paste0("beta_T",i)]*all_GWAS_clusters[vect_P2,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P2]*(1-all_GWAS_clusters$af.NGM[vect_P2]))[all_GWAS_clusters[vect_P2,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P2,paste0("is_sign_T",j)]],na.rm=TRUE)
-     G_mat_center_P2[i,j]=sum((2*all_GWAS_clusters[vect_P2,paste0("beta_T",i)]*all_GWAS_clusters[vect_P2,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P2]*(1-all_GWAS_clusters$af.NGM[vect_P2]))[all_GWAS_clusters[vect_P2,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P2,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P2]=="center"],na.rm=TRUE)
-     G_mat_arm_P2[i,j]=sum((2*all_GWAS_clusters[vect_P2,paste0("beta_T",i)]*all_GWAS_clusters[vect_P2,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P2]*(1-all_GWAS_clusters$af.NGM[vect_P2]))[all_GWAS_clusters[vect_P2,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P2,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P2]=="arm"],na.rm=TRUE)
+     G_mat_P2[i,j]=sum((2*all_GWAS_clusters[vect_P2,paste0("beta_T",i)]*all_GWAS_clusters[vect_P2,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P2]*(1-all_GWAS_clusters$af_T7[vect_P2]))[all_GWAS_clusters[vect_P2,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P2,paste0("is_sign_T",j)]],na.rm=TRUE)
+     G_mat_center_P2[i,j]=sum((2*all_GWAS_clusters[vect_P2,paste0("beta_T",i)]*all_GWAS_clusters[vect_P2,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P2]*(1-all_GWAS_clusters$af_T7[vect_P2]))[all_GWAS_clusters[vect_P2,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P2,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P2]=="center"],na.rm=TRUE)
+     G_mat_arm_P2[i,j]=sum((2*all_GWAS_clusters[vect_P2,paste0("beta_T",i)]*all_GWAS_clusters[vect_P2,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P2]*(1-all_GWAS_clusters$af_T7[vect_P2]))[all_GWAS_clusters[vect_P2,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P2,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P2]=="arm"],na.rm=TRUE)
      
-     G_mat_P3[i,j]=sum((2*all_GWAS_clusters[vect_P3,paste0("beta_T",i)]*all_GWAS_clusters[vect_P3,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P3]*(1-all_GWAS_clusters$af.NGM[vect_P3]))[all_GWAS_clusters[vect_P3,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P3,paste0("is_sign_T",j)]],na.rm=TRUE)
-     G_mat_center_P3[i,j]=sum((2*all_GWAS_clusters[vect_P3,paste0("beta_T",i)]*all_GWAS_clusters[vect_P3,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P3]*(1-all_GWAS_clusters$af.NGM[vect_P3]))[all_GWAS_clusters[vect_P3,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P3,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P3]=="center"],na.rm=TRUE)
-     G_mat_arm_P3[i,j]=sum((2*all_GWAS_clusters[vect_P3,paste0("beta_T",i)]*all_GWAS_clusters[vect_P3,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM[vect_P3]*(1-all_GWAS_clusters$af.NGM[vect_P3]))[all_GWAS_clusters[vect_P3,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P3,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P3]=="arm"],na.rm=TRUE)
+     G_mat_P3[i,j]=sum((2*all_GWAS_clusters[vect_P3,paste0("beta_T",i)]*all_GWAS_clusters[vect_P3,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P3]*(1-all_GWAS_clusters$af_T7[vect_P3]))[all_GWAS_clusters[vect_P3,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P3,paste0("is_sign_T",j)]],na.rm=TRUE)
+     G_mat_center_P3[i,j]=sum((2*all_GWAS_clusters[vect_P3,paste0("beta_T",i)]*all_GWAS_clusters[vect_P3,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P3]*(1-all_GWAS_clusters$af_T7[vect_P3]))[all_GWAS_clusters[vect_P3,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P3,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P3]=="center"],na.rm=TRUE)
+     G_mat_arm_P3[i,j]=sum((2*all_GWAS_clusters[vect_P3,paste0("beta_T",i)]*all_GWAS_clusters[vect_P3,paste0("beta_T",j)]*all_GWAS_clusters$af_T7[vect_P3]*(1-all_GWAS_clusters$af_T7[vect_P3]))[all_GWAS_clusters[vect_P3,paste0("is_sign_T",i)] & all_GWAS_clusters[vect_P3,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2[vect_P3]=="arm"],na.rm=TRUE)
      
         }
  }
