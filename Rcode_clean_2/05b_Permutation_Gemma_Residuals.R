@@ -50,7 +50,7 @@ for(j in 1:14){
   
   library(parallel)
   
-  n_cores <- 20
+  n_cores <- 5
   cl <- makeCluster(n_cores)
   clusterExport(cl, varlist = c("mean_pheno","resid_pheno","j"), envir = environment())
   
