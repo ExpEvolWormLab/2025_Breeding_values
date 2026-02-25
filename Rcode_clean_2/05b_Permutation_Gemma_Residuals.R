@@ -55,7 +55,7 @@ for(j in 1:14){
   clusterExport(cl, varlist = c("mean_pheno","resid_pheno","j"), envir = environment())
   
   temp_list=list()
-  for(i in 1:100) temp_list[[i]]=i
+  for(i in 1:1000) temp_list[[i]]=i
   # Parallel computations
   List_output <-parLapply(cl, temp_list, run_randomized_GWAS)
   stopCluster(cl)
