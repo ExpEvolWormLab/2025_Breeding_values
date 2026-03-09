@@ -2,7 +2,7 @@ rm(list=ls())
 gc()
 library(qqman)
 library(data.table)
-
+library(matrixStats)
 for(j in 1:14){
 traitJ = read.table(paste0("gemma_results_BLUE/gwas_results_BLUE_T",j,".assoc.txt"),h=TRUE)
 # Load permutation results
@@ -12,29 +12,34 @@ List_output=perm.temp$List_output
 rm(perm.temp);gc()
 ## Some errors - we will keep only complete lists
 list_length <- unlist(lapply(List_output,nrow))
-for(i in 1:length(List_output)){
-  names(List_output[[i]])[3]=paste("X",i)
-}
-List_output <- lapply(List_output, as.data.table)
-concat.perm <- Reduce(function(x, y) merge(x, y), List_output)
-rm(List_output);gc()
+#for(i in 1:length(List_output)){
+#  names(List_output[[i]])[3]=paste("X",i)
+#}
 
-nb_NA <- rowSums(is.na(concat.perm))
+## Concatenate all the complete lists
+List_output=List_output[list_length==max(list_length)]
+print("Kept permutations:")
+print(length(List_output))
+
+# Extract the p values
+pwald_list = lapply(List_output, function(x){x[,3]})
+pwald_list=do.call(cbind,pwald_list)
+
+nb_NA <- rowSums(is.na(pwald_list))
 ## Remove those that have Nas>=5
-concat.perm=concat.perm[nb_NA<5,]
-mat <- as.matrix(concat.perm[,3:ncol(concat.perm)])
-mat_sorted <- t(apply(mat, 1, sort,na.last = TRUE))
-dim(mat_sorted)
-#concat.perm.sorted=data.frame((concat.perm.sorted))
-sign_thres <- mat_sorted[,floor(ncol(mat_sorted)*0.05)]
-concat.perm.sorted=cbind(data.frame(concat.perm[,1:2]),mat_sorted)
+pwald_list=pwald_list[nb_NA<5,]
+pwald_list_sorted <- t(apply(pwald_list, 1, sort,na.last = TRUE))
+dim(pwald_list)
+
+sign_thres <- pwald_list_sorted[,floor(ncol(pwald_list_sorted)*0.05)]
+concat.perm.sorted=List_output[[1]][,1:2]
 concat.perm.sorted$sign_thres=sign_thres
-rm(concat.perm,sign_thres,mat,mat_sorted);gc()
+rm(concat.perm,sign_thres,pwald_list,pwald_list_sorted);gc()
 
 ## We will use the top 5% as sign threshold - keep this even if less col
 traitJ = merge(traitJ,concat.perm.sorted[,c("rs","sign_thres")])
 traitJ$is_sign <- traitJ$p_wald<traitJ$sign_thres
-
+rm(concat.perm.sorted);gc()
 
 traitJ$chr = factor(tstrsplit(traitJ$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
 traitJ$ps = as.numeric(tstrsplit(traitJ$rs,"_")[[2]])
@@ -64,7 +69,7 @@ all_GWAS=merge(all_GWAS,concat_GWAS.temp,all=TRUE)
 print(dim(all_GWAS))
 
 }
-rm(concat_GWAS.temp,concat.perm.sorted,data_manhattan,j,p,traitJ,nb_NA,i,list_length)
+rm(concat_GWAS.temp,data_manhattan,j,p,traitJ,nb_NA,i,list_length)
 
 # Simply replace NA values by FALSE
 for(i in 1:14){
