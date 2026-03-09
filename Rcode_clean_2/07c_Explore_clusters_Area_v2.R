@@ -11,7 +11,7 @@ dim(all_GWAS_clusters)
 all_cluster_merged$sign_overall = rowSums(all_cluster_merged[,paste0("is_sign_T",1:14)])>0
 all_GWAS_clusters$sign_overall = rowSums(all_GWAS_clusters[,paste0("is_sign_T",1:14)])>0
 table(all_cluster_merged$sign_overall)
-table(all_GWAS_clusters$sign_overall) # only 1897 truly significant with R=0.6 / 3512 with R=0.8
+table(all_GWAS_clusters$sign_overall) # only 1911 truly significant with R=0.6 / 3549 with R=0.8
 
 all_GWAS_clusters$ps_min=NA
 all_GWAS_clusters$ps_max=NA

@@ -9,7 +9,6 @@ library(bigsnpr)
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
-
 ## Load Cemee data
 load('RData/Genotype_info_Cemee.RData')
 snp_positions=as.data.frame(snp_positions)

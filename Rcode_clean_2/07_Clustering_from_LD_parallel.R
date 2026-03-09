@@ -18,7 +18,7 @@ all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
 all_GWAS$CHROM=all_GWAS$chr
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df)>=1) # ~ 95 k SNPS at least sign for one trait
+table(rowSums(sign_all_df)>=1) # ~ 90 k SNPS at least sign for one trait
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
 #####################################
