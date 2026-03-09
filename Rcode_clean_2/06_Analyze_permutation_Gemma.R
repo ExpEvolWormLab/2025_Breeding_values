@@ -9,6 +9,7 @@ traitJ = read.table(paste0("gemma_results_BLUE/gwas_results_BLUE_T",j,".assoc.tx
 perm.temp <- new.env()
 load(paste0("Permutation_Gemma_BLUE_with_residuals/Permutation_gemma_trait_BLUE_",j,".RData"),envir=perm.temp)
 List_output=perm.temp$List_output
+rm(perm.temp);gc()
 ## Some errors - we will keep only complete lists
 list_length <- unlist(lapply(List_output,nrow))
 for(i in 1:length(List_output)){
@@ -16,7 +17,7 @@ for(i in 1:length(List_output)){
 }
 List_output <- lapply(List_output, as.data.table)
 concat.perm <- Reduce(function(x, y) merge(x, y), List_output)
-rm(List_output);rm(perm.temp);gc()
+rm(List_output);gc()
 
 nb_NA <- rowSums(is.na(concat.perm))
 ## Remove those that have Nas>=5
