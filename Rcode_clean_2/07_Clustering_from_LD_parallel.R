@@ -63,11 +63,11 @@ for(i_col in paste0("beta_T",1:14)){
 all_GWAS_sign <- subset(all_GWAS,sign_overall)
 table(snp_positions_sign$ID==all_GWAS_sign$rs) # In the same order #
 
-dim(snp_positions_sign) #
+dim(snp_positions_sign)
 ### Save the txt file with the significant positions
-#write.table(snp_positions_sign,file="data_BLUE/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
-#system("bcftools view -T data_BLUE/sign_positions.txt -O z /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
-#system("vcftools --gzvcf data_BLUE/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz --hap-r2 --ld-window 100 --out data_BLUE/ld_window_100")
+write.table(snp_positions_sign,file="data_BLUE/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
+system("bcftools view -T data_BLUE/sign_positions.txt -O z /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
+system("vcftools --gzvcf data_BLUE/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz --hap-r2 --ld-window 100 --out data_BLUE/ld_window_100")
 
 ### Now load the linkage blocks from plink
 
