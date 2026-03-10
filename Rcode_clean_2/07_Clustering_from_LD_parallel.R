@@ -109,8 +109,8 @@ all_GWAS_sign$POS=all_GWAS_sign$ps
 dim(all_GWAS_sign)
 all_GWAS_sign_with_clust <- (merge(all_GWAS_sign,clusters_by_chr,all.x=TRUE))
 dim(all_GWAS_sign_with_clust)
-length(unique(all_GWAS_sign_with_clust$cluster)) # 5109
-sum(is.na(all_GWAS_sign_with_clust$cluster)) # 4076 clusters
+length(unique(all_GWAS_sign_with_clust$cluster)) 
+sum(is.na(all_GWAS_sign_with_clust$cluster))
 
 clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   return(max(x)-min(x))
