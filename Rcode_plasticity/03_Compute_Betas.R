@@ -183,9 +183,41 @@ write.table(GRM_sub,file="data_BLUE_plasticity/kinship.txt",sep='\t',quote=FALSE
 ### Only takes one column at a time
 #for i in 1 2
 #do
-#cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/split/gemma_pheno_T${i}.txt
-#nohup gemma -g data_BLUE/genotypes_for_gemma.txt -k data_BLUE/kinship.txt -lmm 4 -p data_BLUE/split/gemma_pheno_T${i}.txt -o gwas_results_BLUE_T${i} > gemma_output_BLUE_txt/output_gemma_t${i}.txt &
+#cut -f $i data_BLUE_plasticity/gemma_pheno.txt > data_BLUE_plasticity/split/gemma_pheno_T${i}.txt
+#nohup gemma -g data_BLUE_plasticity/genotypes_for_gemma.txt -k data_BLUE_plasticity/kinship.txt -lmm 4 -p data_BLUE_plasticity/split/gemma_pheno_T${i}.txt -o gwas_results_BLUE_plasticity_T${i} > gemma_output_BLUE_plasticity_txt/output_gemma_t${i}.txt &
 #done
+
+
+mapping_T1 <- read.table("gemma_results_plasticity/gwas_results_BLUE_plasticity_T1.assoc.txt",h=TRUE)
+
+mapping_T1$CHR=tstrsplit(mapping_T1$rs,"_")[[1]]
+mapping_T1$BP=as.numeric(tstrsplit(mapping_T1$rs,"_")[[2]])
+
+mapping_T2 <- read.table("gemma_results_plasticity/gwas_results_BLUE_plasticity_T2.assoc.txt",h=TRUE)
+mapping_T2$CHR=tstrsplit(mapping_T2$rs,"_")[[1]]
+mapping_T2$BP=as.numeric(tstrsplit(mapping_T2$rs,"_")[[2]])
+
+data_manhattan = data.frame(CHR=as.numeric(factor(mapping_T1$CHR,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=mapping_T1$BP,SNP=c(1:nrow(mapping_T1)),
+                            P=-log10(mapping_T1$p_wald))
+data_manhattan=subset(data_manhattan,CHR!=7)
+library(qqman)
+manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,cex=.6,suggestiveline=FALSE,genomewideline=FALSE)
+
+##############################
+
+data_manhattan2 = data.frame(CHR=as.numeric(factor(mapping_T2$CHR,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=mapping_T2$BP,SNP=c(1:nrow(mapping_T2)),
+                            P=-log10(mapping_T2$p_wald))
+data_manhattan2=subset(data_manhattan2,CHR!=7)
+library(qqman)
+manhattan(data_manhattan2, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,cex=.6,suggestiveline=FALSE,genomewideline=FALSE)
+subset(data_manhattan2,P>10)
+
+
+
+
+
+
+
 
 
 
