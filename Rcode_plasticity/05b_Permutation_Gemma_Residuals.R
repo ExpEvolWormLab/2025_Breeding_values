@@ -41,7 +41,7 @@ for(j in 1:2){
     write.table(pheno,file=paste("temp_perm/pheno",idx_temp,".txt",sep='_'),quote=FALSE,row.names=FALSE,col.names=FALSE)
     gemma_cmd <- paste0("conda run -n gemma-env gemma -g data_BLUE_plasticity/genotypes_for_gemma.txt -k data_BLUE_plasticity/kinship.txt -lmm 1 -p ",paste("temp_perm/pheno",idx_temp,".txt",sep='_')," -o gwas_results_plasticity_",idx_temp)
     system(gemma_cmd)
-    p_values <- read.table(file=paste0("output/gwas_results_plasticity",idx_temp,".assoc.txt"),sep='\t',h=TRUE)[,c("chr","rs","p_wald")]
+    p_values <- read.table(file=paste0("output/gwas_results_plasticity_",idx_temp,".assoc.txt"),sep='\t',h=TRUE)[,c("chr","rs","p_wald")]
     system(paste0("rm ",paste0("output/gwas_results_plasticity_",idx_temp,".assoc.txt")))
     system(paste0("rm ",paste0("output/gwas_results_plasticity_",idx_temp,".log.txt")))
     system(paste0("rm ",paste0("temp_perm/pheno_",idx_temp,"_.txt")))
