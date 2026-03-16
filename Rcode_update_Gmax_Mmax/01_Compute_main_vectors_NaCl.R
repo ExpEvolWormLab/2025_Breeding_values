@@ -41,6 +41,7 @@ model_beta <- lm(rel_fit ~ SF+SB+FS+FB+BS+BF+area, data = phen_NaCl_with_fitness
 summary(model_beta)
 
 beta <- coef(model_beta)[vect_P_traits]
+write.table(beta,file="txt_BLUEs/betas_NaCl.txt",sep='\t',col.names=FALSE,quote=FALSE)
 
 compute_gamma <- function(phen_df_with_fit,P_traits=c("SF","SB","FS","FB","BS","BF","area")){
 model_gamma <- lm(rel_fit ~ (SF+SB+FS+FB+BS+BF+area)^2+
@@ -130,7 +131,6 @@ ggplot(df.true.CI, aes(axis, true)) +
   ggtitle("CIs of curvature along fixed phenotypic axes")
 
 vec_true
-
 
 trait_means <- colMeans(phen_NaCl_with_fitness[, vect_P_traits],na.rm=TRUE)
 # Define a grid (adjust resolution if needed)

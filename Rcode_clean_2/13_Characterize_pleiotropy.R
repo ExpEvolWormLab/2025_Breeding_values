@@ -75,10 +75,11 @@ for(i in c(1:length(gp_type))[as.numeric(lapply(gp_type,length))==2]){
 }
 table(as.numeric(lapply(gp_type,length))) # OK
 gp_type=unlist(gp_type)
-
+length(gp_type)
 gp_length=data.frame(group=names(gp_min),clust_length=as.numeric(gp_max-gp_min),nb_SNPs=as.numeric(gp_nbSNPs),chr_type=gp_type)
 head(gp_length)
-
+gp_length=as.data.frame(gp_length)
+gp_length$chr_type=as.character(gp_length$chr_type)
 plot(gp_length$nb_SNPs,gp_length$clust_length,pch=16,cex=.8,col=c("red","cornflowerblue","lightgreen","lightgreen","cornflowerblue")[as.numeric(as.factor(gp_length$chr_type))])
 
 ## ClusterID & group are the same thing
@@ -149,12 +150,12 @@ mean_NGM <- as.numeric(tapply(af.per.pleio.NGM$af,af.per.pleio.NGM$sign,mean))
 sd_NaCl <- as.numeric(tapply(af.per.pleio.NaCl$af,af.per.pleio.NaCl$sign,sd))
 mean_NaCl <- as.numeric(tapply(af.per.pleio.NaCl$af,af.per.pleio.NaCl$sign,mean))
 
-plot(mean_NGM~c(c(0:6)+0.1),pch=16,ylim=c(0,1),
+plot(mean_NGM~c(c(0:6)+0.1)[1:length(mean_NGM)],pch=16,ylim=c(0,1),
      las=1,bty="n",ylab="Mean allele frequencies",xlab="Pleiotropy")
-#arrows(c(c(0:7)+0.1),mean_NGM-2*sd_NGM,c(c(0:7)+0.1),mean_NGM+2*sd_NGM,code=3,angle=90)
+#arrows(c(c(0:7)+0.1)[1:length(mean_NGM)],mean_NGM-2*sd_NGM,c(c(0:7)+0.1)[1:length(mean_NGM)],mean_NGM+2*sd_NGM,code=3,angle=90)
 
 points(mean_NaCl~c(c(0:6)-.1),pch=16,col="orange",bty="n",las=1)
-#arrows(c(c(0:7)-0.1),mean_NaCl-2*sd_NaCl,c(c(0:7)-0.1),mean_NaCl+2*sd_NaCl,code=3,angle=90)
+#arrows(c(c(0:7)-0.1)[1:length(mean_NGM)],mean_NaCl-2*sd_NaCl,c(c(0:7)-0.1)[1:length(mean_NGM)],mean_NaCl+2*sd_NaCl,code=3,angle=90)
 
 hist(log(all_GWAS_clusters$nb_SNPs))
 model1 <- glm(sign_overall~log(nb_SNPs)+clust_length+chr_type2,
@@ -435,7 +436,6 @@ for(i in 1:14){
    
  }
 
- 
  ### With nls - replace all
  pdf("plots_BLUEs/Scaling_pleiotropy_Neff_BLUE_Arm_Centers.pdf",h=10,w=12)
  
@@ -445,7 +445,7 @@ for(i in 1:14){
  temp=pleiot.idx_mixed$Neff
  coefs_euc <- coef(nls(euclidian_summed~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx_mixed$Neff[is_arm]
- coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=coefs_euc,control = nls.control(maxiter = 1000)))#list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx_mixed$Neff[is_center]
  coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  

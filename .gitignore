@@ -26,3 +26,4 @@ data_BLUE/genotypes_for_gemma.txt
 *.csi
 /temp_perm
 /temp_perm
+/data_BLUE_plasticity

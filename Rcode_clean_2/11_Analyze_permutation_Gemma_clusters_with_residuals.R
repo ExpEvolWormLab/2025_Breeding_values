@@ -27,25 +27,23 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     List_output=perm.temp$List_output
     ## Some errors - we will keep only complete lists
     list_length <- unlist(lapply(List_output,nrow))
-    for(i in 1:length(List_output)){
-      names(List_output[[i]])[3]=paste("X",i)
-    }
-    List_output <- lapply(List_output, as.data.table)
-    concat.perm <- Reduce(function(x, y) merge(x, y,all=TRUE), List_output)
-    dim(concat.perm)
-    rm(List_output);rm(perm.temp);gc()
+    List_output=List_output[list_length==max(list_length)]
+    temp.list=lapply(List_output, function(x){x$p_wald})
+    temp.rs=List_output[[1]]$rs
+    concat.perm <- do.call(cbind,temp.list)
+    rm(temp.list);rm(List_output);rm(perm.temp);gc()
     nb_NA <- rowSums(is.na(concat.perm))
     ## Remove those that have Nas>=1%
     concat.perm=concat.perm[nb_NA<floor(ncol(concat.perm)*0.01),]
-    concat.perm.sorted=apply(concat.perm[,3:ncol(concat.perm)],1,sort)
+    concat.perm.sorted=apply(concat.perm,1,sort)
+    #concat.perm.min=unlist(apply(concat.perm,2,function(x){sort(x)[round(0.01*length(x))]}))
     concat.perm.sorted=data.frame(t(concat.perm.sorted))
-    sign_thres <- concat.perm.sorted[,floor(ncol(concat.perm.sorted)*0.05)]
-    concat.perm.sorted=cbind(data.frame(concat.perm[,1:2]),concat.perm.sorted)
-    concat.perm.sorted$sign_thres=sign_thres
-    rm(concat.perm,sign_thres);gc()
+    sign_thres <- data.frame(rs=temp.rs,sign_thres=concat.perm.sorted[,floor(ncol(concat.perm.sorted)*0.05)])
+    rm(concat.perm.sorted,temp.rs);rm(concat.perm);gc()
     
     ## We will use the top 5% as sign threshold - keep this even if less col
-    traitJ = merge(traitJ,concat.perm.sorted[,c("rs","sign_thres")])
+    traitJ = merge(traitJ,sign_thres)
+    rm(sign_thres);gc()
     traitJ$is_sign <- traitJ$p_wald<traitJ$sign_thres
     table(traitJ$is_sign)
     

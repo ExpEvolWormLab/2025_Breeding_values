@@ -41,6 +41,7 @@ model_beta <- lm(rel_fit ~ SF+SB+FS+FB+BS+BF+area, data = phen_NGM_with_fitness)
 summary(model_beta)
 
 beta <- coef(model_beta)[vect_P_traits]
+write.table(beta,file="txt_BLUEs/betas_NGM.txt",sep='\t',col.names=FALSE,quote=FALSE)
 
 compute_gamma <- function(phen_df_with_fit,P_traits=c("SF","SB","FS","FB","BS","BF","area")){
 model_gamma <- lm(rel_fit ~ (SF+SB+FS+FB+BS+BF+area)^2+
@@ -129,7 +130,9 @@ ggplot(df.true.CI, aes(axis, true)) +
   xlab("Phenotypic axis (true eigenvectors)") +
   ggtitle("CIs of curvature along fixed phenotypic axes")
 
-vec_true
+
+write.table(eigen(gamma)$vectors[,7],file="txt_BLUEs/gamma_NGM_stabilizing.txt",sep='\t',col.names=FALSE,quote=FALSE,row.names=FALSE)
+
 
 trait_means <- colMeans(phen_NGM_with_fitness[, vect_P_traits],na.rm=TRUE)
 # Define a grid (adjust resolution if needed)
