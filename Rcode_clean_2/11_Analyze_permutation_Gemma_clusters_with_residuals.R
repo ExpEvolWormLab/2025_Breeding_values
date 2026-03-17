@@ -73,7 +73,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
   
   all_GWAS_clusters = all_GWAS
   rm(all_GWAS)
-  head(all_GWAS_clusters)
+  #head(all_GWAS_clusters)
   
   
   save(list=ls(),file=paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
