@@ -19,9 +19,9 @@ gc()
 
 
 system("conda activate gemma-env")
-
+threshold_clust=0.8
 ## For the first trait:
-for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
+#for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
   print(threshold_clust)
   #j is the number of the trait
   
@@ -56,7 +56,7 @@ for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
     clusterExport(cl, varlist = c("mean_pheno","resid_pheno","j","threshold_clust"), envir = environment())
     
     temp_list=list()
-    for(i in 1:1000) temp_list[[i]]=i
+    for(i in 1:100) temp_list[[i]]=i
     # Parallel computations
     List_output <-parLapply(cl, temp_list, run_randomized_GWAS)
     stopCluster(cl)
@@ -65,4 +65,4 @@ for(threshold_clust in c(0.8,0.2,0.4,0.6,0.9,1)){
     save(list=ls(),file=paste0('Permutation_Gemma_clusters_BLUE_with_residuals/Permutation_gemma_trait_clusters_BLUE_with_residuals_R',round(10*threshold_clust),'_',j,'.RData'))
     
   }
-}
+#}
