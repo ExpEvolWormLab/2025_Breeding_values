@@ -38,22 +38,27 @@ all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_clust
 all_cluster_merged$group = as.numeric(factor(as.character(all_cluster_merged$group),levels=unique(all_cluster_merged$group)))
 
 table(genotypes_gemma_sign$V1==all_cluster_merged$rs)
-
 geno_matrix_groups = matrix(data=NA,nrow=max(all_cluster_merged$group),ncol=ncol(genotypes_gemma_sign)-3)
 
-for(i in 1:max(all_cluster_merged$group)){
-  if(i==1000*round(i/1000)){
-    print(i)
-  }
-  if(sum(all_cluster_merged$group==i)==1){
-    geno_matrix_groups[i,]=as.numeric(geno_group[all_cluster_merged$group==i,4:ncol(geno_group)])
-  }else{
-    geno_group <- genotypes_gemma_sign[all_cluster_merged$group==i,]
-    ## Instead, just take the mean
-    geno_matrix_groups[i,] = colMeans(geno_group[,4:ncol(geno_group)],na.rm=TRUE)
-  }
-}
+#for(i in 1:max(all_cluster_merged$group)){
+#  if(i==1000*round(i/1000)){
+#    print(i)
+#  }
+#  if(sum(all_cluster_merged$group==i)==1){
+#    geno_matrix_groups[i,]=as.numeric(genotypes_gemma_sign[all_cluster_merged$group==i,4:ncol(geno_group)])
+#  }else{
+#    geno_group <- genotypes_gemma_sign[all_cluster_merged$group==i,]
+#    ## Instead, just take the mean
+#    geno_matrix_groups[i,] = colMeans(genotypes_gemma_sign[,4:ncol(geno_group)],na.rm=TRUE)
+#  }
+#}
 
+genotypes_gemma_sign <- as.data.table(genotypes_gemma_sign)
+genotypes_gemma_sign[, group := all_cluster_merged$group]
+res <- genotypes_gemma_sign[, lapply(.SD, mean, na.rm = TRUE), by = group, .SDcols = 4:(ncol(genotypes_gemma_sign)-1)]
+# Convert to matrix (removing "group" column)
+geno_matrix_groups <- as.matrix(res[order(group), -"group"])
+rm(res);gc()
 ## Unknown
 geno_matrix_groups[is.na(geno_matrix_groups)] <- 3
 #table(geno_matrix_groups==3) # Rare
