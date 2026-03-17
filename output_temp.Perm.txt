@@ -2329,4 +2329,1823 @@ Start Eigen-Decomposition...
 Start Eigen-Decomposition...
 pve estimate =0.221147
 se(pve) =0.0491276
-                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.204298
+se(pve) =0.0466758
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.223132
+se(pve) =0.0484025
+                                                   0%pve estimate =0.192375
+se(pve) =0.0442709
+======                                             13%                                                   0%============                                       26%======                                             13%===================                                39%============                                       26%=========================                          52%===================                                39%================================                   65%=========================                          52%======================================             78%================================                   65%=============================================      90%======================================             78%================================================== 100%=============================================      90%================================================== 100%pve estimate =0.192992
+se(pve) =0.0458723
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+================================================== 100%
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+**** INFO: Done.
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.233848
+se(pve) =0.0433777
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.234118
+se(pve) =0.0515893
+pve estimate =0.254604
+se(pve) =0.0472776
+                                                   0%======                                             13%                                                   0%============                                       26%===================                                39%======                                             13%=========================                          52%================================                   65%============                                       26%======================================             78%=============================================      90%===================                                39%================================================== 100%=========================                          52%pve estimate =0.235378
+se(pve) =0.0479643
+                                                   0%================================                   65%======                                             13%============                                       26%======================================             78%===================                                39%=============================================      90%=========================                          52%================================================== 100%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.206608
+se(pve) =0.0466455
+================================================== 100%
+                                                   0%**** INFO: Done.
+======                                             13%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+================================================== 100%
+**** INFO: Done.
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.179537
+se(pve) =0.0407977
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0830303
+se(pve) =0.0335815
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.302203
+se(pve) =0.0510252
+                                                   0%======                                             13%============                                       26%===================                                39%pve estimate =0.173124
+se(pve) =0.0425373
+=========================                          52%                                                   0%================================                   65%======                                             13%======================================             78%============                                       26%===================                                39%=============================================      90%=========================                          52%================================================== 100%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+pve estimate =0.251328
+se(pve) =0.0452082
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================                   65%======================================             78%=============================================      90%Start Eigen-Decomposition...
+================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.187681
+se(pve) =0.0433626
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.223164
+se(pve) =0.0449617
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.160567
+se(pve) =0.0390608
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.281414
+se(pve) =0.046973
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================================== 100%
+================================                   65%**** INFO: Done.
+======================================             78%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.189147
+se(pve) =0.0400518
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.186699
+se(pve) =0.0403836
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.245942
+se(pve) =0.0469587
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%pve estimate =0.180841
+se(pve) =0.0432188
+=============================================      90%                                                   0%================================================== 100%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.226927
+se(pve) =0.0455098
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+pve estimate =0.257633
+se(pve) =0.0480795
+                                                   0%======                                             13%============                                       26%===================                                39%================================================== 100%
+=========================                          52%**** INFO: Done.
+================================                   65%======================================             78%=============================================      90%================================================== 100%
+================================================== 100%**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+[1] 3
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Reading Files ... 
+Reading Files ... 
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.0938849
+se(pve) =0.02886
+                                                   0%pve estimate =0.115037
+se(pve) =0.0363274
+======                                             13%                                                   0%======                                             13%============                                       26%pve estimate =0.213138
+se(pve) =0.0475176
+============                                       26%===================                                39%                                                   0%pve estimate =0.103129
+se(pve) =0.0341312
+=========================                          52%===================                                39%======                                             13%                                                   0%================================                   65%=========================                          52%============                                       26%======                                             13%======================================             78%pve estimate =0.10827
+se(pve) =0.0373822
+================================                   65%============                                       26%===================                                39%=============================================      90%                                                   0%======================================             78%===================                                39%=========================                          52%================================================== 100%======                                             13%================================                   65%=============================================      90%=========================                          52%============                                       26%================================================== 100%======================================             78%================================                   65%===================                                39%=============================================      90%======================================             78%=========================                          52%================================================== 100%=============================================      90%================================                   65%======================================             78%================================================== 100%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+================================================== 100%
+**** INFO: Done.
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.0875927
+se(pve) =0.0309972
+                                                   0%======                                             13%============                                       26%pve estimate =0.1208
+se(pve) =0.0391632
+                                                   0%===================                                39%======                                             13%============                                       26%=========================                          52%pve estimate =0.0951824
+se(pve) =0.0327374
+===================                                39%                                                   0%=========================                          52%================================                   65%======                                             13%================================                   65%pve estimate =0.0958841
+se(pve) =0.0316175
+============                                       26%                                                   0%======================================             78%pve estimate =0.108193
+se(pve) =0.0318174
+======================================             78%===================                                39%======                                             13%=============================================      90%=============================================      90%                                                   0%================================================== 100%=========================                          52%============                                       26%================================================== 100%======                                             13%============                                       26%================================                   65%===================                                39%===================                                39%======================================             78%=========================                          52%=========================                          52%=============================================      90%================================                   65%================================================== 100%================================                   65%======================================             78%======================================             78%=============================================      90%=============================================      90%================================================== 100%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+================================================== 100%
+**** INFO: Done.
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+Start Eigen-Decomposition...
+**** INFO: Done.
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.119751
+se(pve) =0.0387005
+                                                   0%pve estimate =0.0854048
+se(pve) =0.0309737
+                                                   0%======                                             13%======                                             13%pve estimate =0.106567
+se(pve) =0.0352268
+============                                       26%                                                   0%===================                                39%pve estimate =0.0743645
+se(pve) =0.028587
+============                                       26%=========================                          52%======                                             13%                                                   0%===================                                39%================================                   65%============                                       26%======                                             13%=========================                          52%===================                                39%======================================             78%============                                       26%================================                   65%=========================                          52%=============================================      90%===================                                39%======================================             78%================================                   65%================================================== 100%======================================             78%=============================================      90%=========================                          52%=============================================      90%================================================== 100%================================                   65%================================================== 100%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0932386
+se(pve) =0.0316784
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0972976
+se(pve) =0.0352387
+                                                   0%======                                             13%============                                       26%pve estimate =0.0657047
+se(pve) =0.0287855
+===================                                39%=========================                          52%                                                   0%================================                   65%======================================             78%=============================================      90%======                                             13%================================================== 100%pve estimate =0.0558112
+se(pve) =0.0248161
+                                                   0%============                                       26%======                                             13%============                                       26%===================                                39%===================                                39%pve estimate =0.104547
+se(pve) =0.0354267
+=========================                          52%=========================                          52%================================                   65%                                                   0%======                                             13%pve estimate =0.0895109
+se(pve) =0.0304542
+======================================             78%================================                   65%                                                   0%=============================================      90%======================================             78%============                                       26%================================================== 100%=============================================      90%======                                             13%===================                                39%================================================== 100%============                                       26%=========================                          52%===================                                39%================================                   65%=========================                          52%======================================             78%================================                   65%=============================================      90%================================================== 100%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+================================================== 100%
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+**** INFO: Done.
+**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.0801348
+se(pve) =0.031409
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0769572
+se(pve) =0.0290193
+                                                   0%======                                             13%============                                       26%pve estimate =0.0861638
+se(pve) =0.0324395
+===================                                39%                                                   0%=========================                          52%======                                             13%================================                   65%============                                       26%===================                                39%======================================             78%=============================================      90%=========================                          52%================================================== 100%================================                   65%======================================             78%=============================================      90%pve estimate =0.0624201
+se(pve) =0.0216504
+================================================== 100%                                                   0%======                                             13%============                                       26%===================                                39%pve estimate =0.109023
+se(pve) =0.0369037
+=========================                          52%                                                   0%================================                   65%======                                             13%======================================             78%============                                       26%=============================================      90%===================                                39%================================================== 100%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.0656756
+se(pve) =0.0266551
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%pve estimate =0.0596423
+se(pve) =0.0304604
+                                                   0%=============================================      90%pve estimate =0.0749752
+se(pve) =0.02742
+======                                             13%                                                   0%================================================== 100%============                                       26%======                                             13%===================                                39%============                                       26%=========================                          52%===================                                39%================================                   65%=========================                          52%================================                   65%======================================             78%======================================             78%=============================================      90%================================================== 100%=============================================      90%================================================== 100%pve estimate =0.100333
+se(pve) =0.0335356
+                                                   0%======                                             13%pve estimate =0.0951539
+se(pve) =0.0311333
+============                                       26%                                                   0%===================                                39%======                                             13%=========================                          52%============                                       26%================================                   65%===================                                39%======================================             78%=========================                          52%=============================================      90%================================                   65%================================================== 100%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+**** INFO: Done.
+================================================== 100%
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.114689
+se(pve) =0.0326502
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.103547
+se(pve) =0.033378
+pve estimate =0.106049
+se(pve) =0.0426483
+                                                   0%                                                   0%======                                             13%======                                             13%============                                       26%===================                                39%============                                       26%=========================                          52%================================                   65%===================                                39%======================================             78%=========================                          52%=============================================      90%================================                   65%================================================== 100%======================================             78%=============================================      90%pve estimate =0.0370009
+se(pve) =0.0247074
+================================================== 100%                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.119254
+se(pve) =0.0369356
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.108955
+se(pve) =0.0337668
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.121681
+se(pve) =0.0348991
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%pve estimate =0.0676787
+se(pve) =0.0292264
+                                                   0%======                                             13%================================                   65%============                                       26%===================                                39%======================================             78%=========================                          52%=============================================      90%================================                   65%================================================== 100%======================================             78%=============================================      90%================================================== 100%pve estimate =0.132469
+se(pve) =0.0414786
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%pve estimate =0.0584157
+se(pve) =0.0282217
+================================                   65%                                                   0%======================================             78%======                                             13%=============================================      90%============                                       26%================================================== 100%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+================================================== 100%
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0973472
+se(pve) =0.0331742
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0891956
+se(pve) =0.030327
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%pve estimate =0.114972
+se(pve) =0.0386136
+================================                   65%                                                   0%======================================             78%======                                             13%=============================================      90%============                                       26%================================================== 100%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0962289
+se(pve) =0.0375273
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.116662
+se(pve) =0.0391624
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0808166
+se(pve) =0.0276474
+                                                   0%======                                             13%pve estimate =0.133982
+se(pve) =0.0391911
+============                                       26%===================                                39%                                                   0%=========================                          52%================================                   65%======                                             13%======================================             78%=============================================      90%============                                       26%================================================== 100%===================                                39%=========================                          52%================================                   65%======================================             78%pve estimate =0.0546106
+se(pve) =0.0298198
+                                                   0%=============================================      90%======                                             13%================================================== 100%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0966896
+se(pve) =0.0298454
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0553164
+se(pve) =0.0269376
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0749513
+se(pve) =0.0276625
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0689715
+se(pve) =0.0313315
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.102931
+se(pve) =0.038552
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+pve estimate =0.0913804
+se(pve) =0.0353481
+                                                   0%======                                             13%============                                       26%===================                                39%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%Start Eigen-Decomposition...
+pve estimate =0.124051
+se(pve) =0.0403368
+                                                   0%================================================== 100%
+======                                             13%**** INFO: Done.
+============                                       26%===================                                39%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.106625
+se(pve) =0.0321565
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0926553
+se(pve) =0.0314189
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0887528
+se(pve) =0.03248
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%================================================== 100%
+======================================             78%**** INFO: Done.
+=============================================      90%================================================== 100%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0505485
+se(pve) =0.0253956
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0963602
+se(pve) =0.0336972
+                                                   0%======                                             13%============                                       26%===================                                39%================================================== 100%
+=========================                          52%**** INFO: Done.
+================================                   65%======================================             78%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.104121
+se(pve) =0.0287805
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.118496
+se(pve) =0.0370312
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0819119
+se(pve) =0.0263317
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+pve estimate =0.0900533
+se(pve) =0.0334817
+                                                   0%======                                             13%Start Eigen-Decomposition...
+============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+pve estimate =0.143127
+se(pve) =0.0380261
+**** INFO: Done.
+                                                   0%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0912912
+se(pve) =0.0325049
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.081883
+se(pve) =0.0352139
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%pve estimate =0.0658493
+se(pve) =0.0286713
+======================================             78%                                                   0%=============================================      90%======                                             13%================================================== 100%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.130803
+se(pve) =0.0412977
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================================== 100%
+================================                   65%**** INFO: Done.
+======================================             78%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+pve estimate =0.104723
+se(pve) =0.0345727
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================================== 100%
+**** INFO: Done.
+================================                   65%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+======================================             78%=============================================      90%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0998589
+se(pve) =0.0354336
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.123158
+se(pve) =0.0427079
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.126239
+se(pve) =0.0358844
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0836735
+se(pve) =0.0336639
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+pve estimate =0.102033
+se(pve) =0.039449
+                                                   0%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%================================================== 100%
+**** INFO: Done.
+======================================             78%=============================================      90%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+pve estimate =0.149501
+se(pve) =0.0402343
+                                                   0%======                                             13%============                                       26%===================                                39%Start Eigen-Decomposition...
+=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0734686
+se(pve) =0.0263946
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0678938
+se(pve) =0.0324993
+                                                   0%======                                             13%============                                       26%pve estimate =0.107554
+se(pve) =0.0350758
+===================                                39%                                                   0%=========================                          52%======                                             13%================================                   65%============                                       26%======================================             78%===================                                39%=============================================      90%=========================                          52%================================================== 100%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.108727
+se(pve) =0.0373813
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+pve estimate =0.0736715
+se(pve) =0.0318233
+                                                   0%**** INFO: Done.
+======                                             13%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+pve estimate =0.150835
+se(pve) =0.0414859
+                                                   0%======                                             13%============                                       26%Start Eigen-Decomposition...
+===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.107019
+se(pve) =0.0391402
+                                                   0%pve estimate =0.0643474
+se(pve) =0.0247856
+======                                             13%                                                   0%============                                       26%======                                             13%===================                                39%============                                       26%=========================                          52%===================                                39%================================                   65%=========================                          52%================================                   65%======================================             78%=============================================      90%======================================             78%================================================== 100%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.12923
+se(pve) =0.0378639
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0689952
+se(pve) =0.030776
+                                                   0%======                                             13%============                                       26%===================                                39%pve estimate =0.115648
+se(pve) =0.0347756
+=========================                          52%================================================== 100%
+                                                   0%================================                   65%======                                             13%**** INFO: Done.
+======================================             78%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+============                                       26%=============================================      90%================================================== 100%===================                                39%=========================                          52%================================                   65%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+======================================             78%=============================================      90%================================================== 100%Start Eigen-Decomposition...
+pve estimate =0.123529
+se(pve) =0.0407241
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0966098
+se(pve) =0.0323408
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0951951
+se(pve) =0.0296391
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.130849
+se(pve) =0.038192
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.123697
+se(pve) =0.0383694
+                                                   0%======                                             13%pve estimate =0.0864403
+se(pve) =0.0349247
+============                                       26%                                                   0%===================                                39%================================================== 100%
+======                                             13%=========================                          52%**** INFO: Done.
+================================                   65%============                                       26%GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+===================                                39%======================================             78%=============================================      90%=========================                          52%================================================== 100%================================                   65%======================================             78%=============================================      90%================================================== 100%## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0921048
+se(pve) =0.0359108
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+Start Eigen-Decomposition...
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.123717
+se(pve) =0.0403373
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.0756059
+se(pve) =0.0322923
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.104177
+se(pve) =0.0383505
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.145029
+se(pve) =0.0422002
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 965
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.0603601
+se(pve) =0.0271235
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================================== 100%
+================================                   65%**** INFO: Done.
+======================================             78%=============================================      90%================================================== 100%
+================================================== 100%**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+pve estimate =0.112878
+se(pve) =0.0349951
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+================================================== 100%
+**** INFO: Done.
+[1] 4
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Reading Files ... 
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Reading Files ... 
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+Start Eigen-Decomposition...
+pve estimate =0.152033
+se(pve) =0.0406621
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.208061
+se(pve) =0.0482675
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.163454
+se(pve) =0.044101
+                                                   0%pve estimate =0.101402
+se(pve) =0.042263
+======                                             13%                                                   0%============                                       26%======                                             13%============                                       26%===================                                39%pve estimate =0.167456
+se(pve) =0.0490065
+===================                                39%=========================                          52%                                                   0%=========================                          52%================================                   65%======                                             13%================================                   65%======================================             78%============                                       26%======================================             78%=============================================      90%===================                                39%=============================================      90%================================================== 100%================================================== 100%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+================================================== 100%
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.15087
+se(pve) =0.0477825
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.1143
+se(pve) =0.0459448
+                                                   0%pve estimate =0.168917
+se(pve) =0.0516989
+======                                             13%                                                   0%======                                             13%============                                       26%============                                       26%===================                                39%===================                                39%=========================                          52%================================                   65%=========================                          52%======================================             78%=============================================      90%================================                   65%================================================== 100%======================================             78%=============================================      90%================================================== 100%pve estimate =0.212544
+se(pve) =0.0477661
+                                                   0%======                                             13%============                                       26%===================                                39%pve estimate =0.163915
+se(pve) =0.0462954
+=========================                          52%                                                   0%================================                   65%======                                             13%======================================             78%============                                       26%=============================================      90%================================================== 100%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.20893
+se(pve) =0.0493521
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.161874
+se(pve) =0.0474101
+                                                   0%======                                             13%============                                       26%===================                                39%pve estimate =0.17185
+se(pve) =0.0455128
+=========================                          52%                                                   0%================================                   65%======                                             13%======================================             78%============                                       26%=============================================      90%===================                                39%================================================== 100%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.166391
+se(pve) =0.045893
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%pve estimate =0.156035
+se(pve) =0.0473885
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+================================================== 100%
+**** INFO: Done.
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+Start Eigen-Decomposition...
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+================================================== 100%
+**** INFO: Done.
+Start Eigen-Decomposition...
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 966
+## number of analyzed individuals = 966
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
