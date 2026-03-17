@@ -54,15 +54,15 @@ names(all_cluster_merged)[!names(all_cluster_merged)%in%names(all_GWAS_sign)]
 
 #sign_for_Caendr <- all_GWAS_sign
 #names(sign_for_Caendr)[2:5]=c("CHROM","POS","ALT","REF")
-#dim(merge(sign_for_Caendr,data.frame(founders_Caendr@fix)))
-#dim(merge(sign_for_Caendr,data.frame(founders_Caendr@fix[,1:2])))
+#dim(merge(sign_for_Caendr[,2:5],data.frame(founders_Caendr@fix),by=c("CHROM","POS")))
+#dim(merge(sign_for_Caendr[,2:5],data.frame(founders_Caendr@fix[,1:2]))) #62k shared out of 90k
 
 gp_nbSNPs=tapply(all_GWAS_sign$group,all_GWAS_sign$group,length)
 gp_min=tapply(all_GWAS_sign$ps,all_GWAS_sign$group,min)
 gp_max=tapply(all_GWAS_sign$ps,all_GWAS_sign$group,max)
 gp_type=tapply(all_GWAS_sign$chr_type,all_GWAS_sign$group,unique)
 table(as.numeric(lapply(gp_type,length)))
-## Only 28 with 2 types
+## Only 25 with 2 types
 #gp_type[as.numeric(lapply(gp_type,length))==2] # We decide center>arm>tip
 for(i in c(1:length(gp_type))[as.numeric(lapply(gp_type,length))==2]){
   if(gp_type[[i]][1]=="left_tip"){
@@ -114,6 +114,7 @@ af.per.pleio$sign=as.factor(af.per.pleio$sign)
 af.per.pleio$sign_num=as.numeric(as.character(as.factor((af.per.pleio$sign))))
 
 af.per.pleio=na.omit(af.per.pleio)
+
 ## only take minor alleles
 af.per.pleio$af[af.per.pleio$af>0.5] = 1-af.per.pleio$af[af.per.pleio$af>0.5]
 
@@ -447,8 +448,9 @@ for(i in 1:14){
  temp=pleiot.idx_mixed$Neff[is_arm]
  coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=coefs_euc,control = nls.control(maxiter = 1000)))#list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx_mixed$Neff[is_center]
- coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
- 
+ #coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0.0001,b=0.8,c=.5)))
+ coefs_euc_center <- coef(nls(euclidian_summed[is_center]~b*temp^c,start=list(b=0.8,c=.5)))
+ coefs_euc_center=c(0,coefs_euc_center)
  temp.NGM <- euclidian_NGM>0
  temp=pleiot.idx$NGM.cor[temp.NGM]
  coefs_euc.NGM <- coef(nls(euclidian_NGM[temp.NGM]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
@@ -456,7 +458,8 @@ for(i in 1:14){
  ## a=0 here
  coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
  temp=pleiot.idx$NGM.cor[temp.NGM & is_center]
- coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ #coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ coefs_euc.NGM.center <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=0.8,c=.5))))
  
  temp.NaCl <- euclidian_NaCl>0
  temp=pleiot.idx$NaCl.cor[temp.NaCl]
@@ -520,7 +523,7 @@ for(i in 1:14){
  temp=pleiot.idx$NGM.cor[temp.NGM & is_arm]
  coefs_man.NGM.arm <- coef(nls(manh_NGM[temp.NGM & is_arm]~a+b*temp^c,start=list(a=1,b=1,c=1)))
  temp=pleiot.idx$NGM.cor[temp.NGM & is_center]
- coefs_man.NGM.center <- coef(nls(manh_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ coefs_man.NGM.center <- c(0,coef(nls(manh_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=1,c=1))))
  
  temp.NaCl <- manh_NaCl>0
  temp=pleiot.idx$NaCl.cor[temp.NaCl]
@@ -596,16 +599,17 @@ for(i in 1:14){
  temp=pleiot.idx_mixed$N[is_arm]
  coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx_mixed$N[is_center]
- coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ #coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ coefs_euc_center <- c(0,coef(nls(euclidian_summed[is_center]~b*temp^c,start=list(b=0.8,c=.5))))
  
  temp.NGM <- euclidian_NGM>0
  temp=pleiot.idx$NGM[temp.NGM]
- coefs_euc.NGM <- coef(nls(euclidian_NGM[temp.NGM]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ coefs_euc.NGM <- c(0,coef(nls(euclidian_NGM[temp.NGM]~ b*temp^c,start=list(b=0.8,c=.5))))
  temp=pleiot.idx$NGM[temp.NGM & is_arm]
  ## a=0 here
  coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
  temp=pleiot.idx$NGM[temp.NGM & is_center]
- coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ coefs_euc.NGM.center <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=0.8,c=.5))))
  
  temp.NaCl <- euclidian_NaCl>0
  temp=pleiot.idx$NaCl[temp.NaCl]
@@ -669,7 +673,7 @@ for(i in 1:14){
  temp=pleiot.idx$NGM[temp.NGM & is_arm]
  coefs_man.NGM.arm <- coef(nls(manh_NGM[temp.NGM & is_arm]~a+b*temp^c,start=list(a=1,b=1,c=1)))
  temp=pleiot.idx$NGM[temp.NGM & is_center]
- coefs_man.NGM.center <- coef(nls(manh_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=1,b=1,c=1)))
+ coefs_man.NGM.center <- c(0,coef(nls(manh_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=1,c=1))))
  
  temp.NaCl <- manh_NaCl>0
  temp=pleiot.idx$NaCl[temp.NaCl]
@@ -835,9 +839,51 @@ plot(scale(eigen(G_mat)$vectors[,1]),scale(eigen(G_mat_P1)$vectors[,1]))
  dev.off()
  
  
+ 
+ ### Stronger effect ? - Example with body size ?
+ vect_kept=allPcor$same_T==0
  plot(abs(allPcor$Pcor)[vect_kept],allPcor$nbClust[vect_kept],pch=c(16,11)[1+allPcor$same_T[vect_kept]],
       col=c("black","blue","orange")[1+allPcor$same_env[vect_kept]],xlab="Phenotypic correlation (BV)",ylab="Nb of  shared pleiotropic clusters",
-      xlim=c(0,.4),ylim=c(0,310))
+      xlim=c(0,.4),ylim=c(0,310),las=1,bty="n")
+ 
+ abline(lm(allPcor$nbClust[vect_kept]~abs(allPcor$Pcor)[vect_kept]),lty=2)
+ 
+ vect_kept=allPcor$same_T==1
+ points(abs(allPcor$Pcor)[vect_kept],allPcor$nbClust[vect_kept],pch=c(16,11)[1+allPcor$same_T[vect_kept]],
+        col="red")
+ 
+ abline(lm(allPcor$nbClust[vect_kept]~abs(allPcor$Pcor)[vect_kept]),lty=2,col="red")
+ 
+ vect_AREA=allPcor$T1==1 & allPcor$T2==8
+ points(abs(allPcor$Pcor)[vect_AREA],allPcor$nbClust[vect_AREA],pch=21,bg="magenta")
+ legend(0,320,c("Low Salt","High Salt","Across environment","Same trait"),pch=c(16,16,16,11),col=c("blue","orange","black","red"),cex=.6,ncol=2)
+ 
+ 
+ plot(all_GWAS_clusters$beta_T1,all_GWAS_clusters$beta_T8,pch=16,cex=.6,col=adjustcolor("grey",alpha=.3),las=1,asp=1,type="n")
+ abline(a=0,b=1)
+ abline(h=0,lty=2);abline(v=0,lty=2)
+ points(all_GWAS_clusters$beta_T1,all_GWAS_clusters$beta_T8,pch=16,cex=.6,col=adjustcolor("grey",alpha=.3))
+ points(all_GWAS_clusters$beta_T1[all_GWAS_clusters$is_sign_T1],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T1],pch=16,cex=.6,col=adjustcolor("cornflowerblue",alpha=.7))
+ points(all_GWAS_clusters$beta_T1[all_GWAS_clusters$is_sign_T8],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T8],pch=16,cex=.6,col=adjustcolor("firebrick3",alpha=.7))
+ points(all_GWAS_clusters$beta_T1[all_GWAS_clusters$is_sign_T1 & all_GWAS_clusters$is_sign_T8],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T1 & all_GWAS_clusters$is_sign_T8],pch=16,cex=.6,col=adjustcolor("magenta",alpha=.7))
+ 
+ 
+ ##########
+ 
+ plot(all_GWAS_clusters$beta_T10,all_GWAS_clusters$beta_T8,pch=16,cex=.6,col=adjustcolor("grey",alpha=.3),las=1,asp=1,type="n")
+ abline(a=0,b=1)
+ abline(h=0,lty=2);abline(v=0,lty=2)
+ points(all_GWAS_clusters$beta_T10,all_GWAS_clusters$beta_T8,pch=16,cex=.6,col=adjustcolor("grey",alpha=.3))
+ points(all_GWAS_clusters$beta_T10[all_GWAS_clusters$is_sign_T10],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T10],pch=16,cex=.6,col=adjustcolor("cornflowerblue",alpha=.7))
+ points(all_GWAS_clusters$beta_T10[all_GWAS_clusters$is_sign_T8],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T8],pch=16,cex=.6,col=adjustcolor("firebrick3",alpha=.7))
+ points(all_GWAS_clusters$beta_T10[all_GWAS_clusters$is_sign_T10 & all_GWAS_clusters$is_sign_T8],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T10 & all_GWAS_clusters$is_sign_T8],pch=16,cex=.6,col=adjustcolor("magenta",alpha=.7))
+ 
+ ########## At higher frequencies ? Why ?
+ 
+ 
+ 
+ 
+ 
  
  
  

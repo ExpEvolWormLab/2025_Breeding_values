@@ -64,3 +64,5 @@ for(j in 1:2){
   save(list=ls(),file=paste0('Permutation_Gemma_BLUE_with_residuals_plasticity/Permutation_gemma_trait_BLUE_',j,'.RData'))
   
 }
+
+

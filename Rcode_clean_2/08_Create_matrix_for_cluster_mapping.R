@@ -10,15 +10,16 @@ vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
 ## Load Cemee data
-load('RData/Genotype_info_Cemee.RData')
-snp_positions=as.data.frame(snp_positions)
-snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
-snp_positions$POS=as.numeric(as.character(snp_positions$POS))
+#load('RData/Genotype_info_Cemee.RData')
+#snp_positions=as.data.frame(snp_positions)
+#snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
+#snp_positions$POS=as.numeric(as.character(snp_positions$POS))
 
 ## Re-order
-genotype_info=genotype_info[order(snp_positions$CHROM,snp_positions$POS),]
-snp_positions=snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
+#genotype_info=genotype_info[order(snp_positions$CHROM,snp_positions$POS),]
+#snp_positions=snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
 
+genotypes_gemma <- read.table(file="data_BLUE/genotypes_for_gemma.txt")
 
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
 print(threshold_clust)
@@ -30,29 +31,26 @@ all_cluster_merged=all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster
 
 
 ## Subset
-genotype_info_sign=genotype_info[snp_positions$ID%in%all_cluster_merged$rs,]
-snp_positions_sign=snp_positions[snp_positions$ID%in%all_cluster_merged$rs,]
-dim(snp_positions)
-dim(snp_positions_sign)
+genotypes_gemma_sign=genotypes_gemma[genotypes_gemma$V1%in%all_cluster_merged$rs,]
 ### We are going to create a new matrix for gemma mapping - with a line per cluster
 ## Order groups/clusters
 all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 all_cluster_merged$group = as.numeric(factor(as.character(all_cluster_merged$group),levels=unique(all_cluster_merged$group)))
 
-table(snp_positions_sign$ID==all_cluster_merged$rs)
-table(snp_positions_sign$REF==all_cluster_merged$allele0)
-geno_matrix_groups = matrix(data=NA,nrow=max(all_cluster_merged$group),ncol=1001)
+table(genotypes_gemma_sign$V1==all_cluster_merged$rs)
+
+geno_matrix_groups = matrix(data=NA,nrow=max(all_cluster_merged$group),ncol=ncol(genotypes_gemma_sign)-3)
 
 for(i in 1:max(all_cluster_merged$group)){
   if(i==1000*round(i/1000)){
     print(i)
   }
   if(sum(all_cluster_merged$group==i)==1){
-    geno_matrix_groups[i,]=as.numeric(genotype_info_sign[all_cluster_merged$group==i,])
+    geno_matrix_groups[i,]=as.numeric(geno_group[all_cluster_merged$group==i,4:ncol(geno_group)])
   }else{
-    geno_group <- genotype_info_sign[all_cluster_merged$group==i,]
+    geno_group <- genotypes_gemma_sign[all_cluster_merged$group==i,]
     ## Instead, just take the mean
-    geno_matrix_groups[i,] = colMeans(geno_group,na.rm=TRUE)
+    geno_matrix_groups[i,] = colMeans(geno_group[,4:ncol(geno_group)],na.rm=TRUE)
   }
 }
 

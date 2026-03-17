@@ -1,6 +1,23 @@
 rm(list=ls())
 gc()
 
+#library(rrBLUP)
+#y_hat=NULL
+#residuals_pheno=NULL
+#for(i in 1:2){
+#  print(i)
+#  phenotypes <- read.table("data_BLUE/gemma_pheno.txt")
+#  Kmat <- as.matrix(read.table("data_BLUE/kinship.txt"))
+#  fit_null <- mixed.solve(y = phenotypes[,i], K = Kmat)  
+#  u_hat    <- fit_null$u
+#  y_hat_temp    <- u_hat + mean(phenotypes[,i], na.rm = TRUE) 
+#  y_hat <- cbind(y_hat,y_hat_temp)
+#  residuals_pheno <- cbind(residuals_pheno,phenotypes[,i] - y_hat_temp)
+#}
+#write.table(residuals_pheno,file='data_BLUE/residuals_pheno_for_permutations.txt',quote=FALSE,row.names=FALSE,col.names=FALSE)
+#write.table(y_hat,file='data_BLUE/mean_pheno_for_permutations.txt',quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+
 system("conda activate gemma-env")
 
 ## For the first trait:

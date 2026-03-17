@@ -211,10 +211,14 @@ data_manhattan2=subset(data_manhattan2,CHR!=7)
 library(qqman)
 manhattan(data_manhattan2, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,cex=.6,suggestiveline=FALSE,genomewideline=FALSE)
 subset(data_manhattan2,P>10)
+subset(data_manhattan,P>10)
 
 
+kept = data_manhattan$P>2 & data_manhattan2$P>2
+table(kept)
+plot(data_manhattan$P[kept],data_manhattan2$P[kept])
 
-
+subset(mapping_T2,CHR=="I" & BP%in%subset(data_manhattan2,P>10)$BP)
 
 
 
