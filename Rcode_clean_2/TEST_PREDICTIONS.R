@@ -21,6 +21,12 @@ pred_traits = cbind(pred_traits,unlist(apply(genotypes[,4:969],2,function(x){
   sum(x[all_GWAS_clusters[,paste0("is_sign_T",i)]]*all_GWAS_clusters[,paste0("beta_T",i)][all_GWAS_clusters[,paste0("is_sign_T",i)]])})))
 }
 
+plot(gemma_pheno[,1],pred_traits[,1],pch=16)
+abline(lm(pred_traits[,1]~gemma_pheno[,1]))
+for(i in 1:14){
+print(coef(lm(pred_traits[,i]~gemma_pheno[,i])))
+}
+
 pred_traits_noP=NULL
 pred_traits_onlyP=NULL
 
