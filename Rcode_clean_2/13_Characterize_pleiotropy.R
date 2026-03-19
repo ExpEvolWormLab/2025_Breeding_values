@@ -141,6 +141,7 @@ summary(model.af)
 anova(model.af,model.af2)
 anova(model.af2,model.af3)
 anova(model.af2,model.af4)
+
 hist(af.per.pleio$af*(1-af.per.pleio$af),n=40)
 
 af.per.pleio.NGM <- subset(af.per.pleio,env_label=="NGM")
@@ -448,18 +449,19 @@ for(i in 1:14){
  temp=pleiot.idx_mixed$Neff[is_arm]
  coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=coefs_euc,control = nls.control(maxiter = 1000)))#list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx_mixed$Neff[is_center]
- #coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0.0001,b=0.8,c=.5)))
- coefs_euc_center <- coef(nls(euclidian_summed[is_center]~b*temp^c,start=list(b=0.8,c=.5)))
- coefs_euc_center=c(0,coefs_euc_center)
+ coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0.0001,b=0.8,c=.5)))
+ #coefs_euc_center <- coef(nls(euclidian_summed[is_center]~b*temp^c,start=list(b=0.8,c=.5)))
+ #coefs_euc_center=c(0,coefs_euc_center)
  temp.NGM <- euclidian_NGM>0
  temp=pleiot.idx$NGM.cor[temp.NGM]
  coefs_euc.NGM <- coef(nls(euclidian_NGM[temp.NGM]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx$NGM.cor[temp.NGM & is_arm]
  ## a=0 here
- coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
+ coefs_euc.NGM.arm <- coef(nls(euclidian_NGM[temp.NGM & is_arm]~a+b*temp^c,start=list(a=0.001,b=0.8,c=.5)))
+ #coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
  temp=pleiot.idx$NGM.cor[temp.NGM & is_center]
- #coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
- coefs_euc.NGM.center <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=0.8,c=.5))))
+ coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ #coefs_euc.NGM.center <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=0.8,c=.5))))
  
  temp.NaCl <- euclidian_NaCl>0
  temp=pleiot.idx$NaCl.cor[temp.NaCl]
@@ -599,17 +601,20 @@ for(i in 1:14){
  temp=pleiot.idx_mixed$N[is_arm]
  coefs_euc_arm <- coef(nls(euclidian_summed[is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
  temp=pleiot.idx_mixed$N[is_center]
- #coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
- coefs_euc_center <- c(0,coef(nls(euclidian_summed[is_center]~b*temp^c,start=list(b=0.8,c=.5))))
+ coefs_euc_center <- coef(nls(euclidian_summed[is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ #coefs_euc_center <- c(0,coef(nls(euclidian_summed[is_center]~b*temp^c,start=list(b=0.8,c=.5))))
  
  temp.NGM <- euclidian_NGM>0
  temp=pleiot.idx$NGM[temp.NGM]
- coefs_euc.NGM <- c(0,coef(nls(euclidian_NGM[temp.NGM]~ b*temp^c,start=list(b=0.8,c=.5))))
+ coefs_euc.NGM <- coef(nls(euclidian_NGM[temp.NGM]~a+b*temp^c,start=list(a=1,b=0.8,c=.5)))
+ #coefs_euc.NGM <- c(0,coef(nls(euclidian_NGM[temp.NGM]~ b*temp^c,start=list(b=0.8,c=.5))))
  temp=pleiot.idx$NGM[temp.NGM & is_arm]
  ## a=0 here
- coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
+ coefs_euc.NGM.arm <- coef(nls(euclidian_NGM[temp.NGM & is_arm]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ #coefs_euc.NGM.arm <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_arm]~b*temp^c,start=list(b=0.8,c=.5))))
  temp=pleiot.idx$NGM[temp.NGM & is_center]
- coefs_euc.NGM.center <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=0.8,c=.5))))
+ coefs_euc.NGM.center <- coef(nls(euclidian_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=0.8,c=.5)))
+ #coefs_euc.NGM.center <- c(0,coef(nls(euclidian_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=0.8,c=.5))))
  
  temp.NaCl <- euclidian_NaCl>0
  temp=pleiot.idx$NaCl[temp.NaCl]
@@ -673,7 +678,8 @@ for(i in 1:14){
  temp=pleiot.idx$NGM[temp.NGM & is_arm]
  coefs_man.NGM.arm <- coef(nls(manh_NGM[temp.NGM & is_arm]~a+b*temp^c,start=list(a=1,b=1,c=1)))
  temp=pleiot.idx$NGM[temp.NGM & is_center]
- coefs_man.NGM.center <- c(0,coef(nls(manh_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=1,c=1))))
+ coefs_man.NGM.center <- coef(nls(manh_NGM[temp.NGM & is_center]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ #coefs_man.NGM.center <- c(0,coef(nls(manh_NGM[temp.NGM & is_center]~b*temp^c,start=list(b=1,c=1))))
  
  temp.NaCl <- manh_NaCl>0
  temp=pleiot.idx$NaCl[temp.NaCl]
@@ -838,8 +844,7 @@ plot(scale(eigen(G_mat)$vectors[,1]),scale(eigen(G_mat_P1)$vectors[,1]))
  legend(0,320,c("Low Salt","High Salt","Across environment","Same trait"),pch=c(16,16,16,11),col=c("blue","orange","black","red"),cex=.6,ncol=2)
  dev.off()
  
- 
- 
+
  ### Stronger effect ? - Example with body size ?
  vect_kept=allPcor$same_T==0
  plot(abs(allPcor$Pcor)[vect_kept],allPcor$nbClust[vect_kept],pch=c(16,11)[1+allPcor$same_T[vect_kept]],
@@ -879,13 +884,6 @@ plot(scale(eigen(G_mat)$vectors[,1]),scale(eigen(G_mat_P1)$vectors[,1]))
  points(all_GWAS_clusters$beta_T10[all_GWAS_clusters$is_sign_T10 & all_GWAS_clusters$is_sign_T8],all_GWAS_clusters$beta_T8[all_GWAS_clusters$is_sign_T10 & all_GWAS_clusters$is_sign_T8],pch=16,cex=.6,col=adjustcolor("magenta",alpha=.7))
  
  ########## At higher frequencies ? Why ?
- 
- 
- 
- 
- 
- 
- 
  
  model_sameT <- lm(nbClust~abs(Pcor),data=subset(allPcor,same_T==1))
  summary(model_sameT)
