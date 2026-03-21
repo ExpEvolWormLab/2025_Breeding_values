@@ -6,7 +6,7 @@ library(dplyr)
 library(igraph)
 library(parallel)
 library(bigsnpr)
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
+vect_P_traits=c("beta")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
 ## Load Cemee data
@@ -19,7 +19,7 @@ vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_N
 #genotype_info=genotype_info[order(snp_positions$CHROM,snp_positions$POS),]
 #snp_positions=snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
 
-genotypes_gemma <- read.table(file="data_BLUE/genotypes_for_gemma.txt")
+genotypes_gemma <- read.table(file="data_BLUE_plasticity//genotypes_for_gemma.txt")
 
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
 print(threshold_clust)
@@ -76,8 +76,8 @@ head(df_clusters)
 bimbam <- data.frame(id=df_clusters$clusterID,major="A",minor="a")
 bimbam <- cbind(bimbam,geno_matrix_groups)
 
-write.table(bimbam,paste0("data_BLUE_clusters/genotypes_clusters_R",round(10*threshold_clust),".txt"),row.names=FALSE,col.names=FALSE,quote=FALSE)
-write.table(df_clusters,paste0("data_BLUE_clusters/data_clusters_BLUE_R",round(10*threshold_clust),".txt"),row.names=FALSE,quote=FALSE)
+write.table(bimbam,paste0("data_BLUE_clusters_plasticity/genotypes_clusters_R",round(10*threshold_clust),".txt"),row.names=FALSE,col.names=FALSE,quote=FALSE)
+write.table(df_clusters,paste0("data_BLUE_clusters_plasticity/data_clusters_BLUE_R",round(10*threshold_clust),".txt"),row.names=FALSE,quote=FALSE)
 
 }
 
@@ -89,10 +89,10 @@ write.table(df_clusters,paste0("data_BLUE_clusters/data_clusters_BLUE_R",round(1
 ### Only takes one column at a time
 #for j in 2 4 6 8 9 10
 #do
-#for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+#for i in 1 2
 #do
-#cut -f $i data_BLUE/gemma_pheno.txt > data_BLUE/split/gemma_pheno_T${i}.txt
-#nohup gemma -g data_BLUE_clusters/genotypes_clusters_R${j}.txt -k data_BLUE/kinship.txt -lmm 4 -p data_BLUE/split/gemma_pheno_T${i}.txt -o gwas_results_clusters_BLUE_R${j}_T${i} > gemma_output_BLUE_clusters_txt/output_gemma_clusters_R${j}_t${i}.txt &
+#cut -f $i data_BLUE_plasticity/gemma_pheno.txt > data_BLUE_plasticity/split/gemma_pheno_T${i}.txt
+#nohup gemma -g data_BLUE_clusters_plasticity/genotypes_clusters_R${j}.txt -k data_BLUE_plasticity/kinship.txt -lmm 4 -p data_BLUE_plasticity/split/gemma_pheno_T${i}.txt -o gwas_results_clusters_BLUE_plasticity_R${j}_T${i} > gemma_output_BLUE_plasticity_clusters_txt/output_gemma_clusters_R${j}_t${i}.txt &
 #done
 #wait
 #done
