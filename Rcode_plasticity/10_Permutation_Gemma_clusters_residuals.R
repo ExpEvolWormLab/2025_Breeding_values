@@ -40,7 +40,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
       pheno <- mean_pheno[,j] + sample(resid_pheno[,j])
       # save it
       write.table(pheno,file=paste("temp_perm/pheno_plast",idx_temp,"_clusters.txt",sep='_'),quote=FALSE,row.names=FALSE,col.names=FALSE)
-      gemma_cmd <- paste0("gemma -g data_BLUE_clusters_plasticity/genotypes_clusters_R",round(10*threshold_clust),".txt -k data_BLUE_plasticity/kinship.txt -lmm 1 -p ",paste("temp_perm/pheno",idx_temp,"_clusters.txt",sep='_')," -o gwas_results_clusters_BLUE_plasticity",idx_temp)
+      gemma_cmd <- paste0("gemma -g data_BLUE_clusters_plasticity/genotypes_clusters_R",round(10*threshold_clust),".txt -k data_BLUE_plasticity/kinship.txt -lmm 1 -p ",paste("temp_perm/pheno_plast",idx_temp,"_clusters.txt",sep='_')," -o gwas_results_clusters_BLUE_plasticity",idx_temp)
       system(gemma_cmd)
       p_values <- read.table(file=paste0("output/gwas_results_clusters_BLUE_plasticity",idx_temp,".assoc.txt"),sep='\t',h=TRUE)[,c("chr","rs","logl_H1","l_remle","p_wald")]
       system(paste0("rm ",paste0("output/gwas_results_clusters_BLUE_plasticity",idx_temp,".assoc.txt")))
