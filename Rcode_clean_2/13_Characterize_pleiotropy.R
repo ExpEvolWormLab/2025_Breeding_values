@@ -1,7 +1,7 @@
 rm(list=ls());gc()
 library(data.table)
 
-threshold_clust = 0.8
+threshold_clust = 0.2
 load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
 load(file="RData/GWAS_results_concatenated.RData")
 gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)

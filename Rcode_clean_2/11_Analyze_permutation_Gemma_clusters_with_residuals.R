@@ -69,7 +69,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     #print(table(traitJ$rs%in%all_GWAS$rs))
     print(dim(all_GWAS))
   }
-  rm(concat_GWAS.temp,concat.perm.sorted,j,p,traitJ,nb_NA,i,list_length)
+  rm(concat_GWAS.temp,concat.perm.sorted,j,p,traitJ,nb_NA,list_length)
   
   all_GWAS_clusters = all_GWAS
   rm(all_GWAS)
