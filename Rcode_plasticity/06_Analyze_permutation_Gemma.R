@@ -50,7 +50,7 @@ data_manhattan = data.frame(CHR=as.numeric(traitJ$chr),BP=traitJ$ps,SNP=c(1:nrow
                             P=-log10(traitJ$p_wald),is_sign=traitJ$is_sign)
 data_manhattan=subset(data_manhattan,CHR!=7)
 
-pdf(paste0("plots_BLUEs/Manhattan_GWAS_Trait_plasticity_",j,".pdf"),w=10)
+pdf(paste0("plots_BLUEs_plasticity/Manhattan_GWAS_Trait_plasticity_",j,".pdf"),w=10)
 manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
           highlight=data_manhattan$SNP[data_manhattan$is_sign],cex=.6,suggestiveline=FALSE,genomewideline=FALSE)
 dev.off()

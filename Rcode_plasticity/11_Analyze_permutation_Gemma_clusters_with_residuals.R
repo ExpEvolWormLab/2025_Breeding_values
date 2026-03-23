@@ -5,7 +5,7 @@ library(data.table)
 
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
   print(threshold_clust)
-  for(j in 1:14){
+  for(j in 1:2){
     
     traitJ = read.table(paste0("gemma_results_BLUE_clusters_plasticity/gwas_results_clusters_BLUE_plasticity_R",round(10*threshold_clust),"_T",j,".assoc.txt"),h=TRUE)
     traitJ$group = tstrsplit(traitJ$rs,"_")[[1]]
@@ -69,7 +69,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     #print(table(traitJ$rs%in%all_GWAS$rs))
     print(dim(all_GWAS))
   }
-  rm(concat_GWAS.temp,concat.perm.sorted,j,p,traitJ,nb_NA,list_length)
+  rm(concat_GWAS.temp,j,p,traitJ,nb_NA,list_length)
   
   all_GWAS_clusters = all_GWAS
   rm(all_GWAS)
