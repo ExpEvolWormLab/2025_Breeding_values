@@ -1,0 +1,13 @@
+GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
+Reading Files ... 
+## number of total individuals = 960
+## number of analyzed individuals = 917
+## number of covariates = 1
+## number of phenotypes = 1
+## number of total SNPs/var        =     7739
+## number of analyzed SNPs         =     7739
+Start Eigen-Decomposition...
+pve estimate =0.354994
+se(pve) =0.0485545
+                                                   0%======                                             13%============                                       26%===================                                39%=========================                          52%================================                   65%======================================             78%=============================================      90%================================================== 100%================================================== 100%
+**** INFO: Done.
