@@ -29,12 +29,10 @@ pred_traits_noP=NULL
 pred_traits_onlyP=NULL
 
 all_GWAS_clusters$sign_overall = rowSums(all_GWAS_clusters[,paste0("is_sign_T",1:14)])
-sum(all_GWAS_clusters$sign_overall>=1)/nrow(all_GWAS_clusters) # 82% significant / 89% in r=0.2
+sum(all_GWAS_clusters$sign_overall>=1)/nrow(all_GWAS_clusters) # 90% significant / 89% in r=0.2
 
 ### Sign ~ Length Cluster ?
 clust_length = data.frame(clusterID=names(table(all_GWAS_clusters$clusterID)),clust_length=as.numeric(table(all_GWAS_clusters$clusterID)))
-hist(clust_length$clust_length)
-
 
 all_GWAS_clusters_onlyP = subset(all_GWAS_clusters,sign_overall>=2)
 genotypes_onlyP=genotypes[all_GWAS_clusters$sign_overall>=2,]

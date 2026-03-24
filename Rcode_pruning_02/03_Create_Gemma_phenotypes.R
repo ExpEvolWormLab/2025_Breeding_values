@@ -40,12 +40,12 @@ write.table(bimbam_08,"data_BLUE/genotypes_for_gemma_R08.txt",row.names=FALSE,co
 
 ### Read result
 
-gemma_T1_R02=read.table("gemma_R02/gwas_results_BLUE_R02_T1.assoc.txt",h=TRUE)
+gemma_T1_R02=read.table("gemma_R02/gwas_results_BLUE_R02_T7.assoc.txt",h=TRUE)
 gemma_T1_R02$chr = factor(tstrsplit(gemma_T1_R02$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
 gemma_T1_R02$ps = as.numeric(tstrsplit(gemma_T1_R02$rs,"_")[[2]])
 gemma_T1_R02=gemma_T1_R02[order(gemma_T1_R02$chr,gemma_T1_R02$ps),]
 
-gemma_T1_R02$p_wald.cor=p.adjust(gemma_T1_R02$p_wald)
+gemma_T1_R02$p_wald.cor=p.adjust(gemma_T1_R02$p_wald,method="fdr")
 data_manhattan = data.frame(CHR=as.numeric(gemma_T1_R02$chr),BP=gemma_T1_R02$ps,SNP=c(1:nrow(gemma_T1_R02)),
                             P=-log10(gemma_T1_R02$p_wald.cor))
 
@@ -55,16 +55,16 @@ manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
 
 ###########
 
-gemma_T1_R08=read.table("gemma_R08/gwas_results_BLUE_R08_T1.assoc.txt",h=TRUE)
+gemma_T1_R08=read.table("gemma_R08/gwas_results_BLUE_R08_T7.assoc.txt",h=TRUE)
 gemma_T1_R08$chr = factor(tstrsplit(gemma_T1_R08$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
 gemma_T1_R08$ps = as.numeric(tstrsplit(gemma_T1_R08$rs,"_")[[2]])
 gemma_T1_R08=gemma_T1_R08[order(gemma_T1_R08$chr,gemma_T1_R08$ps),]
 
 gemma_T1_R08$p_wald.cor=p.adjust(gemma_T1_R08$p_wald)
 data_manhattan = data.frame(CHR=as.numeric(gemma_T1_R08$chr),BP=gemma_T1_R08$ps,SNP=c(1:nrow(gemma_T1_R08)),
-                            P=-log10(gemma_T1_R08$p_wald))
+                            P=-log10(p.adjust(gemma_T1_R08$p_wald,method="fdr")))
 
-qqnorm(data_manhattan$P)
+#qqnorm(data_manhattan$P)
 manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
           ,cex=.6,suggestiveline=FALSE,genomewideline=FALSE)
 

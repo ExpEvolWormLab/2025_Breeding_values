@@ -2,9 +2,15 @@ rm(list=ls());gc()
 library(gplots)
 library(limma) 
 
-threshold_clust=0.6
+threshold_clust=0.2
 all_cluster_merged=read.table(paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
 load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
+
+## Plasticity ?
+#all_cluster_merged=read.table(paste0("txt_BLUEs_plasticity//all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
+#load(paste0("RData/GWAS_cluster_results_BLUE_plasticity_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
+
+
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 
 dim(all_cluster_merged)
@@ -37,13 +43,11 @@ boxplot(c((subset(all_GWAS_clusters,is_sign_T7 & beta_T7>0)$beta_T7),
 summary(abs(subset(all_GWAS_clusters,is_sign_T7)$beta_T7))
 summary(abs(subset(all_GWAS_clusters,is_sign_T14)$beta_T14))
 
-
 ### Allele frequencies ?
 all_GWAS_clusters_T7=subset(all_GWAS_clusters,is_sign_T7)
 all_GWAS_clusters_T7$pq.NGM = all_GWAS_clusters_T7$af_T7 * (1-all_GWAS_clusters_T7$af_T7)
 plot(all_GWAS_clusters_T7$pq.NGM,abs(all_GWAS_clusters_T7$beta_T7),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters_T7$beta_T7)+2])
 plot(all_GWAS_clusters_T7$pq.NGM,1/(all_GWAS_clusters_T7$beta_T7^2),pch=16,col=c("blue","black","red")[sign(all_GWAS_clusters_T7$beta_T7)+2])
-
 
 all_GWAS_clusters_T14=subset(all_GWAS_clusters,is_sign_T14)
 plot(all_GWAS_clusters_T14$af_T7,all_GWAS_clusters_T14$beta_T14,pch=16)

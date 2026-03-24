@@ -24,7 +24,7 @@ genotypes_gemma <- read.table(file="data_BLUE_plasticity//genotypes_for_gemma.tx
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
 print(threshold_clust)
 ## Load cluster data
-all_cluster_merged=read.table(paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
+all_cluster_merged=read.table(paste0("txt_BLUEs_plasticity/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged=all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
