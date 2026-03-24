@@ -10,15 +10,15 @@
 ##
 ## Command Line Input = gemma -g data_BLUE_clusters_plasticity/genotypes_clusters_R9.txt -k data_BLUE_plasticity/kinship.txt -lmm 4 -p data_BLUE_plasticity/split/gemma_pheno_T2.txt -o gwas_results_clusters_BLUE_plasticity_R9_T2 
 ##
-## Date = Sat Mar 21 11:01:36 2026
+## Date = Tue Mar 24 09:57:19 2026
 ##
 ## Summary Statistics:
 ## number of total individuals = 960
 ## number of analyzed individuals = 917
 ## number of covariates = 1
 ## number of phenotypes = 1
-## number of total SNPs/var = 12096
-## number of analyzed SNPs/var = 12096
+## number of total SNPs/var = 2353
+## number of analyzed SNPs/var = 2353
 ## REMLE log-likelihood in the null model = 171.774
 ## MLE log-likelihood in the null model = 172.638
 ## pve estimate in the null model = 0.354994
@@ -29,9 +29,9 @@
 ## se(beta) =   0.00555479
 ##
 ## Computation Time:
-## total computation time = 0.687715 min 
+## total computation time = 0.306195 min 
 ## computation time break down: 
-##      time on eigen-decomposition = 0.141228 min 
-##      time on calculating UtX = 0.0675191 min 
-##      time on optimization = 0.34131 min 
+##      time on eigen-decomposition = 0.093769 min 
+##      time on calculating UtX = 0.0185646 min 
+##      time on optimization = 0.0569549 min 
 ##
