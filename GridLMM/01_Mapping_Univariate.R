@@ -159,10 +159,9 @@ library(qqman)
 # ## Remove SNPs with NAs
 # is.NA=colSums(is.na(genotype_matrix))
 # table(is.NA)
+#save(list=c("all_BLUEs_genotyped_NGM","all_BLUEs_genotyped_NaCl","genotype_matrix","is.NA","GRM_sub"),file='RData/GridLMM_mapping.RData')
 
 
-save(list=c("all_BLUEs_genotyped_NGM","all_BLUEs_genotyped_NaCl","genotype_matrix","is.NA","GRM_sub"),file='RData/GridLMM_mapping.RData')
-rm(list=ls());gc()
 load('RData/GridLMM_mapping.RData')
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F")
 
