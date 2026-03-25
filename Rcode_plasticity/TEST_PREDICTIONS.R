@@ -4,7 +4,7 @@ gemma_pheno=read.table('data_BLUE_plasticity///gemma_pheno.txt',sep='\t',h=FALSE
 
 threshold_clust = 0.2
 load(paste0("RData/GWAS_cluster_results_BLUE_plasticity_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
-genotypes <- read.table(file=paste0("data_BLUE_clusters_plasticity//genotypes_clusters_R",round(10*threshold_clust),".txt"))
+genotypes <- read.table(file=paste0("data_BLUE_clusters_plasticity/genotypes_clusters_R",round(10*threshold_clust),".txt"))
 
 table(genotypes$V1==all_GWAS_clusters$rs) # Not in the good order
 genotypes=genotypes[order(genotypes$V1),]
@@ -29,7 +29,7 @@ pred_traits_noP=NULL
 pred_traits_onlyP=NULL
 
 all_GWAS_clusters$sign_overall = rowSums(all_GWAS_clusters[,paste0("is_sign_T",1:2)])
-sum(all_GWAS_clusters$sign_overall>=1)/nrow(all_GWAS_clusters) # 11-14 % ??? very different from the main traits
+sum(all_GWAS_clusters$sign_overall>=1)/nrow(all_GWAS_clusters) # 68 % much lower than the other traits
 
 ### Sign ~ Length Cluster ?
 clust_length = data.frame(clusterID=names(table(all_GWAS_clusters$clusterID)),clust_length=as.numeric(table(all_GWAS_clusters$clusterID)))
@@ -65,9 +65,10 @@ for(i in 1:2){
     }
   }
 }
-head(cor_df)
+cor_df
 
-plot(cor_df$cor_pheno,cor_df$cor_all,pch=16,xlab="Phenotypic correlations",ylab="Correlation between predicted phenotypes")
+plot(cor_df$cor_pheno,cor_df$cor_all,pch=16,xlab="Phenotypic correlations",ylab="Correlation between predicted phenotypes",
+     xlim=c(0,1),ylim=c(0,1))
 abline(lm(cor_df$cor_all~cor_df$cor_pheno),col="black")
 points(cor_df$cor_pheno,cor_df$cor_noP,pch=16,col="green")
 abline(lm(cor_df$cor_noP~cor_df$cor_pheno),col="green")

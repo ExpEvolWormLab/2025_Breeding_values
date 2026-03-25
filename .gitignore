@@ -27,3 +27,8 @@ data_BLUE/genotypes_for_gemma.txt
 /temp_perm
 /temp_perm
 /data_BLUE_plasticity
+/GAPIT_all
+/GAPIT_gBLUP
+/GAPIT_results
+/GAPIT_results_BLINK
+/GAPIT_results_FARMCPU
