@@ -1,0 +1,69 @@
+         used (Mb) gc trigger (Mb) max used (Mb)
+Ncells 300467 16.1     707682 37.8   492918 26.4
+Vcells 521929  4.0    8388608 64.0  1973577 15.1
+
+   *****       ***   vcfR   ***       *****
+   This is vcfR 1.15.0 
+     browseVignettes('vcfR') # Documentation
+     citation('vcfR') # Citation
+   *****       *****      *****       *****
+
+Loading required package: data.table
+Loading required package: lme4
+Loading required package: Matrix
+Loading required package: Rcpp
+package 'rutilstimflutre' (version 0.170.1) is loaded
+dev at https://github.com/timflutre/rutilstimflutre
+
+Attaching package: ‘rutilstimflutre’
+
+The following object is masked from ‘package:lme4’:
+
+    isSingular
+
+Warning messages:
+1: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘rutilstimflutre’ 
+2: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘rutilstimflutre’ 
+3: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘rutilstimflutre’ 
+
+Attaching package: ‘performance’
+
+The following objects are masked from ‘package:rutilstimflutre’:
+
+    mae, rmse
+
+
+For example usage please run: vignette('qqman')
+
+Citation appreciated but not required:
+Turner, (2018). qqman: an R package for visualizing GWAS results using Q-Q and manhattan plots. Journal of Open Source Software, 3(25), 731, https://doi.org/10.21105/joss.00731.
+
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 5"
+[1] "step_size: 0.125, num_to_test: 17"
+[1] "step_size: 0.125, num_to_test: 17"
+[1] "step_size: 0.0625, num_to_test: 43"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.03125, num_to_test: 8"
+[1] "step_size: 0.015625, num_to_test: 43"
+[1] "step_size: 0.0078125, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 16"
+[1] "step_size: 0.00390625, num_to_test: 14"
+[1] "step_size: 0.00390625, num_to_test: 8"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 16"
+[1] "GridLMM_posterior h2s:"
+     pop_label   date_str session_id
+[1,] 0.1171875 0.05859375  0.5175781
+[1] "step: 1, num_h2s: 1, num active: 316152"
+[1] "step: 2, num_h2s: 26, num active: 316152"
