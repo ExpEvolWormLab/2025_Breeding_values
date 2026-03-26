@@ -40,6 +40,9 @@ for(i in vect_P_traits){
 model_beta <- lm(rel_fit ~ SF+SB+FS+FB+BS+BF+area, data = phen_NaCl_with_fitness)
 beta_NaCl <- coef(model_beta)[vect_P_traits]
 
+write.table(beta_NaCl,file="GridLMM_results_mixed/beta_NaCl.txt",sep="\t",row.names=FALSE,quote=FALSE)
+
+
 phen_NaCl$beta_trait = NULL
 for(i in 1:nrow(phen_NaCl)){
   phen_NaCl$beta_trait[i]  = sum(phen_NaCl[i,vect_P_traits]*beta_NaCl)

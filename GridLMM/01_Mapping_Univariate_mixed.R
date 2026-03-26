@@ -15,9 +15,9 @@ library(qqman)
 
 load('RData/GridLMM_mapping.RData')
 
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F")
+vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
 
-for(traitID in vect_P_traits){
+for(traitID in c("beta")){
 
 all_BLUEs_genotyped_NGM$y=all_BLUEs_genotyped_NGM[,traitID]
 all_BLUEs_genotyped_NaCl$y=all_BLUEs_genotyped_NaCl[,traitID]
