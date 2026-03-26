@@ -17,7 +17,7 @@ load('RData/GridLMM_mapping.RData')
 
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
 
-for(traitID in c("beta")){
+for(traitID in c("SF",'SB','FS','FB','BS','BF',"area.F")){
 
 all_BLUEs_genotyped_NGM$y=all_BLUEs_genotyped_NGM[,traitID]
 all_BLUEs_genotyped_NaCl$y=all_BLUEs_genotyped_NaCl[,traitID]
