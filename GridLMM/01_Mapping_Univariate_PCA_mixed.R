@@ -15,7 +15,7 @@ library(qqman)
 
 load('RData/Preparatory_GLMM_PCA.RData')
 
-vect_P_traits=c("PCA1","PCA2","PCA3","PCA4")
+vect_P_traits=c("PCA1","PCA2","PCA3","PCA4","PCA5")
 
 for(traitID in vect_P_traits){
 print(traitID)

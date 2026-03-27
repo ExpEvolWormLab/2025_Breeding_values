@@ -70,18 +70,23 @@ data_for_BLUE_NGM$env_label='NGM'
 all_BLUEs <- rbind(data_for_BLUE_NGM,data_for_BLUE_NaCl)
 dim(all_BLUEs) # 5381 movies
 
-### We do a PCA - map only these traits
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F")
+## Scale all the traits
+for(i in vect_P_traits){
+  all_BLUEs[,i]=scale(all_BLUEs[,i])
+}
+
+### We do a PCA - map only these traits
 pca_7traits <- prcomp(na.omit(all_BLUEs[,vect_P_traits]))
 plot(pca_7traits) # only four traits out of seven ?
-
+barplot(pca_7traits$sdev/sum(pca_7traits$sdev)) # 5 explains more than 10%
 
 plot(pca_7traits$x[,1],pca_7traits$x[,2],col=c("red","blue")[as.numeric(as.factor(all_BLUEs$env_label))],pch=16)
 plot(pca_7traits$x[,3],pca_7traits$x[,4],col=c("red","blue")[as.numeric(as.factor(all_BLUEs$env_label))],pch=16)
 abline(h=2)
-abline(v=-2)
+abline(v=-5)
 
-weird = (pca_7traits$x[,1]<(-2) & pca_7traits$x[,2]>2)
+weird = (pca_7traits$x[,1]<(-5) & pca_7traits$x[,2]>2)
 hist(na.omit(all_BLUEs)$logD)
 abline(v=na.omit(all_BLUEs)$logD[weird])
 
@@ -92,11 +97,13 @@ all_BLUEs_mappped <- na.omit(all_BLUEs)[!weird,]
 pca_7traits_noW <- prcomp(all_BLUEs_mappped[,vect_P_traits])
 cor(pca_7traits$rotation,pca_7traits_noW$rotation)
 plot(pca_7traits_noW$x[,1],pca_7traits_noW$x[,2],col=c("red","blue")[as.numeric(as.factor(all_BLUEs_mappped$env_label))],pch=16)
+rm(all_BLUEs)
 
 all_BLUEs_mappped$PCA1=pca_7traits_noW$x[,1]
 all_BLUEs_mappped$PCA2=pca_7traits_noW$x[,2]
 all_BLUEs_mappped$PCA3=pca_7traits_noW$x[,3]
 all_BLUEs_mappped$PCA4=pca_7traits_noW$x[,4]
+all_BLUEs_mappped$PCA5=pca_7traits_noW$x[,5]
 
 ## Load the isotype data
 removed_isotypes <- read.table("data/removed_isotypes_Cemee_2025.txt")
@@ -130,22 +137,22 @@ snp_positions <- snp_positions[order(snp_positions$CHROM,snp_positions$POS),]
 
 ### Simply replace the isotype lines
 non.isotype=NULL;pbm.line=NULL
-for(i in 1:nrow(all_BLUEs)){
-  temp.iso=subset(replaced_iso,Line==all_BLUEs$pop_label[i] | Representant_line==all_BLUEs$pop_label[i])
+for(i in 1:nrow(all_BLUEs_mappped)){
+  temp.iso=subset(replaced_iso,Line==all_BLUEs_mappped$pop_label[i] | Representant_line==all_BLUEs_mappped$pop_label[i])
   if(length(unique(temp.iso$Representant_line))==1){
-  all_BLUEs$pop_label[i]=unique(temp.iso$Representant_line)
+    all_BLUEs_mappped$pop_label[i]=unique(temp.iso$Representant_line)
   }else if(nrow(temp.iso)==0){
-    non.isotype=c(non.isotype,all_BLUEs$pop_label[i])
+    non.isotype=c(non.isotype,all_BLUEs_mappped$pop_label[i])
   }else{
-    pbm.line=c(pbm.line,all_BLUEs$pop_label[i])
+    pbm.line=c(pbm.line,all_BLUEs_mappped$pop_label[i])
   }
 }
 
 ## Order the genotype - keep shared lines
 genotyped_lines <- colnames(genotype_info)
 
-all_BLUEs_genotyped=subset(all_BLUEs,pop_label%in%genotyped_lines)
-dim(all_BLUEs_genotyped) # 4420 out of 5381
+all_BLUEs_genotyped=subset(all_BLUEs_mappped,pop_label%in%genotyped_lines)
+dim(all_BLUEs_genotyped) # 4281 out of 5381
 phenotyped_lines=unique(all_BLUEs_genotyped$pop_label)
 genotype_info_kept <- genotype_info[,colnames(genotype_info)%in%phenotyped_lines]
 dim(genotype_info_kept) # 966 kept, OK
@@ -184,10 +191,10 @@ is.NA=colSums(is.na(genotype_matrix))
 table(is.NA)
 
 ### Load the beta coefficients to also add the two beta traits
+beta_NaCl=read.table("GridLMM_results_mixed/beta_NaCl.txt",sep='\t',h=TRUE)$x
+cor(beta_NaCl,pca_7traits_noW$rotation) # not any of the PCAs
 
 save(list=c("all_BLUEs_genotyped_NGM","all_BLUEs_genotyped_NaCl","genotype_matrix","is.NA","GRM_sub"),file='RData/Preparatory_GLMM_PCA.RData')
-
-
 
 
 
