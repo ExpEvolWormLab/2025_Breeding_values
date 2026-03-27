@@ -37,6 +37,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
     concat.perm=concat.perm[nb_NA<floor(ncol(concat.perm)*0.01),]
     concat.perm.sorted=apply(concat.perm,1,sort)
     #concat.perm.min=unlist(apply(concat.perm,2,function(x){sort(x)[round(0.01*length(x))]}))
+    #concat.perm.min=unlist(apply(concat.perm,2,function(x){sort(x)[1]}))
     concat.perm.sorted=data.frame(t(concat.perm.sorted))
     sign_thres <- data.frame(rs=temp.rs,sign_thres=concat.perm.sorted[,floor(ncol(concat.perm.sorted)*0.05)])
     rm(concat.perm.sorted,temp.rs);rm(concat.perm);gc()

@@ -26,18 +26,18 @@ all_BLUEs_genotyped_NGM$y= scale(all_BLUEs_genotyped_NGM$y)
 all_BLUEs_genotyped_NaCl$y= scale(all_BLUEs_genotyped_NaCl$y)
 
 
-gwas.NGM = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
-                        test_formula = ~1, reduced_formula = ~0,
-                         data = all_BLUEs_genotyped_NGM, X = genotype_matrix[,is.NA==0],
-                        X_ID = 'pop_label', relmat = list(pop_label = GRM_sub), mc.cores = 10 ,method = 'REML')
+#gwas.NGM = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
+#                        test_formula = ~1, reduced_formula = ~0,
+#                         data = all_BLUEs_genotyped_NGM, X = genotype_matrix[,is.NA==0],
+#                        X_ID = 'pop_label', relmat = list(pop_label = GRM_sub), mc.cores = 10 ,method = 'REML')
 
-NGM_results <- (gwas.NGM$results)
-write.table(NGM_results,paste0("GridLMM_results_mixed/gwas_results_",traitID,"_NGM.txt"),quote=FALSE,row.names=FALSE)
+#NGM_results <- (gwas.NGM$results)
+#write.table(NGM_results,paste0("GridLMM_results_mixed/gwas_results_",traitID,"_NGM.txt"),quote=FALSE,row.names=FALSE)
 
 gwas.NaCl = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str)  + (1|pop_label)+ (1|session_id),
                         test_formula = ~1, reduced_formula = ~0,
                         data = all_BLUEs_genotyped_NaCl, X = genotype_matrix[,is.NA==0], X_ID = 'pop_label', relmat = list(pop_label = GRM_sub), mc.cores = 10 ,method = 'REML')
 NaCl_results <- (gwas.NaCl$results)
-write.table(NGM_results,paste0("GridLMM_results_mixed/gwas_results_",traitID,"_NaCl.txt"),quote=FALSE,row.names=FALSE)
+write.table(NaCl_results,paste0("GridLMM_results_mixed/gwas_results_",traitID,"_NaCl.txt"),quote=FALSE,row.names=FALSE)
 
 }

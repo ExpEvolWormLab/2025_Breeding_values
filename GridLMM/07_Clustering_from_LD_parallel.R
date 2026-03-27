@@ -27,7 +27,8 @@ for(env_label in c("NGM","NaCl")){
     
     data_manhattan = data.frame(CHR=as.numeric(all_GWAS.temp$chr),BP=all_GWAS.temp$ps,SNP=c(1:nrow(all_GWAS.temp)),
                                 P=-log10(p.adjust(all_GWAS.temp[,paste0("pvalue_T",trait_ID)],method="BH")))
-    data_manhattan=subset(data_manhattan,CHR!=7)
+    
+        data_manhattan=subset(data_manhattan,CHR!=7)
     
     pdf(paste0("plots_GridLMM/Manhattan_GWAS_Trait_",traitJ,"_",env_label,".pdf"),w=10)
     manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
@@ -43,10 +44,16 @@ for(env_label in c("NGM","NaCl")){
   }
 }
 dim(all_GWAS)
+save(list=c("all_GWAS"),file='GridLMM_results_mixed/All_Gwas.RData')
 
 
 
-
+for(i in 1:16){
+  all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.1
+}
+sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
+table(rowSums(sign_all_df)>=1) # 1258 k SNPS at least sign for one trait
+table(rowSums(sign_all_df)) # up to 8 traits / none for a single trait ?
 
 ###############################################
 #### Create the clusters and save - Merged ####
@@ -56,7 +63,7 @@ dim(all_GWAS)
 all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
 all_GWAS$CHROM=all_GWAS$chr
 
-sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
+sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
 table(rowSums(sign_all_df)>=1) # ~ 90 k SNPS at least sign for one trait
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
