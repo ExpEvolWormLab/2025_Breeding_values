@@ -25,6 +25,8 @@ for(env_label in c("NGM","NaCl")){
     all_GWAS.temp$ps = as.numeric(tstrsplit(all_GWAS.temp$rs,"_")[[2]])
     all_GWAS.temp=all_GWAS.temp[order(all_GWAS.temp$chr,all_GWAS.temp$ps),]
     
+    all_GWAS.temp2=all_GWAS.temp
+    all_GWAS.temp=subset(all_GWAS.temp2,pvalue_T17>min(all_GWAS.temp2$pvalue_T17))
     data_manhattan = data.frame(CHR=as.numeric(all_GWAS.temp$chr),BP=all_GWAS.temp$ps,SNP=c(1:nrow(all_GWAS.temp)),
                                 P=-log10(p.adjust(all_GWAS.temp[,paste0("pvalue_T",trait_ID)],method="BH")))
     
@@ -49,10 +51,15 @@ save(list=c("all_GWAS"),file='GridLMM_results_mixed/All_Gwas.RData')
 
 
 for(i in 1:16){
-  all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.1
+  all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.2
+  print(table(all_GWAS[,paste0("is_sign_T",i)]))
 }
+
+#load("RData/Preparatory_GLMM.RData")
+#heatmap(cor(all_BLUEs_genotyped_NGM[,vect_P_traits]))
+
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
-table(rowSums(sign_all_df)>=1) # 1258 k SNPS at least sign for one trait
+table(rowSums(sign_all_df)>=1) # 2780 k SNPS at least sign for one trait
 table(rowSums(sign_all_df)) # up to 8 traits / none for a single trait ?
 
 ###############################################
@@ -102,7 +109,7 @@ all_GWAS$allele1[vect_to_revert]=snp_positions$ALT[vect_to_revert]
 all_GWAS$af.NaCl[vect_to_revert]=1-all_GWAS$af.NaCl[vect_to_revert]
 all_GWAS$af.NGM[vect_to_revert]=1-all_GWAS$af.NGM[vect_to_revert]
 
-for(i_col in paste0("beta_T",1:14)){
+for(i_col in paste0("beta_T",1:16)){
   all_GWAS[,i_col] = -all_GWAS[,i_col]
 }
 
@@ -111,13 +118,14 @@ table(snp_positions_sign$ID==all_GWAS_sign$rs) # In the same order #
 
 dim(snp_positions_sign)
 ### Save the txt file with the significant positions
-write.table(snp_positions_sign,file="data_BLUE/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
-system("bcftools view -T data_BLUE/sign_positions.txt -O z /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
-system("vcftools --gzvcf data_BLUE/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz --hap-r2 --ld-window 100 --out data_BLUE/ld_window_100")
+write.table(snp_positions_sign,file="data_BLUE_GridLMM/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
+system("bcftools view -T data_BLUE_GridLMM/sign_positions.txt -O z /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
+#system("bcftools view -T data_BLUE_GridLMM/sign_positions.txt -O z /Users/mallard/Nextcloud/CeMEE_vcf/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
+system("vcftools --gzvcf data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz --hap-r2 --ld-window 100 --out data_BLUE_GridLMM/ld_window_100")
 
 ### Now load the linkage blocks from plink
 
-ld_snps <- read.table("data_BLUE/ld_window_100.hap.ld",h=TRUE)
+ld_snps <- read.table("data_BLUE_GridLMM/ld_window_100.hap.ld",h=TRUE)
 
 ### Create clusters from these
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
@@ -178,9 +186,9 @@ max_clust_nb=max(all_GWAS_sign_with_clust$cluster,na.rm=TRUE)
 
 split_clusters <- function(sign_all){
     ## Get their effects for each trait
-    sign_direction=sign_all[,paste0('beta_T',1:14)]
+    sign_direction=sign_all[,paste0('beta_T',1:16)]
     ## Becomes null if not significant
-    sign_direction[!sign_all[,paste0('is_sign_T',1:14)]]=0
+    sign_direction[!sign_all[,paste0('is_sign_T',1:16)]]=0
     names(sign_direction)=vect_P_traits_bothEnv
     
     for(i_trait in vect_P_traits_bothEnv){
@@ -270,7 +278,7 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
   df.CHR.single=subset(all_cluster_merged,CHROM==idx_chr & is.na(cluster))
   df.CHR.single$group=as.numeric(as.factor(as.character(df.CHR.single$group)))
   
-  pdf(paste0("plots_BLUEs//Cluster_CHR_R",round(10*threshold_clust),"_",idx_chr,"_Merged-noPruning.pdf"),h=10,w=20)
+  pdf(paste0("plots_BLUEs_GridLMM//Cluster_CHR_R",round(10*threshold_clust),"_",idx_chr,"_Merged-noPruning.pdf"),h=10,w=20)
   par(mfrow=c(2,7))
   
   all_col_CHR <- sample(rainbow(max(df.CHR$cluster)))
@@ -305,7 +313,7 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
 }
 }
 #### Output the clusters
-write.table(all_cluster_merged,file=paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',row.names=FALSE,quote=FALSE)
+write.table(all_cluster_merged,file=paste0("txt_BLUEs_GridLMM/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',row.names=FALSE,quote=FALSE)
 }
 ### Export statistics on the clustering ?
 
