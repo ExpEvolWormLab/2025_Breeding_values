@@ -25,8 +25,6 @@ for(env_label in c("NGM","NaCl")){
     all_GWAS.temp$ps = as.numeric(tstrsplit(all_GWAS.temp$rs,"_")[[2]])
     all_GWAS.temp=all_GWAS.temp[order(all_GWAS.temp$chr,all_GWAS.temp$ps),]
     
-    all_GWAS.temp2=all_GWAS.temp
-    all_GWAS.temp=subset(all_GWAS.temp2,pvalue_T17>min(all_GWAS.temp2$pvalue_T17))
     data_manhattan = data.frame(CHR=as.numeric(all_GWAS.temp$chr),BP=all_GWAS.temp$ps,SNP=c(1:nrow(all_GWAS.temp)),
                                 P=-log10(p.adjust(all_GWAS.temp[,paste0("pvalue_T",trait_ID)],method="BH")))
     
@@ -48,8 +46,6 @@ for(env_label in c("NGM","NaCl")){
 dim(all_GWAS)
 save(list=c("all_GWAS"),file='GridLMM_results_mixed/All_Gwas.RData')
 
-
-
 for(i in 1:16){
   all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.2
   print(table(all_GWAS[,paste0("is_sign_T",i)]))
@@ -59,8 +55,8 @@ for(i in 1:16){
 #heatmap(cor(all_BLUEs_genotyped_NGM[,vect_P_traits]))
 
 sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
-table(rowSums(sign_all_df)>=1) # 2780 k SNPS at least sign for one trait
-table(rowSums(sign_all_df)) # up to 8 traits / none for a single trait ?
+table(rowSums(sign_all_df)>=1) # 3727 k SNPS at least sign for one trait
+table(rowSums(sign_all_df)) # up to 9 traits / none for a single trait ?
 
 ###############################################
 #### Create the clusters and save - Merged ####

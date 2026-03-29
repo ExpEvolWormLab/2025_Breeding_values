@@ -6,31 +6,29 @@ library(dplyr)
 library(igraph)
 library(parallel)
 library(qqman)
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
+vect_P_traits=paste0("PCA",1:5)
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
-
-trait_ID=0
 
 
 ### Load all results and concatenate them
+trait_ID=0
 for(env_label in c("NGM","NaCl")){
   print(env_label)
   for(traitJ in vect_P_traits){
     print(traitJ)
     trait_ID=trait_ID+1
+    trait_label=vect_P_traits_bothEnv[trait_ID]
     all_GWAS.temp=read.table(paste0("GridLMM_results_mixed/gwas_results_",traitJ,"_",env_label,".txt"),h=TRUE)[,c("X_ID","beta.1","p_value_REML")]
-    names(all_GWAS.temp)=c("rs",paste0("beta_T",trait_ID),paste0("pvalue_T",trait_ID))
+    names(all_GWAS.temp)=c("rs",paste0("beta_",trait_label),paste0("pvalue_",trait_label))
 
     all_GWAS.temp$chr = factor(tstrsplit(all_GWAS.temp$rs,"_")[[1]],levels=c("I","II","III","IV","V","X","MtDNA"))
     all_GWAS.temp$ps = as.numeric(tstrsplit(all_GWAS.temp$rs,"_")[[2]])
     all_GWAS.temp=all_GWAS.temp[order(all_GWAS.temp$chr,all_GWAS.temp$ps),]
     
-    all_GWAS.temp2=all_GWAS.temp
-    all_GWAS.temp=subset(all_GWAS.temp2,pvalue_T17>min(all_GWAS.temp2$pvalue_T17))
     data_manhattan = data.frame(CHR=as.numeric(all_GWAS.temp$chr),BP=all_GWAS.temp$ps,SNP=c(1:nrow(all_GWAS.temp)),
-                                P=-log10(p.adjust(all_GWAS.temp[,paste0("pvalue_T",trait_ID)],method="BH")))
+                                P=-log10(p.adjust(all_GWAS.temp[,paste0("pvalue_",trait_label)],method="BH")))
     
-        data_manhattan=subset(data_manhattan,CHR!=7)
+    data_manhattan=subset(data_manhattan,CHR!=7)
     
     pdf(paste0("plots_GridLMM/Manhattan_GWAS_Trait_",traitJ,"_",env_label,".pdf"),w=10)
     manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
@@ -45,22 +43,31 @@ for(env_label in c("NGM","NaCl")){
     
   }
 }
+
 dim(all_GWAS)
-save(list=c("all_GWAS"),file='GridLMM_results_mixed/All_Gwas.RData')
+save(list=c("all_GWAS"),file='GridLMM_results_mixed/All_Gwas_PCA.RData')
 
-
-
-for(i in 1:16){
-  all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.2
-  print(table(all_GWAS[,paste0("is_sign_T",i)]))
+all_labels=c()
+trait_ID=0
+for(env_label in c("NGM","NaCl")){
+  print(env_label)
+  for(traitJ in vect_P_traits){
+    trait_ID=trait_ID+1
+    trait_label=vect_P_traits_bothEnv[trait_ID]
+    all_labels=c(all_labels,trait_label)
+    all_GWAS[,paste0("is_sign_",trait_label)] = p.adjust(all_GWAS[,paste0("pvalue_",trait_label)],method="BH")<0.2
+    print(table(all_GWAS[,paste0("is_sign_",trait_label)]))
+    
+  }
 }
 
-#load("RData/Preparatory_GLMM.RData")
-#heatmap(cor(all_BLUEs_genotyped_NGM[,vect_P_traits]))
 
-sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
-table(rowSums(sign_all_df)>=1) # 2780 k SNPS at least sign for one trait
-table(rowSums(sign_all_df)) # up to 8 traits / none for a single trait ?
+sign_all_df <- all_GWAS[,paste0("is_sign_",all_labels)]
+table(rowSums(sign_all_df)>=1) # 2426 k SNPS at least sign for one trait
+table(rowSums(sign_all_df)) # up to 7 traits / none for a single trait ?
+
+
+#### STOPPED HERE ####
 
 ###############################################
 #### Create the clusters and save - Merged ####
@@ -70,7 +77,7 @@ table(rowSums(sign_all_df)) # up to 8 traits / none for a single trait ?
 all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
 all_GWAS$CHROM=all_GWAS$chr
 
-sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
+sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:10)]
 table(rowSums(sign_all_df)>=1) # ~ 90 k SNPS at least sign for one trait
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
