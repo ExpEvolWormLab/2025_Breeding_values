@@ -639,3 +639,87 @@ Completed! Time = 1.267  seconds
 [1,] 0.1699219 0.0703125  0.5117188
 [1] "step: 1, num_h2s: 1, num active: 26549"
 [1] "step: 2, num_h2s: 26, num active: 26549"
+[1] "step: 3, num_h2s: 18, num active: 147"
+[1] "step: 4, num_h2s: 9, num active: 1"
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 5"
+[1] "step_size: 0.125, num_to_test: 17"
+[1] "step_size: 0.125, num_to_test: 7"
+[1] "step_size: 0.0625, num_to_test: 26"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.015625, num_to_test: 8"
+[1] "step_size: 0.015625, num_to_test: 14"
+[1] "step_size: 0.015625, num_to_test: 8"
+[1] "step_size: 0.0078125, num_to_test: 43"
+[1] "step_size: 0.0078125, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 52"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 8"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 24"
+[1] "step_size: 0.001953125, num_to_test: 13"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "GridLMM_posterior h2s:"
+     pop_label  date_str session_id
+[1,] 0.2148438 0.0546875  0.4101562
+[1] "step: 1, num_h2s: 1, num active: 26549"
+[1] "step: 2, num_h2s: 26, num active: 26549"
+[1] "step: 3, num_h2s: 27, num active: 418"
+[1] "step: 4, num_h2s: 9, num active: 31"
+[1] "SF"
+Initial data: 
+	Number of Individuals: 966 
+	Number of Markers: 1881 
+
+Missing data check: 
+	Total SNPs: 1881 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1881  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1881 SNPs 
+	Final:  1881  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.074  seconds 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 5"
+[1] "step_size: 0.125, num_to_test: 17"
+[1] "step_size: 0.125, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 26"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 13"
+[1] "step_size: 0.0625, num_to_test: 9"
+[1] "step_size: 0.0625, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 43"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.0078125, num_to_test: 26"
