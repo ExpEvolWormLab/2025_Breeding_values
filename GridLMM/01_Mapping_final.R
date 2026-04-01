@@ -41,7 +41,7 @@ for(traitID in c("beta","SF",'SB','FS','FB','BS','BF',"area.F")){
     gwas.NGM.CHR = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
                             test_formula = ~1, reduced_formula = ~0,
                             data = all_BLUEs_genotyped_NGM, X = genotype_matrix_CHR[,is.NA==0],
-                            X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 5 ,method = 'REML')
+                            X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 10 ,method = 'REML')
     
     NGM_results <- (gwas.NGM.CHR$results)
     write.table(NGM_results,paste0("GridLMM_results_mixed_perCHR/gwas_results_",traitID,"_CHR_",chrID,"_NGM.txt"),quote=FALSE,row.names=FALSE)
@@ -49,7 +49,7 @@ for(traitID in c("beta","SF",'SB','FS','FB','BS','BF',"area.F")){
     gwas.NaCl.CHR = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
                              test_formula = ~1, reduced_formula = ~0,
                              data = all_BLUEs_genotyped_NaCl, X = genotype_matrix_CHR[,is.NA==0],
-                             X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 5 ,method = 'REML')
+                             X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 10 ,method = 'REML')
     
     NaCl_results <- (gwas.NaCl.CHR$results)
     write.table(NaCl_results,paste0("GridLMM_results_mixed_perCHR/gwas_results_",traitID,"_CHR_",chrID,"_NaCl.txt"),quote=FALSE,row.names=FALSE)
