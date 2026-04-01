@@ -32,9 +32,12 @@ for(env_label in c("NGM","NaCl")){
     
     pdf(paste0("plots_GridLMM/Manhattan_GWAS_Trait_",traitJ,"_",env_label,".pdf"),w=10)
     manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
-              highlight=data_manhattan$SNP[data_manhattan$is_sign],cex=.6,suggestiveline=-log10(0.05),genomewideline=FALSE)
+              highlight=data_manhattan$SNP[data_manhattan$is_sign],cex=.6,suggestiveline=-log10(0.2),genomewideline=FALSE)
     dev.off()
     
+    #plot(all_GWAS.temp$beta_T1,pch=16,col=adjustcolor("grey",alpha=0.2))
+    #points((1:length(all_GWAS.temp$beta_T1))[p.adjust(all_GWAS.temp$pvalue_T1,method="BH")<0.2],all_GWAS.temp$beta_T1[p.adjust(all_GWAS.temp$pvalue_T1,method="BH")<0.2],pch=16,,col=adjustcolor("firebrick3",alpha=0.7))
+    #points((1:length(all_GWAS.temp$beta_T1))[(all_GWAS.temp$pvalue_T1)<0.05],all_GWAS.temp$beta_T1[(all_GWAS.temp$pvalue_T1)<0.05],pch=16,,col=adjustcolor("magenta",alpha=0.7))
     if(trait_ID==1){
       all_GWAS=all_GWAS.temp
     }else{
@@ -312,5 +315,3 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
 write.table(all_cluster_merged,file=paste0("txt_BLUEs_GridLMM/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',row.names=FALSE,quote=FALSE)
 }
 ### Export statistics on the clustering ?
-
-

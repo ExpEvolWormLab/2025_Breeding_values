@@ -149,13 +149,17 @@ genotype_pruned_matrix <- apply(genotype_pruned@gt[,2:1002],1,function(x){
 })
 genotype_pruned_matrix=2*genotype_pruned_matrix
 strainID <- tstrsplit(colnames(genotype_pruned@gt)[2:1002],'_')[[1]]
-GRM <- Gmatrix((genotype_pruned_matrix), method="VanRaden") # 2112 / 2112
-dim(GRM)
-## Re-order
-
-GRM_sub = GRM[strainID %in% colnames(genotype_info_kept),strainID %in% colnames(genotype_info_kept)]
+## Reduce 
+genotype_pruned_matrix=genotype_pruned_matrix[strainID %in% colnames(genotype_info_kept),]
 strainID_sub = strainID[strainID %in% colnames(genotype_info_kept)]
 table(strainID_sub==rownames(genotype_matrix)) # Same order
+strainID=strainID_sub
+rm(strainID_sub)
+colnames(genotype_pruned_matrix)=genotype_pruned@fix[,3]
+rownames(genotype_pruned_matrix)=strainID
+
+GRM_sub <- Gmatrix((genotype_pruned_matrix), method="VanRaden") 
+dim(GRM_sub) # 966 / 966
 
 ##############################
 
@@ -186,7 +190,7 @@ for(i in 1:nrow(all_BLUEs_genotyped_NaCl)){
 }
 
 
-save(list=c("all_BLUEs_genotyped_NGM","all_BLUEs_genotyped_NaCl","genotype_matrix","is.NA","GRM_sub"),file='RData/Preparatory_GLMM.RData')
+save(list=c("all_BLUEs_genotyped_NGM","all_BLUEs_genotyped_NaCl","genotype_matrix","genotype_pruned_matrix","is.NA","GRM_sub"),file='RData/Preparatory_GLMM.RData')
 
 
 

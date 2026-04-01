@@ -32,7 +32,7 @@ for(env_label in c("NGM","NaCl")){
     
     pdf(paste0("plots_GridLMM/Manhattan_GWAS_Trait_",traitJ,"_",env_label,".pdf"),w=10)
     manhattan(data_manhattan, chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,
-              highlight=data_manhattan$SNP[data_manhattan$is_sign],cex=.6,suggestiveline=-log10(0.05),genomewideline=FALSE)
+              highlight=data_manhattan$SNP[data_manhattan$is_sign],cex=.6,suggestiveline=-log10(0.3),genomewideline=FALSE)
     dev.off()
     
     if(trait_ID==1){
@@ -55,7 +55,7 @@ for(env_label in c("NGM","NaCl")){
     trait_ID=trait_ID+1
     trait_label=vect_P_traits_bothEnv[trait_ID]
     all_labels=c(all_labels,trait_label)
-    all_GWAS[,paste0("is_sign_",trait_label)] = p.adjust(all_GWAS[,paste0("pvalue_",trait_label)],method="BH")<0.2
+    all_GWAS[,paste0("is_sign_",trait_label)] = p.adjust(all_GWAS[,paste0("pvalue_",trait_label)],method="BH")<0.3
     print(table(all_GWAS[,paste0("is_sign_",trait_label)]))
     
   }
@@ -67,8 +67,6 @@ table(rowSums(sign_all_df)>=1) # 2426 k SNPS at least sign for one trait
 table(rowSums(sign_all_df)) # up to 7 traits / none for a single trait ?
 
 
-#### STOPPED HERE ####
-
 ###############################################
 #### Create the clusters and save - Merged ####
 ###############################################
@@ -76,10 +74,6 @@ table(rowSums(sign_all_df)) # up to 7 traits / none for a single trait ?
 ## Re-order
 all_GWAS=all_GWAS[order(all_GWAS$chr,all_GWAS$ps),]
 all_GWAS$CHROM=all_GWAS$chr
-
-sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:10)]
-table(rowSums(sign_all_df)>=1) # ~ 90 k SNPS at least sign for one trait
-all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
 #####################################
 ## We need the matrix of genotypes ##
@@ -116,27 +110,28 @@ all_GWAS$allele1[vect_to_revert]=snp_positions$ALT[vect_to_revert]
 all_GWAS$af.NaCl[vect_to_revert]=1-all_GWAS$af.NaCl[vect_to_revert]
 all_GWAS$af.NGM[vect_to_revert]=1-all_GWAS$af.NGM[vect_to_revert]
 
-for(i_col in paste0("beta_T",1:16)){
+for(i_col in paste0("beta_",all_labels)){
   all_GWAS[,i_col] = -all_GWAS[,i_col]
 }
 
+sign_all_df <- all_GWAS[,paste0("is_sign_",all_labels)]
+all_GWAS$sign_overall= rowSums(sign_all_df)>=1
 all_GWAS_sign <- subset(all_GWAS,sign_overall)
 table(snp_positions_sign$ID==all_GWAS_sign$rs) # In the same order #
 
 dim(snp_positions_sign)
 ### Save the txt file with the significant positions
-write.table(snp_positions_sign,file="data_BLUE_GridLMM/sign_positions.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
-system("bcftools view -T data_BLUE_GridLMM/sign_positions.txt -O z /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
-#system("bcftools view -T data_BLUE_GridLMM/sign_positions.txt -O z /Users/mallard/Nextcloud/CeMEE_vcf/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz")
-system("vcftools --gzvcf data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE.filt.vcf.gz --hap-r2 --ld-window 100 --out data_BLUE_GridLMM/ld_window_100")
+write.table(snp_positions_sign,file="data_BLUE_GridLMM/sign_positions_PCA.txt",quote=FALSE,col.names = FALSE,row.names=FALSE,sep='\t')
+system("bcftools view -T data_BLUE_GridLMM/sign_positions_PCA.txt -O z /Volumes/nematode_genetics/Cemee_data/vcf_2025/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE_PCA.filt.vcf.gz")
+#system("bcftools view -T data_BLUE_GridLMM/sign_positions_PCA.txt -O z /Users/mallard/Nextcloud/CeMEE_vcf/Cemee2025.imputed.SNP.filtered.final_renamed.vcf.gz >  data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE_PCA.filt.vcf.gz")
+system("vcftools --gzvcf data_BLUE_GridLMM/Cemee2025.sign.GWAS_BLUE_PCA.filt.vcf.gz --hap-r2 --ld-window 100 --out data_BLUE_GridLMM/ld_window_100_PCA")
 
 ### Now load the linkage blocks from plink
 
-ld_snps <- read.table("data_BLUE_GridLMM/ld_window_100.hap.ld",h=TRUE)
+ld_snps <- read.table("data_BLUE_GridLMM/ld_window_100_PCA.hap.ld",h=TRUE)
 
 ### Create clusters from these
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
-
 
 ########################################################################
 ########## RUN ALL CODE IN A FUNCTION WITH MULTIPLE THRESHOLD ##########
@@ -193,9 +188,9 @@ max_clust_nb=max(all_GWAS_sign_with_clust$cluster,na.rm=TRUE)
 
 split_clusters <- function(sign_all){
     ## Get their effects for each trait
-    sign_direction=sign_all[,paste0('beta_T',1:16)]
+    sign_direction=sign_all[,paste0('beta_',all_labels)]
     ## Becomes null if not significant
-    sign_direction[!sign_all[,paste0('is_sign_T',1:16)]]=0
+    sign_direction[!sign_all[,paste0('is_sign_',all_labels)]]=0
     names(sign_direction)=vect_P_traits_bothEnv
     
     for(i_trait in vect_P_traits_bothEnv){
@@ -285,42 +280,43 @@ for(idx_chr in sort(unique(all_cluster_merged$CHROM))){
   df.CHR.single=subset(all_cluster_merged,CHROM==idx_chr & is.na(cluster))
   df.CHR.single$group=as.numeric(as.factor(as.character(df.CHR.single$group)))
   
-  pdf(paste0("plots_BLUEs_GridLMM//Cluster_CHR_R",round(10*threshold_clust),"_",idx_chr,"_Merged-noPruning.pdf"),h=10,w=20)
-  par(mfrow=c(2,7))
+  pdf(paste0("plots_BLUEs_GridLMM//PCA_Cluster_CHR_R",round(10*threshold_clust),"_",idx_chr,"_Merged-noPruning.pdf"),h=10,w=20)
+  par(mfrow=c(2,5))
   
   all_col_CHR <- sample(rainbow(max(df.CHR$cluster)))
   all_pch_CHR <- sample(1:25,max(df.CHR$cluster),replace=TRUE)
 
   kept_chr = all_GWAS$CHROM==idx_chr
-  
+  k_labels=0
   for(i_env in c("NGM","NaCl")){
-    if(i_env=='NGM'){
-      i_list_env <- 0
-    }else{
-      i_list_env <- 7
-    }
-    for(i in 1:7){
-      
-      plot(all_GWAS$ps[kept_chr],all_GWAS[kept_chr,paste0("beta_T",(i+i_list_env))],pch=16,cex=.8,type="n",ylab="SNP effect",xlab="CHR pos (bp)",main=paste0("CHR ",idx_chr,' - Trait: ',vect_P_traits[i]," - ",i_env))
+    #if(i_env=='NGM'){
+    #  i_list_env <- 0
+    #}else{
+    #  i_list_env <- 7
+    #}
+    for(i in 1:5){
+      k_labels=k_labels+1
+      plot(all_GWAS$ps[kept_chr],all_GWAS[kept_chr,paste0("beta_",all_labels[k_labels])],pch=16,cex=.8,type="n",ylab="SNP effect",xlab="CHR pos (bp)",main=paste0("CHR ",idx_chr,' - Trait: ',vect_P_traits[i]," - ",i_env))
       abline(h=0,lty=2,col="orange",lwd=2)
       vcol=rep(adjustcolor('grey',alpha=.3),nrow(all_GWAS))
-      points(all_GWAS$ps[kept_chr],all_GWAS[kept_chr,paste0("beta_T",(i+i_list_env))],pch=16,cex=.8,type="p",col=vcol[kept_chr])
+      points(all_GWAS$ps[kept_chr],all_GWAS[kept_chr,paste0("beta_",all_labels[k_labels])],pch=16,cex=.8,type="p",col=vcol[kept_chr])
       
       # Plot singletons
-      df.CHR.single.trait <- subset(df.CHR.single,df.CHR.single[,paste0("is_sign_T",(i+i_list_env))])
-      points(df.CHR.single.trait$ps,df.CHR.single.trait[,paste0("beta_T",(i+i_list_env))],bg="black",pch=21)
+      df.CHR.single.trait <- subset(df.CHR.single,df.CHR.single[,paste0("is_sign_",all_labels[k_labels])])
+      points(df.CHR.single.trait$ps,df.CHR.single.trait[,paste0("beta_",all_labels[k_labels])],bg="black",pch=21)
       
       ## Plot clusters (no singletons)
-      df.CHR.trait <- subset(df.CHR,df.CHR[,paste0("is_sign_T",(i+i_list_env))])
-      points(df.CHR.trait$ps,df.CHR.trait[,paste0("beta_T",(i+i_list_env))],col=all_col_CHR[df.CHR.trait$cluster],pch=all_pch_CHR[df.CHR.trait$cluster])
+      df.CHR.trait <- subset(df.CHR,df.CHR[,paste0("is_sign_",all_labels[k_labels])])
+      points(df.CHR.trait$ps,df.CHR.trait[,paste0("beta_",all_labels[k_labels])],col=all_col_CHR[df.CHR.trait$cluster],pch=all_pch_CHR[df.CHR.trait$cluster],cex=1.5)
       
     }
   }
   dev.off()
 }
 }
+print(length(unique(all_cluster_merged$group)))
 #### Output the clusters
-write.table(all_cluster_merged,file=paste0("txt_BLUEs_GridLMM/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',row.names=FALSE,quote=FALSE)
+write.table(all_cluster_merged,file=paste0("txt_BLUEs_GridLMM/all_sign_GWAS_PCA_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',row.names=FALSE,quote=FALSE)
 }
 ### Export statistics on the clustering ?
 

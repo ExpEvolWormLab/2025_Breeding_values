@@ -7,9 +7,19 @@ traitJ = read.table(paste0("gemma_results_BLUE/gwas_results_BLUE_T7.assoc.txt"),
 head(traitJ)
 
 ## Merge
-merged=merge(traitJ,FS_NGM[,c("rs","beta.1","p_value_REML")])
+merged=merge(traitJ,FS_NGM[,c("rs","beta.1","beta.2","p_value_REML")])
 
 plot(merged$beta,merged$beta.1,pch=16)
+
+plot(-log10(p.adjust(merged$p_wald,method="BH")),-log10(p.adjust(merged$p_value_REML,method="BH")),pch=16)
+plot(-log10((merged$p_wald)),-log10(p.adjust(merged$p_value_REML,method="BH")),pch=16)
+abline(h=-log10(0.3),col="red")
+
+plot(merged$beta.1,-log10(p.adjust(merged$p_value_REML,method="BH")),pch=16)
+abline(h=-log10(0.2),col="red")
+abline(h=-log10(0.3),col="red")
+
+plot(merged$beta,merged$beta.2,pch=16)
 cor(merged[,c("beta",paste0("beta.",1:5))])
 
 ### Manhattan plot
