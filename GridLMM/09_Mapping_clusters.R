@@ -52,7 +52,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
                                   X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 10 ,method = 'REML')
       
       NGM_results <- (gwas.NGM.CHR$results)
-      write.table(NGM_results,paste0("GridLMM_clusters_perCHR/gwas_results_",traitID,"_CHR_",chrID,"_NGM.txt"),quote=FALSE,row.names=FALSE)
+      write.table(NGM_results,paste0("GridLMM_clusters_perCHR/gwas_results_R",round(10*threshold_clust),"_",traitID,"_CHR_",chrID,"_NGM.txt"),quote=FALSE,row.names=FALSE)
       
       gwas.NaCl.CHR = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
                                    test_formula = ~1, reduced_formula = ~0,
@@ -60,7 +60,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
                                    X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 10 ,method = 'REML')
       
       NaCl_results <- (gwas.NaCl.CHR$results)
-      write.table(NaCl_results,paste0("GridLMM_clusters_perCHR/gwas_results_",traitID,"_CHR_",chrID,"_NaCl.txt"),quote=FALSE,row.names=FALSE)
+      write.table(NaCl_results,paste0("GridLMM_clusters_perCHR/gwas_results_R",round(10*threshold_clust),"_",traitID,"_CHR_",chrID,"_NaCl.txt"),quote=FALSE,row.names=FALSE)
       
     }
     
