@@ -55,3 +55,40 @@ test1=p.adjust(merged$p_value_REML,method="BH")<0.05
 test2=(merged$p_wald)<0.05
 
 table(test1,test2)
+
+
+
+beta_NGM=read.table("GridLMM_results_mixed/gwas_results_beta_NGM.txt",h=TRUE)
+beta_NGM=subset(beta_NGM,!substring(beta_NGM$X_ID,1,1)=="M")
+## Concatenate the LOO
+beta_LOO_NGM=NULL
+for(i in c("I","II","III","IV","V","X")){
+  beta_LOO_NGM=rbind(beta_LOO_NGM,read.table(paste0("GridLMM_results_mixed_perCHR/gwas_results_beta_CHR_",i,"_NGM.txt"),h=TRUE))
+  
+}
+dim(beta_LOO_NGM)
+dim(beta_NGM)
+table(beta_LOO_NGM$X_ID==beta_NGM$X_ID)
+plot(beta_LOO_NGM$beta.1,beta_NGM$beta.1)
+plot(-log10(beta_LOO_NGM$p_value_REML),-log10(beta_NGM$p_value_REML))
+abline(a=0,b=1)
+table(beta_LOO_NGM$p_value_REML<0.05)
+table(beta_NGM$p_value_REML<0.05)
+
+table(p.adjust(beta_LOO_NGM$p_value_REML,method="BH")<0.05)
+table(p.adjust(beta_NGM$p_value_REML,method="BH")<0.05)
+
+table(p.adjust(beta_LOO_NGM$p_value_REML,method="BH")<0.2)
+table(p.adjust(beta_NGM$p_value_REML,method="BH")<0.2)
+
+
+plot(beta_LOO_NGM$beta.1,-log10(p.adjust(beta_LOO_NGM$p_value_REML,method="BH")))
+abline(h=-log10(0.05))
+abline(h=-log10(0.2))
+
+
+
+
+
+
+
