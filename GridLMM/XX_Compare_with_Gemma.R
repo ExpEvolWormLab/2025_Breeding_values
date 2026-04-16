@@ -1,3 +1,4 @@
+setwd("~/Documents/GitHub/2025_Breeding_values/")
 library(data.table)
 library(qqman)
 FS_NGM=read.table("GridLMM_results_mixed/gwas_results_area.F_NGM.txt",h=TRUE)
@@ -7,9 +8,10 @@ traitJ = read.table(paste0("gemma_results_BLUE/gwas_results_BLUE_T7.assoc.txt"),
 head(traitJ)
 
 ## Merge
-merged=merge(traitJ,FS_NGM[,c("rs","beta.1","beta.2","p_value_REML")])
+merged=merge(traitJ,FS_NGM[,c("rs","beta.1","beta.2","beta.5","p_value_REML")])
 
 plot(merged$beta,merged$beta.1,pch=16)
+plot(merged$beta,merged$beta.5,pch=16)
 
 plot(-log10(p.adjust(merged$p_wald,method="BH")),-log10(p.adjust(merged$p_value_REML,method="BH")),pch=16)
 plot(-log10((merged$p_wald)),-log10(p.adjust(merged$p_value_REML,method="BH")),pch=16)

@@ -21,7 +21,7 @@ for(env_label in c("NGM","NaCl")){
     # concatenate all the CHR
     all_GWAS.temp=NULL
     for(i in c("I","II","III","IV","V","X")){
-      all_GWAS.temp=rbind(all_GWAS.temp,read.table(paste0("GridLMM_results_mixed_perCHR/gwas_results_",traitJ,"_CHR_",i,"_",env_label,".txt"),h=TRUE)[,c("X_ID","beta.1","p_value_REML")])
+      all_GWAS.temp=rbind(all_GWAS.temp,read.table(paste0("GridLMM_results_mixed_perCHR/gwas_results_",traitJ,"_CHR_",i,"_",env_label,".txt"),h=TRUE)[,c("X_ID","beta.5","p_value_REML")])
       
     }
     

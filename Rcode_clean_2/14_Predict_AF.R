@@ -139,14 +139,14 @@ dev.off()
 
 ### We want to estimate whether some founder haplotype are rising - how to link them with the GWAS haplotypes ?
 ### Load cluster data
-all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R8.txt'),sep='\t',h=TRUE)
-all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R8.txt'),sep='\t',h=TRUE)
+all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R2.txt'),sep='\t',h=TRUE)
+all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R2.txt'),sep='\t',h=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged=all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 dim(all_cluster_merged)
 length(unique(all_cluster_merged$group))
-### 9.2k clusters
+### 942 clusters
 
 ### TEST
 all_cluster_merged$CHR=as.numeric(factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA")))
@@ -184,7 +184,7 @@ mean(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM)
 
 ### OK but multiple SNPs per Cluster ?
 clust_env <- new.env()
-load("RData/GWAS_cluster_results_BLUE_concatenated_R8.RData",envir=clust_env)
+load("RData/GWAS_cluster_results_BLUE_concatenated_R2.RData",envir=clust_env)
 ### Clusters with at least one selected SNPS
 clust_env$all_GWAS_clusters=merge(clust_env$all_GWAS_clusters,clust_env$df_clusters)
 slct_clust <- subset(clust_env$all_GWAS_clusters,group%in%all_cluster_merged_selected_uniq_clust$group)
@@ -309,9 +309,9 @@ clusters_af$group=as.numeric(names(group_rs))
 heatmap(cor(na.omit(clusters_af[,1:4])))
 
 ## Load GWAS results
-load("RData/GWAS_cluster_results_BLUE_concatenated_R8.RData")
-load(file="RData/GWAS_cluster_results_BLUE_concatenated_R8.RData")
-GWAS_with_clust <- read.table("txt_BLUEs/all_sign_GWAS_with_clusters_R8.txt",sep="\t",header=TRUE)
+load("RData/GWAS_cluster_results_BLUE_concatenated_R2.RData")
+load(file="RData/GWAS_cluster_results_BLUE_concatenated_R2.RData")
+GWAS_with_clust <- read.table("txt_BLUEs/all_sign_GWAS_with_clusters_R2.txt",sep="\t",header=TRUE)
 
 gemma_pheno=read.table('data_BLUE/gemma_pheno.txt',sep='\t',h=FALSE)
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
@@ -322,12 +322,12 @@ all_GWAS_clusters$sign_NGM <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters
 all_GWAS_clusters$sign_NaCl <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",8:14)])
 
 ## We will merge the group ID from the clusters using the mean POS
-all_cluster_merged = read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clusters_R8.txt'),sep='\t',h=TRUE)
+all_cluster_merged = read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clusters_R2.txt'),sep='\t',h=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 
-df_clusters=read.table("data_BLUE_clusters/data_clusters_BLUE_R8.txt",h=TRUE)
+df_clusters=read.table("data_BLUE_clusters/data_clusters_BLUE_R2.txt",h=TRUE)
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 dim(all_GWAS_clusters)
 dim(merge(clusters_af,all_GWAS_clusters))

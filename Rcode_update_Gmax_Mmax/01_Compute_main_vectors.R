@@ -8,6 +8,40 @@ gc()
 #library(MCMCglmm)
 #library(parallel)
 
+#Load the fertility table from Noble 2017
+#load("fertility.rda")
+load("data/fertility.rda")
+fertility_NGM <- subset(ecoefs,env=="NGM")[,1:2]
+fertility_NaCl <- subset(ecoefs,env=="NaCl")[,1:2]
+
+names(fertility_NGM)[2]="fert.NGM"
+names(fertility_NaCl)[2]="fert.NaCl"
+dim(merge(fertility_NaCl,fertility_NGM)) # 279 shared lines
+fertility_shared  = merge(fertility_NaCl,fertility_NGM)
+
+fertility_shared$fert.NGM=scale(fertility_shared$fert.NGM)
+fertility_shared$fert.NaCl=scale(fertility_shared$fert.NaCl)
+plot(fertility_shared$fert.NGM,fertility_shared$fert.NaCl,pch=16,asp=1)
+abline(h=0)
+abline(v=0)
+
+## Ten best lineages in NGM - NaCl
+
+line_NaCL=sort(fertility_shared[order(fertility_shared$fert.NaCl,decreasing=TRUE),][1:10,"line"])
+line_NGM=sort(fertility_shared[order(fertility_shared$fert.NGM,decreasing=TRUE),][1:10,"line"])
+
+data.frame(sort(unique(c(line_NGM,line_NaCL))))
+length(unique(c(line_NGM,line_NaCL)))
+
+fertility_shared$sum=fertility_shared$fert.NaCl+fertility_shared$fert.NGM
+
+sort(fertility_shared[order(fertility_shared$sum,decreasing=TRUE),][1:10,"line"])
+
+
+
+
+
+
 
 vect_P_traits= c("SF","SB","FS","FB","BS","BF","area")
 # Load phenotypic data
