@@ -30,7 +30,7 @@ for(threshold_clust in c(0.2)){
   genotyped_matrix <- read.table(paste0("data_BLUE_clusters_CHR/genotypes_matrix_clusters_R",round(10*threshold_clust),".txt"))
   CHR_genotype_matrix = tstrsplit(rownames(genotyped_matrix),"_")[[2]]
   
-  for(traitID in c("SF",'SB','FS','FB','BS','BF',"area.F")){
+  for(traitID in c("beta")){
     print(traitID)
     all_BLUEs_genotyped_NGM$y=all_BLUEs_genotyped_NGM[,traitID]
     all_BLUEs_genotyped_NaCl$y=all_BLUEs_genotyped_NaCl[,traitID]
