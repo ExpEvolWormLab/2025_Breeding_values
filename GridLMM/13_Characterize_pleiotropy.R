@@ -1,27 +1,27 @@
 rm(list=ls());gc()
 library(data.table)
 
-threshold_clust =0.8
-load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),".RData"))
-load(file="RData/GWAS_results_concatenated.RData")
-gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
+threshold_clust =0.2
+load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
+load(file="GridLMM_results_CHR/All_Gwas.RData")
+#gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
 #GWAS_with_clust <- read.table(paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
 
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
+vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
-all_GWAS_clusters$sign_overall <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",1:14)])
-all_GWAS_clusters$sign_NGM <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",1:7)])
-all_GWAS_clusters$sign_NaCl <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",8:14)])
+all_GWAS_clusters$sign_overall <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv)])
+all_GWAS_clusters$sign_NGM <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv[1:8])])
+all_GWAS_clusters$sign_NaCl <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv[9:16])])
 
 ## We will merge the group ID from the clusters using the mean POS
-all_cluster_merged = read.table(paste0("txt_BLUEs/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
+all_cluster_merged = read.table(paste0("txt_BLUEs_GridLMM_CHR//all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
   #read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clusters.txt'),sep='\t',h=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 
-df_clusters=read.table(paste0("data_BLUE_clusters/data_clusters_BLUE_R",round(10*threshold_clust),".txt"),h=TRUE)
+df_clusters=read.table(paste0("data_BLUE_clusters_CHR/data_clusters_BLUE_R",round(10*threshold_clust),".txt"),h=TRUE)
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 dim(all_GWAS_clusters)
 ### Add the tip/arm/center tag
@@ -87,74 +87,21 @@ head(all_GWAS_clusters)
 #plot(all_GWAS_clusters$ps,all_GWAS_clusters$clust_length/1000000,pch=16)
 
 ### We will now replace minor af
-temp.af.NGM=1-all_GWAS_clusters$af.NGM
-temp.af.NaCl=1-all_GWAS_clusters$af.NaCl
-#temp.af.NGM[is.na(temp.af.NGM)]=1;temp.af.NaCl[is.na(temp.af.NaCl)]=1
-all_GWAS_clusters$af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.NGM]=temp.af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.NGM]
-all_GWAS_clusters$af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]=temp.af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]
+#temp.af.NGM=1-all_GWAS_clusters$af.NGM
+#temp.af.NaCl=1-all_GWAS_clusters$af.NaCl
 
-plot((all_GWAS_clusters$af.NGM),(all_GWAS_clusters$af.NaCl),pch=16)
+#all_GWAS_clusters$af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.NGM]=temp.af.NGM[!is.na(temp.af.NGM) & all_GWAS_clusters$af.NGM>temp.af.NGM]
+#all_GWAS_clusters$af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]=temp.af.NaCl[!is.na(temp.af.NaCl) & all_GWAS_clusters$af.NaCl>temp.af.NaCl]
+#plot((all_GWAS_clusters$af.NGM),(all_GWAS_clusters$af.NaCl),pch=16)
 
-boxplot(all_GWAS_clusters$af.NGM~all_GWAS_clusters$sign_NGM)
-boxplot(all_GWAS_clusters$af.NaCl~all_GWAS_clusters$sign_NaCl)
+#boxplot(all_GWAS_clusters$af.NGM~all_GWAS_clusters$sign_NGM)
+#boxplot(all_GWAS_clusters$af.NaCl~all_GWAS_clusters$sign_NaCl)
 
-tapply(all_GWAS_clusters$af.NGM,all_GWAS_clusters$sign_NGM,mean)
+#tapply(all_GWAS_clusters$af.NGM,all_GWAS_clusters$sign_NGM,mean)
 
 chr_type2=all_GWAS_clusters$chr_type
 all_GWAS_clusters$chr_type2=c("center","arm","tip","tip","arm")[as.numeric(as.factor(all_GWAS_clusters$chr_type))]
 
-summary(glm(sign_NGM~af.NGM,data=all_GWAS_clusters,family="quasipoisson"))
-
-af.per.pleio <- rbind(
- data.frame(sign=all_GWAS_clusters$sign_NGM,env_label='NGM',af=all_GWAS_clusters$af.NGM,chr_type2=all_GWAS_clusters$chr_type2),
- data.frame(sign=all_GWAS_clusters$sign_NaCl,env_label='NaCl',af=all_GWAS_clusters$af.NaCl,chr_type2=all_GWAS_clusters$chr_type2))
-
-af.per.pleio$sign=as.factor(af.per.pleio$sign)
-af.per.pleio$sign_num=as.numeric(as.character(as.factor((af.per.pleio$sign))))
-
-af.per.pleio=na.omit(af.per.pleio)
-## only take minor alleles
-af.per.pleio$af[af.per.pleio$af>0.5] = 1-af.per.pleio$af[af.per.pleio$af>0.5]
-
-af.per.pleio$af.logit <- log(af.per.pleio$af/(1-af.per.pleio$af))
-
-model.af <- (lm(af.logit~env_label*sign+chr_type2*env_label,data=subset(af.per.pleio,sign!=0)))
-summary(model.af)
-model.af2 <- (lm(af.logit~env_label*sign+chr_type2,data=subset(af.per.pleio,sign!=0)))
-anova(model.af,model.af2)
-summary(model.af2)
-model.af3 <- (lm(af.logit~env_label+sign+chr_type2*env_label,data=subset(af.per.pleio,sign!=0)))
-anova(model.af,model.af3)
-model.af4 <- (lm(af.logit~chr_type2*env_label,data=subset(af.per.pleio,sign!=0)))
-anova(model.af3,model.af2)
-model.af5 <- (lm(af.logit~chr_type2+env_label,data=subset(af.per.pleio,sign!=0)))
-anova(model.af5,model.af3)
-
-summary(model.af3)
-
-model.af <- (lm(af.logit~env_label*sign_num,data=subset(af.per.pleio,sign!=0)))
-model.af2 <- (lm(af.logit~env_label+sign_num,data=subset(af.per.pleio,sign!=0)))
-model.af3 <- (lm(af.logit~sign_num,data=subset(af.per.pleio,sign!=0)))
-summary(model.af)
-anova(model.af,model.af2)
-anova(model.af2,model.af3)
-anova(model.af2,model.af4)
-hist(af.per.pleio$af*(1-af.per.pleio$af),n=40)
-
-af.per.pleio.NGM <- subset(af.per.pleio,env_label=="NGM")
-af.per.pleio.NaCl <- subset(af.per.pleio,env_label=="NaCl")
-sd_NGM <- as.numeric(tapply(af.per.pleio.NGM$af,af.per.pleio.NGM$sign,sd))
-mean_NGM <- as.numeric(tapply(af.per.pleio.NGM$af,af.per.pleio.NGM$sign,mean))
-
-sd_NaCl <- as.numeric(tapply(af.per.pleio.NaCl$af,af.per.pleio.NaCl$sign,sd))
-mean_NaCl <- as.numeric(tapply(af.per.pleio.NaCl$af,af.per.pleio.NaCl$sign,mean))
-
-plot(mean_NGM~c(c(0:6)+0.1),pch=16,ylim=c(0,1),
-     las=1,bty="n",ylab="Mean allele frequencies",xlab="Pleiotropy")
-#arrows(c(c(0:7)+0.1),mean_NGM-2*sd_NGM,c(c(0:7)+0.1),mean_NGM+2*sd_NGM,code=3,angle=90)
-
-points(mean_NaCl~c(c(0:6)-.1),pch=16,col="orange",bty="n",las=1)
-#arrows(c(c(0:7)-0.1),mean_NaCl-2*sd_NaCl,c(c(0:7)-0.1),mean_NaCl+2*sd_NaCl,code=3,angle=90)
 
 hist(log(all_GWAS_clusters$nb_SNPs))
 model1 <- glm(sign_overall~log(nb_SNPs)+clust_length+chr_type2,
@@ -166,130 +113,128 @@ boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NGM,log="y")
 boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NaCl,log="y")
 
 ### Add the pleiotropy
-dim(merge(all_GWAS_sign,unique(all_GWAS_clusters[,c("group","sign_overall","sign_NaCl","sign_NGM")])))
+#dim(merge(all_GWAS_sign,unique(all_GWAS_clusters[,c("group","sign_overall","sign_NaCl","sign_NGM")])))
 
 #pheno_NGM=read.table("Breeding_values_NGM.txt",sep='\t',h=TRUE)
 #pheno_NaCl=read.table("Breeding_values_NaCl.txt",sep='\t',h=TRUE)
-gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
-
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
-vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
+#gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
 
 # Clusters
-sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df_clust)>=1) # ~5411 Clusters / 1360 are no longer significant
+sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv)]
+table(rowSums(sign_all_df_clust)>=1) # ~737 Clusters / 10 are no longer significant
 all_GWAS_clusters$sign_overall <- rowSums(sign_all_df_clust)>=1
 
+for(i in 1:16){
+  all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.2
+  print(table(all_GWAS[,paste0("is_sign_T",i)]))
+}
+
 # SNPs
-sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:14)]
-table(rowSums(sign_all_df)>=1) # 107k SNPs
+sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
+table(rowSums(sign_all_df)>=1) # 72k SNPs
+
 all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
 
-rowS_NGM_clust <- table(rowSums(all_GWAS_clusters[,paste0("is_sign_T",1:7)]))
-rowS_NaCl_clust <-table(rowSums(all_GWAS_clusters[,paste0("is_sign_T",8:14)]))
+rowS_NGM_clust <- table(rowSums(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[1:8])]))
+rowS_NaCl_clust <-table(rowSums(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[9:16])]))
 
 rowS_NGM <- table(rowSums(all_GWAS[,paste0("is_sign_T",1:7)]))
 rowS_NaCl <-table(rowSums(all_GWAS[,paste0("is_sign_T",8:14)]))
 
 ### Create a G-matrix from the SNPs ?
-var_traits <- NULL
-for(i in 1:14){
-  if(i %in% 1:7){
-    var_traits = c(var_traits, 
-                 sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)]],na.rm=TRUE))
-  }else{
-    var_traits = c(var_traits, 
-                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)]],na.rm=TRUE))
-  }
-}
-plot(var_traits[1:7],var_traits[8:14],pch=16,asp=1)
-abline(a=0,b=1)
-abline(h=0,lty=2)
-abline(v=0,lty=2)
+#var_traits <- NULL
+#for(i in 1:16){
+#  if(i %in% 1:8){
+#    var_traits = c(var_traits, 
+#                 sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[i])]],na.rm=TRUE))
+#  }else{
+#    var_traits = c(var_traits, 
+#                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[i]))]],na.rm=TRUE))
+#  }
+#}
+#plot(var_traits[1:7],var_traits[8:14],pch=16,asp=1)
+#abline(a=0,b=1);abline(h=0,lty=2);abline(v=0,lty=2)
 
 
 ### If we split center/arm ?
 ### Create a G-matrix from the SNPs ?
-var_traits_center <- NULL; var_traits_arm <- NULL
+#var_traits_center <- NULL; var_traits_arm <- NULL
 
-for(i in 1:14){
-  if(i %in% 1:7){
-    var_traits_center = c(var_traits_center, 
-                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
-    var_traits_arm = c(var_traits_arm, 
-                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
-  }else{
-    var_traits_center = c(var_traits_center, 
-                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
-    var_traits_arm = c(var_traits_arm, 
-                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
-  }
-}
+#for(i in 1:14){
+#  if(i %in% 1:7){
+#    var_traits_center = c(var_traits_center, 
+#                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
+#    var_traits_arm = c(var_traits_arm, 
+#                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
+#  }else{
+#    var_traits_center = c(var_traits_center, 
+#                   sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE))
+#    var_traits_arm = c(var_traits_arm, 
+#                          sum((2*(all_GWAS_clusters[,paste0("beta_T",i)])^2*all_GWAS_clusters$af.NaCl*(1-all_GWAS_clusters$af.NaCl))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE))
+#  }
+#}
 
-plot(var_traits_center,var_traits_arm,pch=16,col=rep(c("blue","red"),each=7))
-abline(a=0,b=1); abline(h=0,lty=2); abline(v=0,lty=2) # Much more variance in the arms
+#plot(var_traits_center,var_traits_arm,pch=16,col=rep(c("blue","red"),each=7))
+#abline(a=0,b=1); abline(h=0,lty=2); abline(v=0,lty=2) # Much more variance in the arms
 
 ####### Covariance between the traits ?
 
-G_mat = matrix(rep(NA,196),nrow=14,ncol=14)
-G_mat_arm =matrix(rep(NA,196),nrow=14,ncol=14)
-G_mat_center =matrix(rep(NA,196),nrow=14,ncol=14)
+#G_mat = matrix(rep(NA,196),nrow=14,ncol=14)
+#G_mat_arm =matrix(rep(NA,196),nrow=14,ncol=14)
+#G_mat_center =matrix(rep(NA,196),nrow=14,ncol=14)
 
-for(i in 1:14){
-  for(j in 1:14){
-    G_mat[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)]],na.rm=TRUE)
-    G_mat_center[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE)
-    G_mat_arm[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE)
-  
-  }
-}
-table(all_GWAS_clusters$chr_type2)
+#for(i in 1:16){
+#  for(j in 1:16){
+#    G_mat[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)]],na.rm=TRUE)
+#    G_mat_center[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="center"],na.rm=TRUE)
+#    G_mat_arm[i,j]=sum((2*all_GWAS_clusters[,paste0("beta_T",i)]*all_GWAS_clusters[,paste0("beta_T",j)]*all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM))[all_GWAS_clusters[,paste0("is_sign_T",i)] & all_GWAS_clusters[,paste0("is_sign_T",j)] & all_GWAS_clusters$chr_type2=="arm"],na.rm=TRUE)
+#  
+#  }
+#}
+#table(all_GWAS_clusters$chr_type2)
 
-boxplot(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)~all_GWAS_clusters$chr_type2)
-tapply(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM),all_GWAS_clusters$chr_type2,mean) # similar frequencies
-tapply(abs(all_GWAS_clusters$beta_T7),all_GWAS_clusters$chr_type2,mean) # strong
-boxplot(abs(all_GWAS_clusters$beta_T2)~all_GWAS_clusters$chr_type2) # strong
+#boxplot(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)~all_GWAS_clusters$chr_type2)
+#tapply(all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM),all_GWAS_clusters$chr_type2,mean) # similar frequencies
+#tapply(abs(all_GWAS_clusters$beta_T7),all_GWAS_clusters$chr_type2,mean) # strong
+#boxplot(abs(all_GWAS_clusters$beta_T2)~all_GWAS_clusters$chr_type2) # strong
 
-all_GWAS_clusters$varianceT1 <- all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)*(all_GWAS_clusters$beta_T1)^2
-all_GWAS_clusters$varianceT7 <- all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)*(all_GWAS_clusters$beta_T7)^2
+#all_GWAS_clusters$varianceT1 <- all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)*(all_GWAS_clusters$beta_T1)^2
+#all_GWAS_clusters$varianceT7 <- all_GWAS_clusters$af.NGM*(1-all_GWAS_clusters$af.NGM)*(all_GWAS_clusters$beta_T7)^2
+#summary(glm((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,family="Gamma"))
+#summary(glm((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,family="inverse.gaussian"))
+#boxplot((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,log="y")
 
-summary(glm((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,family="Gamma"))
-summary(glm((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,family="inverse.gaussian"))
-boxplot((all_GWAS_clusters$varianceT7)~all_GWAS_clusters$chr_type2,log="y")
+#a=subset(all_GWAS_clusters,!is.na(all_GWAS_clusters$chr_type2) & varianceT7<0.00051)
+#plot(density(a$varianceT7[a$chr_type2=='center']),ylim=c(0,40000))
+#lines(density(a$varianceT7[a$chr_type2=='arm']),col='red')
 
-a=subset(all_GWAS_clusters,!is.na(all_GWAS_clusters$chr_type2) & varianceT7<0.00051)
-plot(density(a$varianceT7[a$chr_type2=='center']),ylim=c(0,40000))
-lines(density(a$varianceT7[a$chr_type2=='arm']),col='red')
+#plot(G_mat_center,G_mat_arm,pch=16)
+#abline(a=0,b=1); abline(h=0,lty=2); abline(v=0,lty=2) # Much more (co)-variance in the arms
+#rbind(var_traits[1:7],var_traits[8:14])
 
-plot(G_mat_center,G_mat_arm,pch=16)
-abline(a=0,b=1); abline(h=0,lty=2); abline(v=0,lty=2) # Much more (co)-variance in the arms
-
-rbind(var_traits[1:7],var_traits[8:14])
-
-plot(cor(all_GWAS_clusters[,paste0("beta_T",1:7)]),
-     cor(na.omit(all_GWAS_clusters[,paste0("beta_T",8:14)])))
+plot(cor(all_GWAS_clusters[,paste0("beta_",vect_P_traits_bothEnv[1:8])]),
+     cor(na.omit(all_GWAS_clusters[,paste0("beta_",vect_P_traits_bothEnv[9:16])])))
 abline(a=0,b=1)
 abline(h=0,lty=2)
 abline(v=0,lty=2)
 
 vect_col=c(adjustcolor("grey",alpha=0.3),adjustcolor("firebrick3",alpha=1))
 i=7
-plot(-log10(all_GWAS_clusters[,paste0("p_wald_T",i)])~all_GWAS_clusters[,paste0("beta_T",i)],
+plot(-log10(all_GWAS_clusters[,paste0("p_value_REML.cor_",vect_P_traits_bothEnv[i])])~all_GWAS_clusters[,paste0("beta_",vect_P_traits_bothEnv[i])],
      pch=16,xlab='Beta coefficient',ylab="-log(p)",
-     col=vect_col[1+as.numeric(all_GWAS_clusters[,paste0("is_sign_T",i)])],
+     col=vect_col[1+as.numeric(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[i])])],
      main=paste0('Trait: ',vect_P_traits_bothEnv[i]))
 
-plot((all_GWAS_clusters$beta_T7),(all_GWAS_clusters$beta_T14),pch=16)
-plot((all_GWAS_clusters$beta_T7),(all_GWAS_clusters$beta_T14),pch=16,xlim=c(-.1,.1),ylim=c(-.1,.1))
-
+plot((all_GWAS_clusters$beta_SF_NGM),(all_GWAS_clusters$beta_area.F_NaCl),pch=16,xlim=c(-.1,.1),ylim=c(-.1,.1))
+plot((all_GWAS_clusters$beta_area.F_NGM),(all_GWAS_clusters$beta_area.F_NaCl),pch=16,xlim=c(-.1,.1),ylim=c(-.1,.1))
 
 ### Heatmap plots between beta/sign ?
-heatmap(cor(na.omit(all_GWAS_clusters[,paste0("beta_T",1:14)])),
+heatmap(cor(na.omit(all_GWAS_clusters[,paste0("beta_",vect_P_traits_bothEnv)])),
         labRow=vect_P_traits_bothEnv,
         labCol=vect_P_traits_bothEnv)
 
 ## With the non-significant
-plot(rowS_NGM/sum(rowS_NGM),type='b',col='cornflowerblue',ylim=c(.00001,1),log="y",xlim=c(0,7))
+plot(rowS_NGM/sum(rowS_NGM),type='b',col='cornflowerblue',ylim=c(.00000001,1),log="y",xlim=c(0,7))
 points(rowS_NaCl/sum(rowS_NaCl),type='b',col='darkorange')
 points(rowS_NaCl_clust/sum(rowS_NaCl_clust),type='b',col='darkorange',lty=2)
 points(rowS_NGM_clust/sum(rowS_NGM_clust),type='b',col='cornflowerblue',lty=2)
@@ -308,29 +253,24 @@ legend(4,1000000,pch=16,col=c("cornflowerblue","darkorange"),c('Low Salt',"High 
 dev.off()
 
 
-
-
 library(gplots)
 library(limma) 
 vennDiagram(vennCounts(
-  cbind(as.numeric(all_GWAS_clusters$is_sign_T1),as.numeric(all_GWAS_clusters$is_sign_T8))),
+  cbind(as.numeric(all_GWAS_clusters$is_sign_SF_NGM),as.numeric(all_GWAS_clusters$is_sign_SF_NaCl))),
   names=c("SF NGM","SF NaCl"),main='All')
 
 vennDiagram(vennCounts(
-  cbind(as.numeric(all_GWAS_clusters$is_sign_T7),as.numeric(all_GWAS_clusters$is_sign_T14))),
+  cbind(as.numeric(all_GWAS_clusters$is_sign_area.F_NGM),as.numeric(all_GWAS_clusters$is_sign_area.F_NaCl))),
   names=c("Area low Salt","Area High Salt"),main='All')
 
 vennDiagram(vennCounts(
-  cbind(as.numeric(all_GWAS_clusters$is_sign_T7),as.numeric(all_GWAS_clusters$is_sign_T8))),
+  cbind(as.numeric(all_GWAS_clusters$is_sign_area.F_NGM),as.numeric(all_GWAS_clusters$is_sign_SF_NaCl))),
   names=c("Area low Salt","SF High Salt"),main='All')
 
 vennDiagram(vennCounts(
-  cbind(as.numeric(all_GWAS_clusters$is_sign_T7),as.numeric(all_GWAS_clusters$is_sign_T9))),
+  cbind(as.numeric(all_GWAS_clusters$is_sign_area.F_NGM),as.numeric(all_GWAS_clusters$is_sign_SB_NaCl))),
   names=c("Area low Salt","SB High Salt"),main='All')
 
-vennDiagram(vennCounts(
-  all_GWAS_clusters[,paste0("is_sign_T",c(14,11))]),
-  names=c("test","Area NGM"),main='All')
 
 ### Could there be SNPs in the same genes but not the same variants 
 ### affecting the traits ? -> would be nice to give examples ????
@@ -338,9 +278,9 @@ vennDiagram(vennCounts(
 #### Now the Neff to estimate the effect ~pleiotropy ?
 ## For each cluster, compute a level of pleiotropy
 
-all_GWAS_clusters_sign <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_T",1:14)])>0,])
-all_GWAS_clusters_sign_NGM <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_T",1:7)])>0,])
-all_GWAS_clusters_sign_NaCl <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_T",8:14)])>0,])
+all_GWAS_clusters_sign <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv)])>0,])
+all_GWAS_clusters_sign_NGM <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[1:8])])>0,])
+all_GWAS_clusters_sign_NaCl <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits_bothEnv[9:16])])>0,])
 
 nb_sign_clust_NGM <- nrow(all_GWAS_clusters_sign)
 nb_sign_clust_NaCl <- nrow(all_GWAS_clusters_sign)
@@ -354,49 +294,73 @@ pleiot.idx_mixed=data.frame(N=rep(0,nb_sign_clust),Neff=rep(0,nb_sign_clust))
 #Gmat_NGM = cov(na.omit(all_GWAS_clusters[,paste0("beta_T",1:7)]))
 #Gmat_NaCl = cov(na.omit(all_GWAS_clusters[,paste0("beta_T",8:14)]))
 #G_mat_all=cov(na.omit(all_GWAS_clusters[,paste0("beta_T",1:14)]))
+glmm.env=new.env()
+load('RData/Preparatory_GLMM.RData',envir=glmm.env)
 
-Gmat_NGM = cov(na.omit(gemma_pheno[,1:7]))
-Gmat_NaCl = cov(na.omit(gemma_pheno[,8:14]))
-G_mat_all= cov(na.omit(gemma_pheno[,1:14]))
+### 
+data_NGM=glmm.env$all_BLUEs_genotyped_NGM
+data_NaCl=glmm.env$all_BLUEs_genotyped_NGM
 
+newdata=data.frame(logD=0,rel_humidity=0, temperature=0,
+                   pop_label=sort(unique(c(data_NGM$pop_label,data_NaCl$pop_label))))
 
-#head(gemma_pheno)
+all_traits_corrected=data.frame(pop_label=newdata$pop_label)
 
-#plot(cov(na.omit(all_GWAS_clusters[,paste0("beta_T",1:7)])),cov(na.omit(gemma_pheno[,1:7])))
-#abline(a=0,b=1)
-#plot(G_mat[1:7,1:7],cov(na.omit(gemma_pheno[,1:7])))
-#abline(a=0,b=1)
+for(i in vect_P_traits){
+
+data_NGM$y=data_NGM[,i]
+data_NaCl$y=data_NaCl[,i]
+  
+trait_lmer <- lmer(y~ logD + rel_humidity + temperature  + pop_label + (1|date_str) + (1|session_id), data=data_NGM)
+all_traits_corrected.temp <- data.frame(pop_label=newdata$pop_label,trait=predict(trait_lmer,newdata,re.form=NA))
+names(all_traits_corrected.temp)[1]='pop_label'
+names(all_traits_corrected.temp)[2]=paste0(i,"_NGM")
+all_traits_corrected=merge(all_traits_corrected,all_traits_corrected.temp,all=TRUE)
+
+trait_lmer <- lmer(y~ logD + rel_humidity + temperature  + pop_label + (1|date_str) + (1|session_id), data=data_NaCl)
+all_traits_corrected.temp <- data.frame(pop_label=newdata$pop_label,trait=predict(trait_lmer,newdata,re.form=NA))
+names(all_traits_corrected.temp)[1]='pop_label'
+names(all_traits_corrected.temp)[2]=paste0(i,"_NaCl")
+all_traits_corrected=merge(all_traits_corrected,all_traits_corrected.temp,all=TRUE)
+}
+dim(all_traits_corrected)
+
+Gmat_NGM = cov(na.omit(all_traits_corrected[,vect_P_traits_bothEnv[1:8]]))
+Gmat_NaCl = cov(na.omit(all_traits_corrected[,vect_P_traits_bothEnv[9:16]]))
+G_mat_all= cov(na.omit(all_traits_corrected[,vect_P_traits_bothEnv]))
+
+## STOPPED HERE - need to be corrected - the sign ones ? ##
 
 for(i in 1:nrow(pleiot.idx_mixed)){
   ## NGM first
-  pleiot.idx$NGM[i]=sum(all_GWAS_clusters_sign[i,paste0("is_sign_T",1:7)],na.rm=TRUE)
+  pleiot.idx$NGM[i]=sum(all_GWAS_clusters_sign[i,paste0("is_sign_",vect_P_traits_bothEnv[1:8])],na.rm=TRUE)
   if(pleiot.idx$NGM[i]==1){
     pleiot.idx$NGM.cor[i]=1 
   }else if(pleiot.idx$NGM[i]>1){
-    idx.sign <- as.logical(all_GWAS_clusters_sign[i,paste0("is_sign_T",1:7)])
+    idx.sign <- as.logical(all_GWAS_clusters_sign[i,paste0("is_sign_",vect_P_traits_bothEnv[1:8])])
     std_devs.NGM.temp <- sqrt(diag(Gmat_NGM[idx.sign,idx.sign]))
     cor_matrix.NGM.temp <- Gmat_NGM[idx.sign,idx.sign] / (std_devs.NGM.temp %o% std_devs.NGM.temp)
     pleiot.idx$NGM.cor[i]=pleiot.idx$NGM[i] - var(eigen(cor_matrix.NGM.temp)$values)
   }
   
   ## NaCl second
-  pleiot.idx$NaCl[i]=sum(all_GWAS_clusters_sign[i,paste0("is_sign_T",8:14)],na.rm=TRUE)
+  pleiot.idx$NaCl[i]=sum(all_GWAS_clusters_sign[i,paste0("is_sign_",vect_P_traits_bothEnv[9:16])],na.rm=TRUE)
   if(pleiot.idx$NaCl[i]==1){
     pleiot.idx$NaCl.cor[i]=1 
   }else if(pleiot.idx$NaCl[i]>1){
-    idx.sign <- as.logical(all_GWAS_clusters_sign[i,paste0("is_sign_T",8:14)])
+    idx.sign <- as.logical(all_GWAS_clusters_sign[i,paste0("is_sign_",vect_P_traits_bothEnv[9:16])])
     std_devs.NaCl.temp <- sqrt(diag(Gmat_NaCl[idx.sign,idx.sign]))
     cor_matrix.NaCl.temp <- Gmat_NaCl[idx.sign,idx.sign] / (std_devs.NaCl.temp %o% std_devs.NaCl.temp)
     pleiot.idx$NaCl.cor[i]=pleiot.idx$NaCl[i] - var(eigen(cor_matrix.NaCl.temp)$values)
   }
   
   ### Mixed
-  pleiot.idx_mixed$N[i]=sum(all_GWAS_clusters_sign[i,paste0("is_sign_T",1:14)],na.rm=TRUE)
+  pleiot.idx_mixed$N[i]=sum(all_GWAS_clusters_sign[i,paste0("is_sign_",vect_P_traits_bothEnv[1:16])],na.rm=TRUE)
   
   if(pleiot.idx_mixed$N[i]==1){
     pleiot.idx_mixed$Neff[i]=1  
   }else if(pleiot.idx_mixed$N[i]>1){
-    idx.sign <- as.logical(all_GWAS_clusters_sign[i,paste0("is_sign_T",1:14)])
+    idx.sign <- as.logical(all_GWAS_clusters_sign[i,paste0("is_sign_",vect_P_traits_bothEnv[1:8])])
     idx.sign[is.na(idx.sign)]=FALSE
     std_devs.all.temp <- sqrt(diag(G_mat_all[idx.sign,idx.sign]))
     cor_matrix.all.temp <- G_mat_all[idx.sign,idx.sign] / (std_devs.all.temp %o% std_devs.all.temp)

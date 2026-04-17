@@ -2,7 +2,7 @@ rm(list=ls())
 gc()
 library(qqman)
 library(data.table)
-
+threshold_clust=.2
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
   print(threshold_clust)
   for(env_label in c("NGM","NaCl")){
@@ -35,7 +35,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
       names(concat_GWAS.temp)[4]="beta"
       
       for(p in c(4:7)){
-        names(concat_GWAS.temp)[p]=paste0(names(concat_GWAS.temp)[p],"_",traitID)
+        names(concat_GWAS.temp)[p]=paste0(names(concat_GWAS.temp)[p],"_",traitID,"_",env_label)
       }
       
       if(!exists("all_GWAS")){
@@ -48,11 +48,12 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
     }
     rm(concat_GWAS.temp,p,traitJ)
     
-    all_GWAS_clusters = all_GWAS
-    rm(all_GWAS)
     
-    save(list=ls(),file=paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
   }
+  all_GWAS_clusters = all_GWAS
+  rm(all_GWAS)
+  
+  save(list=ls(),file=paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
 }
 
 
