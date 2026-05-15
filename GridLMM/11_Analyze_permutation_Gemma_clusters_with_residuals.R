@@ -2,7 +2,7 @@ rm(list=ls())
 gc()
 library(qqman)
 library(data.table)
-threshold_clust=.2
+
 for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
   print(threshold_clust)
   for(env_label in c("NGM","NaCl")){

@@ -173,6 +173,7 @@ clust_length <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clus
   return(max(x)-min(x))
 })
 max(clust_length)/10^6 # 1.9 Mb
+hist(log10(clust_length),main="",xlab=c("Log10 cluster length"))
 
 clust_mean <- tapply(all_GWAS_sign_with_clust$ps,all_GWAS_sign_with_clust$clust,function(x){
   mean(x)
@@ -255,6 +256,9 @@ all_cluster_merged=merge(all_GWAS_sign_with_clust,all_cluster[,c("rs","group")],
 dim(all_cluster)
 dim(all_cluster_merged)
 dim(all_GWAS_sign_with_clust)
+
+plot(density(as.numeric(table(all_cluster_merged$group))),log="x")
+summary(as.numeric(table(all_cluster_merged$group)))
 
 ### Add the unique SNPs
 all_cluster_merged[is.na(all_cluster_merged$cluster),]$group=all_cluster_merged[is.na(all_cluster_merged$cluster),]$rs

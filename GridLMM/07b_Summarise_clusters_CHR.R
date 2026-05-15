@@ -20,9 +20,9 @@ if(!is.null(summary_clust)){
 }
 }
 
-pdf("plots_BLUEs_GridLMM_CHR///Summary_clusters_R2.pdf")
-plot(summary_clust$r2,summary_clust$nb_clust,type="b",xlab="r2 threshold",ylab="Nb clusters/singletons",ylim=c(100,20000),log="y")
+pdf("plots_BLUEs_GridLMM_CHR///Summary_clusters_R2.pdf",w=5,h=4)
+plot(summary_clust$r2,summary_clust$nb_clust,type="b",xlab="r2 threshold",ylab="Nb clusters/singletons",ylim=c(100,21000),log="",bty="n")
 points(summary_clust$r2,summary_clust$nb_singletons,type="b",col="red")
-legend(.2,200,c("Total number of clusters (including singletons)","Singletons"),col=c("black","red"),lwd=2)
+legend(.2,20000,c("Total number of clusters \n(including singletons)","Singletons"),col=c("black","red"),lwd=2)
 dev.off()
 

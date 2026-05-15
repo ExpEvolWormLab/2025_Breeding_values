@@ -2,13 +2,16 @@ rm(list=ls())
 library(data.table)
 library(poolSeq)
 library(qqman)
-
+library(parallel)
 
 ### Extract the corresponding sync file
 a=read.table('Poolseq_GA_2026/all_bam_list.txt')$V1
 a=(tstrsplit(a,'_'))[[1]]
 a=(tstrsplit(a,'.bam'))[[1]]
 a[1:3]=c("A00_early","A00","A00_late")
+
+## Removed 2 populations
+a=a[c(2,4:15)]
 
 ### I will now create the list of columns I want to keep in R and run a terminal command from R
 ### we want all the CA populations and the first three columns
@@ -17,13 +20,13 @@ a[1:3]=c("A00_early","A00","A00_late")
 ### Create a table with the corresponding populations
 
 populations=data.frame(population=a,ancestor = "A00")
-populations$generations = c(0,0,0,0,10,50,36,10,50,36,10,36,10,50,36)
-populations$replicate = c(1:4,5,5,5,6,6,6,7,7,8,8,8)
+populations$generations = c(0,0,10,50,36,10,50,36,10,36,10,50,36)
+populations$replicate = c(1:2,3,3,3,4,4,4,5,5,6,6,6)
 rm(a)
 
 ### Load allele frequencies from PoolSeq data ###
 ### Load the sync file
-GA.sync=read.sync('Poolseq_GA_2026/GA_populations_polymorphisms.sync',gen=populations$generations,repl=populations$replicate)
+GA.sync=read.sync('Poolseq_GA_2026/GA_populations_polymorphisms_v2.sync',gen=populations$generations,repl=populations$replicate)
 
 ### First extract allele frequencies and coverage
 all.af = af(GA.sync,gen=populations$generations,repl=populations$replicate)
@@ -48,9 +51,8 @@ populations$median_cov=colMedians(all.cov)
 hist(colMedians(all.cov[,c(2,4:ncol(all.cov))]))
 sort(colMedians(all.cov))
 
-
 plot(density(all.cov[,3]),xlim=c(0,200),ylim=c(0,0.1))
-for(i in 2:15){
+for(i in 2:13){
   lines(density(all.cov[,i]),xlim=c(0,200))
 }
 
@@ -59,170 +61,375 @@ for(i in 2:15){
 
 pca1 <- prcomp(t(na.omit(all.af)),center=TRUE,scale=FALSE)
 plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
-text(pca1$x[,1],pca1$x[,2],labels=populations$population,col=rep(c("blue","red"),c(4,11))) ### Ok, we should only use the two others then
+text(pca1$x[,1],pca1$x[,2],labels=populations$population,col=rep(c("blue","red"),c(2,11))) ### Ok, we should only use the two others then
 
-
-# Remove A00_early
-pca1 <- prcomp(t(na.omit(all.af[,c(2,5:15)])),center=TRUE,scale=FALSE)
+# Remove A6140
+pca1 <- prcomp(t(na.omit(all.af[,c(1,3:13)])),center=TRUE,scale=FALSE)
 plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
-text(pca1$x[,1],pca1$x[,2],labels=populations$population[c(2,5:15)],col=rep(c("blue","red"),c(1,11))) ### Ok, we should only use the two others then
+text(pca1$x[,1],pca1$x[,2],labels=populations$population[c(1,3:13)],col=rep(c("blue","red"),c(1,11))) ### Ok, we should only use the two others then
 
 
-pca1 <- prcomp(t(na.omit(all.af[,c(2,5:15)])),center=TRUE,scale=FALSE)
+pca1 <- prcomp(t(na.omit(all.af[,c(1,3:13)])),center=TRUE,scale=FALSE)
 plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
-text(pca1$x[,1],pca1$x[,2],labels=populations$population[c(2,5:15)],col=rep(c("blue","red","gold","green","magenta"),c(1,3,3,2,3))) ### Ok, we should only use the two others then
+text(pca1$x[,1],pca1$x[,2],labels=populations$population[c(1,3:13)],col=rep(c("blue","red","gold","green","magenta"),c(1,3,3,2,3))) ### Ok, we should only use the two others then
 
 
-## CMH - F50
-vect_A00 <- sample(c(2,4),3,replace=TRUE)
-vect_A00_36 <- sample(c(2,4),4,replace=TRUE)
-vect_GA36 <- c(1:15)[populations$generations==36]
-vect_GA50 <- c(1:15)[populations$generations==50]
+### Strange variation in coverage ?
+rel_cov=all.cov
+for(i in 1:ncol(all.cov)){
+  rel_cov[,i]=rel_cov[,i]/mean(rel_cov[,i],na.rm=TRUE)
+}
 
-GA50_cmh <- cmh.test(t(all.counts[,vect_A00]),t(all.counts.alt[,vect_A00]),t(all.counts[,vect_GA50]),t(all.counts.alt[,vect_GA50]),min.cov=30,max.cov=300)
-GA36_cmh <- cmh.test(t(all.counts[,vect_A00_36]),t(all.counts.alt[,vect_A00_36]),t(all.counts[,vect_GA36]),t(all.counts.alt[,vect_GA36]),min.cov=30,max.cov=300)
+snps_positions.sync$minCov <- rowMins(rel_cov)
+snps_positions.sync$maxCov <- rowMaxs(rel_cov)
+snps_positions.sync$medianCov <- rowMedians(rel_cov)
 
-CMH_GA50 = na.omit(data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),P=-log10(GA50_cmh)))
-CMH_GA36 = na.omit(data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),P=-log10(GA36_cmh)))
+#plot(snps_positions.sync$minCov,snps_positions.sync$maxCov,pch=16,col=adjustcolor("grey",alpha=.5))
 
-manhattan(subset(CMH_GA50,P>2), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
-plot(-log10(GA36_cmh),-log10(GA50_cmh),pch=16)
-abline(a=0,b=1)
+### We can only keep alleles with normal coverage variation ? 
+#kept.alleles = maxCov>20 & maxCov<80 & minCov>1.5
+#table(kept.alleles)
+#table(snps_positions.sync$CHROM[kept.alleles]) # MtDNA
+
+## No MtDNA
+#temp=subset(snps_positions.sync,CHROM!="MtDNA")
+#plot(temp$minCov,temp$maxCov,pch=16,col=adjustcolor("grey",alpha=.5))
+#hist(log10(snps_positions.sync$medianCov))
+
+kept.alleles = snps_positions.sync$maxCov<=4 & snps_positions.sync$medianCov<5 & snps_positions.sync$medianCov>.15
+table(kept.alleles) # removed 4k SNPS including 2k MtDNA
+
+#hist(log10(snps_positions.sync$medianCov[kept.alleles]))
+
+all.af=all.af[rownames(all.af)%in%snps_positions.sync$ID[kept.alleles],]
+all.cov=all.cov[rownames(all.cov)%in%snps_positions.sync$ID[kept.alleles],]
+all.counts=all.counts[rownames(all.counts)%in%snps_positions.sync$ID[kept.alleles],]
+all.counts.alt=all.counts.alt[rownames(all.counts.alt)%in%snps_positions.sync$ID[kept.alleles],]
+
+snps_positions.sync=snps_positions.sync[kept.alleles,]
+
+### Redo the PCA ?
+
+pca1 <- prcomp(t(na.omit(all.af)),center=TRUE,scale=FALSE)
+plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
+text(pca1$x[,1],pca1$x[,2],labels=populations$population,col=rep(c("blue","red"),c(2,11))) ### Ok, we should only use the two others then
+
+pca1 <- prcomp(t(na.omit(all.af[,c(1,3:13)])),center=TRUE,scale=FALSE)
+plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
+text(pca1$x[,1],pca1$x[,2],labels=populations$population[c(1,3:13)],col=rep(c("blue","red","gold","green","magenta"),c(1,3,3,2,3))) ### Ok, we should only use the two others then
 
 
-### CMH / Manhattan plot ?
+## Keep only the Caendr SNPs ?
+#library(vcfR)
+#founders_Caendr <- read.vcfR("Caendr_filtering/WI.20250625.hard-filter.isotype.CemeeFounders_poly.vcf.gz")
+#caendr_pos <- as.data.frame(founders_Caendr@fix[,1:2])
+#write.table(caendr_pos,file='data/caendr_SNPs.txt',quote=FALSE,sep='\t',row.names=FALSE)
+caendr_pos=read.table('data/caendr_SNPs.txt',sep='\t',h=TRUE)
 
-vect_A00 <- sample(c(2,4),4,replace=TRUE)
-vect_GA36 <- 5:8
-GA36_cmh <- cmh.test(t(all.counts[,vect_A00]),t(all.counts.alt[,vect_A00]),t(all.counts[,vect_GA36]),t(all.counts.alt[,vect_GA36]),min.cov=30,max.cov=300)
+all.af.caendr=all.af[rownames(all.af)%in%paste(caendr_pos$CHROM,caendr_pos$POS,sep='.'),]
+all.cov.caendr=all.cov[rownames(all.cov)%in%paste(caendr_pos$CHROM,caendr_pos$POS,sep='.'),]
+all.counts.caendr=all.counts[rownames(all.counts)%in%paste(caendr_pos$CHROM,caendr_pos$POS,sep='.'),]
+all.counts.alt.caendr=all.counts.alt[rownames(all.counts.alt)%in%paste(caendr_pos$CHROM,caendr_pos$POS,sep='.'),]
+snps_positions.sync.caendr=subset(snps_positions.sync,ID%in%rownames(all.counts.alt.caendr))
+dim(snps_positions.sync.caendr)
 
-GA1_chi <- chi.sq.test(t(all.counts[,2]),t(all.counts.alt[,2]),t(all.counts[,5]),t(all.counts.alt[,5]),min.cov=30,max.cov=300)
-GA2_chi <- chi.sq.test(t(all.counts[,2]),t(all.counts.alt[,2]),t(all.counts[,6]),t(all.counts.alt[,6]),min.cov=30,max.cov=300)
-GA3_chi <- chi.sq.test(t(all.counts[,2]),t(all.counts.alt[,2]),t(all.counts[,7]),t(all.counts.alt[,7]),min.cov=30,max.cov=300)
-GA4_chi <- chi.sq.test(t(all.counts[,2]),t(all.counts.alt[,2]),t(all.counts[,8]),t(all.counts.alt[,8]),min.cov=30,max.cov=300)
+dim(all.af.caendr) # 273k
 
-CMH_GA36 = na.omit(data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),P=-log10(GA36_cmh)))
-manhattan(subset(CMH_GA36,P>2), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
+pca1 <- prcomp(t(na.omit(all.af.caendr)),center=TRUE,scale=FALSE)
+plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
+text(pca1$x[,1],pca1$x[,2],labels=populations$population,col=rep(c("blue","red"),c(2,11))) ### Ok, we should only use the two others then
 
-CHI_GA136 = (data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),
-                               P=-log10(GA1_chi)))
-CHI_GA236 = (data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),
-                               P=-log10(GA2_chi)))
-CHI_GA336 = (data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),
-                               P=-log10(GA3_chi)))
-CHI_GA436 = (data.frame(CHR=as.numeric(factor(snps_positions.sync$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync$POS),SNP=c(1:nrow(snps_positions.sync)),
-                               P=-log10(GA4_chi)))
+pca1 <- prcomp(t(na.omit(all.af.caendr[,c(1,3:13)])),center=TRUE,scale=FALSE)
+plot(pca1$x[,1],pca1$x[,2],col=rep(c("blue","red"),each=4),pch=16,type='n')
+text(pca1$x[,1],pca1$x[,2],labels=populations$population[c(1,3:13)],col=rep(c("blue","red","gold","green","magenta"),c(1,3,3,2,3))) ### Ok, we should only use the two others then
 
 
-CHI_GA136$Q=p.adjust(10^-(CHI_GA136$P),method = "BH")
-CHI_GA236$Q=p.adjust(10^-(CHI_GA236$P),method = "BH")
-CHI_GA336$Q=p.adjust(10^-(CHI_GA336$P),method = "BH")
-CHI_GA436$Q=p.adjust(10^-(CHI_GA436$P),method = "BH")
+### We will try the GLMS
+library(lme4)
+safe_glmer <- function(formula, data) {
+  fit <- try(
+    glmer(formula, data = data, family = "binomial"),
+    silent = TRUE
+  )
+  if (inherits(fit, "try-error")) return(c(NA, NA))
+  
+  coef <- summary(fit)$coef
+  coef[2, c(1, 4)]
+}
 
-manhattan(na.omit(subset(CHI_GA136)), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,genomewideline = -log10(0.01))
+populations$replicate_fact=as.factor(populations$replicate)
 
-#pdf('plots/selected_Q.pdf')
-#manhattan(na.omit(subset(CHI_GA136,P>1)), chr="CHR", bp="BP", snp="SNP", p="Q" ,logp=TRUE,genomewideline = -log10(0.05))
-#manhattan(na.omit(subset(CHI_GA236,P>1)), chr="CHR", bp="BP", snp="SNP", p="Q" ,logp=TRUE,genomewideline = -log10(0.05))
-#manhattan(na.omit(subset(CHI_GA336,P>1)), chr="CHR", bp="BP", snp="SNP", p="Q" ,logp=TRUE,genomewideline = -log10(0.05))
-#manhattan(na.omit(subset(CHI_GA436,P>1)), chr="CHR", bp="BP", snp="SNP", p="Q" ,logp=TRUE,genomewideline = -log10(0.05))
-#dev.off()
+vect_All=rep(TRUE,13)
+vect_GA1=populations$replicate%in%c(1,2,3)
+vect_GA2=populations$replicate%in%c(1,2,4)
+vect_GA4=populations$replicate%in%c(1,2,6)
 
-is_selected <- cbind(CHI_GA136$Q<0.05,CHI_GA236$Q<0.05,CHI_GA336$Q<0.05,CHI_GA436$Q<0.05)
-table(rowSums(is_selected))
-nb_repl_selected <- rowSums(is_selected,na.rm=TRUE)
-table(nb_repl_selected)
+populations_GA1=subset(populations,replicate%in%c(1,2,3))
+populations_GA2=subset(populations,replicate%in%c(1,2,4))
+populations_GA4=subset(populations,replicate%in%c(1,2,6))
+
+# res <- mclapply(1:nrow(all.counts.caendr), function(i) {
+#   
+#   f_All <- cbind(all.counts.caendr[i, vect_All],
+#                  all.counts.alt.caendr[i, vect_All]) ~ generations + (1|replicate_fact)
+#   
+#   f_GA1 <- cbind(all.counts.caendr[i, vect_GA1],
+#                  all.counts.alt.caendr[i, vect_GA1]) ~ generations + (1|replicate_fact)
+#   
+#   f_GA2 <- cbind(all.counts.caendr[i, vect_GA2],
+#                  all.counts.alt.caendr[i, vect_GA2]) ~ generations + (1|replicate_fact)
+# 
+#   f_GA4 <- cbind(all.counts.caendr[i, vect_GA4],
+#                  all.counts.alt.caendr[i, vect_GA4]) ~ generations + (1|replicate_fact)
+#   
+#   list(
+#     All = safe_glmer(f_All, populations),
+#     GA1 = safe_glmer(f_GA1, populations_GA1),
+#     GA2 = safe_glmer(f_GA2, populations_GA2),
+#     GA4 = safe_glmer(f_GA4, populations_GA4)
+#   )
+#   
+# }, mc.cores = detectCores() - 2)
+# 
+# save(list=ls(),file='SaveGLM.RData')
+snps_positions.sync.caendr=subset(snps_positions.sync,ID%in%rownames(all.counts.alt.caendr))
+load('SaveGLM.RData')
+
+results_All <- do.call(rbind, lapply(res, `[[`, "All"))
+results_GA1 <- do.call(rbind, lapply(res, `[[`, "GA1"))
+results_GA2 <- do.call(rbind, lapply(res, `[[`, "GA2"))
+results_GA4 <- do.call(rbind, lapply(res, `[[`, "GA4"))
+
+snps_positions.sync.caendr$GA_ALL=results_All[,2]
+snps_positions.sync.caendr$GA1=results_GA1[,2]
+snps_positions.sync.caendr$GA2=results_GA2[,2]
+snps_positions.sync.caendr$GA4=results_GA4[,2]
+
+GLM_All = (data.frame(CHR=as.numeric(factor(snps_positions.sync.caendr$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync.caendr$POS),SNP=c(1:nrow(snps_positions.sync.caendr)),P=-log10(snps_positions.sync.caendr$GA_ALL)))
+GLM_GA1 = (data.frame(CHR=as.numeric(factor(snps_positions.sync.caendr$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync.caendr$POS),SNP=c(1:nrow(snps_positions.sync.caendr)),P=-log10(snps_positions.sync.caendr$GA1)))
+GLM_GA2 = (data.frame(CHR=as.numeric(factor(snps_positions.sync.caendr$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync.caendr$POS),SNP=c(1:nrow(snps_positions.sync.caendr)),P=-log10(snps_positions.sync.caendr$GA2)))
+GLM_GA4 = (data.frame(CHR=as.numeric(factor(snps_positions.sync.caendr$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))),BP=as.numeric(snps_positions.sync.caendr$POS),SNP=c(1:nrow(snps_positions.sync.caendr)),P=-log10(snps_positions.sync.caendr$GA4)))
+
+manhattan(subset(GLM_All,P>2 & is.finite(P)), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
+manhattan(subset(GLM_GA1,P>2 & is.finite(P)), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE)
+
+#subset(GLM_All,P>100)
+#int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='X' & as.numeric(snps_positions.sync.caendr$POS)%in%subset(GLM_All,CHR==6 & P>200 & is.finite(P))$BP,]
+
+int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='II' 
+                          & as.numeric(snps_positions.sync.caendr$POS)==13649880,]
+plot(int_freq~populations$generations,pch=16,ylim=c(0,1))
+
+int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='IV' 
+                          & as.numeric(snps_positions.sync.caendr$POS)==2129332,]
+plot(int_freq~populations$generations,pch=16,ylim=c(0,1))
+
+#######################################
+### Keep only > 1% all the time ? #####
+#######################################
+
+base_freq = rowMins(all.af.caendr)
+base_freq = rowMins(all.af.caendr)
+kept_base_freq = base_freq>0.01
+
+pdf("GLM_plot.pdf",h=5)
+manhattan(subset(GLM_All,P>2 & is.finite(P) & kept_base_freq), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,suggestiveline = FALSE,genomewideline = FALSE)
+dev.off()
+
+### Superpose the clusters ?
+load('GridLMM_results_CHR/All_Gwas.RData')
+for(i in 1:16){
+  all_GWAS[,paste0("is_sign_T",i)] = p.adjust(all_GWAS[,paste0("pvalue_T",i)],method="BH")<0.2
+  print(table(all_GWAS[,paste0("is_sign_T",i)]))
+}
+sign_all_df <- all_GWAS[,names(all_GWAS)%in%paste0("is_sign_T",1:16)]
+all_GWAS$sign_overall <- rowSums(sign_all_df)>=1
+
+
+sign_clusters = subset(all_GWAS,is_sign_T15)
+sign_clusters=sign_clusters[,c("chr","ps")]
+names(sign_clusters)=c("CHR","BP")
+sign_clusters$CHR=as.numeric(factor(sign_clusters$CHR,levels=c("I","II","III","IV","V","X","MtDNA")))
+
+GLM_All$clust=FALSE
+GLM_All$clust[paste(GLM_All$CHR,GLM_All$BP)%in%paste(sign_clusters$CHR,sign_clusters$BP)]=TRUE
+
+pdf("GLM_plot_withClust.pdf",h=5)
+manhattan(subset(GLM_All,P>1 & is.finite(P) & kept_base_freq),
+          chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,suggestiveline = FALSE,genomewideline = FALSE,
+          highlight = subset(GLM_All,P>1 & is.finite(P) & kept_base_freq & clust)$SNP)
+dev.off()
+
+
+
+
+
+
+
+
+
+subset(GLM_GA1,P>30 & is.finite(P) & kept_base_freq)
+int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='V' 
+                          & as.numeric(snps_positions.sync.caendr$POS)==15966464,]
+plot(int_freq~populations$generations,pch=16,ylim=c(0,1))
+
+int_POS <- subset(GLM_GA1,P>10 & is.finite(P) & kept_base_freq & CHR==5 & BP>15000000 & BP<17000000)$BP
+
+int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='V' 
+                          & as.numeric(snps_positions.sync.caendr$POS)%in%int_POS,]
+
+plot(colMeans(int_freq)~populations$generations,type="n",ylim=c(0,1))
+for(i in 1:nrow(int_freq)){
+  points(int_freq[i,1:2]~c(0,3),pch=16,type='b')  
+  for(j in 3:6){
+  points(int_freq[i,populations$replicate==j]~populations$generations[populations$replicate==j],type='b',col=c("black","black","red","blue","darkgreen","orange")[j])
+  }
+}
+temp.glm=subset(GLM_All,P>2 & is.finite(P) & kept_base_freq & CHR==1 & BP<3000000 & BP>2500000)
+plot(temp.glm$BP,temp.glm$P,pch=16 )
+
+
+int_POS <- subset(GLM_All,P>9 & is.finite(P) & kept_base_freq & CHR==1 & BP<3000000 & BP>2500000)$BP
+int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='I' 
+                          & as.numeric(snps_positions.sync.caendr$POS)%in%int_POS,]
+
+plot(colMeans(int_freq)~populations$generations,type="n",ylim=c(0,1),xlab="Generations",ylab='Allele frequency')
+for(i in 1:nrow(int_freq)){
+  #points(int_freq[i,1:2]~c(0,3),pch=16,type='b')  
+  points(int_freq[i,2]~c(0),pch=16,type='b')  
+  for(j in c(3,4,6)){
+    points(int_freq[i,populations$replicate==j]~populations$generations[populations$replicate==j],type='b',col=c("black","black","red","blue","darkgreen","orange")[j])
+  }
+}
+pdf("Example_GLMER.pdf",h=4,w=4)
+plot(colMeans(int_freq)~populations$generations,type="n",ylim=c(0,1),xlab="Generations",ylab='Allele frequency')
+#for(i in 1:nrow(int_freq)){
+i=1
+  #points(int_freq[i,1:2]~c(0,3),pch=16,type='b')  
+  points(int_freq[i,2]~c(0),pch=16,type='b')  
+  for(j in c(3,4,6)){
+    points(int_freq[i,populations$replicate==j]~populations$generations[populations$replicate==j],type='b',col=c("black","black","red","blue","darkgreen","orange")[j],pch=16)
+  }
+#}
+  legend(0,1,pch=16,c("GA1","GA2","GA4"),col=c("red","blue","orange"))
+dev.off()
+
+temp.glm=subset(GLM_All,P>2 & is.finite(P) & kept_base_freq & CHR==3 & BP<8000000 & BP>4000000)
+plot(temp.glm$BP,temp.glm$P,pch=16)
+
+int_POS <- subset(GLM_All,P>10 & is.finite(P) & kept_base_freq & CHR==3  & BP<8000000 & BP>4000000)$BP
+int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='III' 
+                          & as.numeric(snps_positions.sync.caendr$POS)%in%int_POS,]
+
+## Increasing means
+diff=rowMeans(int_freq[,populations$generations==50])-rowMeans(int_freq[,populations$generations==10])
+int_freq[diff<0,]=1-int_freq[diff<0,]
+
+plot(colMeans(int_freq)~populations$generations,type="n",ylim=c(0,1))
+for(i in 1:nrow(int_freq)){
+  points(int_freq[i,1:2]~c(0,3),pch=16,type='b')  
+  for(j in 3:6){
+    points(int_freq[i,populations$replicate==j]~populations$generations[populations$replicate==j],type='b',col=c("black","black","red","blue","darkgreen","orange")[j])
+  }
+}
 
 
 ### We want to estimate whether some founder haplotype are rising - how to link them with the GWAS haplotypes ?
 ### Load cluster data
-all_cluster_merged = read.table(file=paste0('txt_BLUEs/all_sign_GWAS_with_clusters_R4.txt'),sep='\t',h=TRUE)
+threshold_clust=0.8
+all_cluster_merged = read.table(paste0("txt_BLUEs_GridLMM_CHR//all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
 all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
 all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
 all_cluster_merged=all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 dim(all_cluster_merged)
 length(unique(all_cluster_merged$group))
-### 2.6k clusters
+### 4.1k clusters
 
 ### TEST
 all_cluster_merged$CHR=as.numeric(factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA")))
 all_cluster_merged$BP=all_cluster_merged$POS
-dim(merge(all_cluster_merged,CMH_GA36))
-clust_with_Man <- merge(all_cluster_merged,CMH_GA36)
 
+### We need to ensure they are the same SNPs and same polarizarion ###
+temp.env=new.env()
+load('RData/Preparatory_GLMM.RData',envir=temp.env)
+geno_matrix = temp.env$genotype_matrix
+rm(temp.env);gc()
+A6160_Cemee_freq = data.frame(rs=colnames(geno_matrix),freq_Cemee=as.numeric(colMeans(geno_matrix[substring(rownames(geno_matrix),1,5)=="A6140",])))
+temp.env=new.env()
+load('RData/Genotype_info_Cemee.RData',envir=temp.env)
+snp_positions=as.data.frame(temp.env$snp_positions)
+snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
+snp_positions$POS=as.numeric(as.character(snp_positions$POS))
+names(snp_positions)[3]="rs"
+rm(temp.env);gc()
+A6160_Cemee_freq=merge(A6160_Cemee_freq,snp_positions[,c("rs","REF","ALT")])
+
+### Compare with the 
+
+dim(merge(all_cluster_merged,GLM_All))
+clust_with_Man <- merge(all_cluster_merged,GLM_All)
 
 ## Are they in clusters ?
-pos_selected <- CHI_GA136[nb_repl_selected>=1,c("CHR","BP")]
-pos_selected$is_selected = TRUE
-pos_selected$nb_clust = nb_repl_selected[nb_repl_selected>=1]
-all_cluster_merged$pleiotropy <- rowSums(all_cluster_merged[,paste0("is_sign_T",1:14)],na.rm=TRUE)
-all_cluster_merged$pleiotropy_NaCl <- rowSums(all_cluster_merged[,paste0("is_sign_T",8:14)],na.rm=TRUE)
-all_cluster_merged$pleiotropy_NGM <- rowSums(all_cluster_merged[,paste0("is_sign_T",1:7)],na.rm=TRUE)
-all_cluster_merged_selected <- merge(all_cluster_merged,pos_selected)
+#pos_selected <- GLM_All[nb_repl_selected>=1,c("CHR","BP")]
+#pos_selected$is_selected = TRUE
+#pos_selected$nb_clust = nb_repl_selected[nb_repl_selected>=1]
 
+is_selected=p.adjust(10^(-GLM_All$P),method="BH")
+qqnorm(-log10(is_selected[!is.na(is_selected) & is.finite(is_selected) & is_selected>0]))
+table(is_selected)
+
+pos_selected=snps_positions.sync.caendr
+pos_selected$rs=paste(pos_selected$CHROM,pos_selected$POS,sep='_')
+pos_selected$is_selected=(is_selected<0.01 & !is.na(is_selected) & is.finite(is_selected) & is_selected>0)
+
+pos_selected$nb_clust=1
+
+all_cluster_merged$pleiotropy <- rowSums(all_cluster_merged[,paste0("is_sign_T",1:16)],na.rm=TRUE)
+all_cluster_merged$pleiotropy_NaCl <- rowSums(all_cluster_merged[,paste0("is_sign_T",9:16)],na.rm=TRUE)
+all_cluster_merged$pleiotropy_NGM <- rowSums(all_cluster_merged[,paste0("is_sign_T",1:8)],na.rm=TRUE)
+all_cluster_merged_selected <- merge(all_cluster_merged,pos_selected)
 
 all_cluster_merged_selected_uniq_clust <- unique(all_cluster_merged_selected[,c("is_selected","nb_clust","group","pleiotropy","pleiotropy_NaCl","pleiotropy_NGM")])
 dim(all_cluster_merged_selected_uniq_clust)
-boxplot(all_cluster_merged_selected_uniq_clust$pleiotropy~all_cluster_merged_selected_uniq_clust$nb_clust)
-boxplot(all_cluster_merged_selected_uniq_clust$pleiotropy_NaCl~all_cluster_merged_selected_uniq_clust$nb_clust)
-boxplot(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM~all_cluster_merged_selected_uniq_clust$nb_clust)
-
-tapply(all_cluster_merged_selected_uniq_clust$pleiotropy,all_cluster_merged_selected_uniq_clust$nb_clust,mean)
-tapply(all_cluster_merged_selected_uniq_clust$pleiotropy_NaCl,all_cluster_merged_selected_uniq_clust$nb_clust,mean)
-tapply(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM,all_cluster_merged_selected_uniq_clust$nb_clust,mean)
 
 mean(all_cluster_merged_selected_uniq_clust$pleiotropy)
 mean(all_cluster_merged_selected_uniq_clust$pleiotropy_NaCl)
 mean(all_cluster_merged_selected_uniq_clust$pleiotropy_NGM)
 
-
-
-subset(CHI_GA136,CHR==4 & P >6)
-
 ### Top peaks ?
-int_SNPs <- CMH_GA36$CHR==1
-plot(CMH_GA36$BP[int_SNPs],CMH_GA36$P[int_SNPs],pch=16)
-subset(CMH_GA36,CHR==1 & P>15)
-
-int_freq <- all.af[snps_positions.sync$CHROM=='I' & as.numeric(snps_positions.sync$POS)%in%subset(CMH_GA36,CHR==1 & P>15)$BP,]
-
-par(mfrow=c(3,3))
-for(i in 1:nrow(int_freq)){
-plot(int_freq[i,c(2,4:8)]~populations$generations[c(2,4:8)],pch=16,ylim=c(0,1))
-}
 
 ### Allele frequency changes in GA populations
-
-vect_medians_cov <- rowMeans(all.cov[,c(2,4:8)])
+vect_medians_cov <- rowMeans(all.cov.caendr)
 kept_cov <- vect_medians_cov>=50 & vect_medians_cov<=250
 
-GA_af_changes <- all.af[kept_cov,c(5:8)] - rowMeans(all.af[kept_cov,c(2,4)])
+idx_GA1_4_F10 = c(3,6,11)
+idx_GA1_4_F50 = c(4,7,12)
+
+GA_af_changes <- all.af.caendr[kept_cov,idx_GA1_4_F50] - (all.af.caendr[kept_cov,idx_GA1_4_F10])
 GA_af_changes=na.omit(GA_af_changes)
 dim(GA_af_changes) # 275,117 SNPs
 
 plot(GA_af_changes[,1],GA_af_changes[,2],pch=16,col=adjustcolor("grey",alpha=.6))
 heatmap(cor(na.omit(GA_af_changes)))
 
-snps_positions.sync$rs=paste(snps_positions.sync$CHROM,snps_positions.sync$POS,sep='_')
+snps_positions.sync.caendr$rs=paste(snps_positions.sync.caendr$CHROM,snps_positions.sync.caendr$POS,sep='_')
 
+kCHR=6; cCHR="X"
+plot(subset(GLM_All,CHR==kCHR & kept_base_freq)$BP,subset(GLM_All,CHR==kCHR & kept_base_freq)$P,pch=21,bg=adjustcolor("grey",alpha=.5))
+kept_pos=subset(GLM_All,CHR==kCHR & kept_base_freq)$BP
+points(subset(clust_with_Man,CHROM==cCHR & BP%in%kept_pos)$BP,subset(clust_with_Man,CHROM==cCHR & BP%in%kept_pos)$P,pch=16,col=adjustcolor("red",alpha=.3))
 
-plot(subset(CMH_GA36,CHR==2)$BP,subset(CMH_GA36,CHR==2)$P,pch=16,col=adjustcolor("grey",alpha=.5))#,col=rainbow(50)[subset(clust_with_Man,CHROM=="I")$group])
-#points(subset(clust_with_Man,CHROM=="II" & is_sign_T14)$BP,subset(clust_with_Man,CHROM=="II"  & is_sign_T14)$P,pch=16,col=adjustcolor("red",alpha=.3))
-points(subset(clust_with_Man,CHROM=="II" )$BP,subset(clust_with_Man,CHROM=="II" )$P,pch=16,col=adjustcolor("red",alpha=.3))
-
-
-#pdf("plots/Manhattan_G36_with_clusters.pdf")
-#for(i in 1:14){
-#manhattan(subset(CMH_GA36,P>2), chr="CHR", bp="BP", snp="SNP", p="P" ,logp=FALSE,highlight=subset(clust_with_Man,clust_with_Man[,paste0("is_sign_T",i)] & P>2)$SNP)
-#}
-#dev.off()
+kCHR=6; cCHR="X"
+plot(subset(GLM_All,CHR==kCHR & kept_base_freq)$BP,subset(GLM_All,CHR==kCHR & kept_base_freq)$P,pch=21,bg=adjustcolor("grey",alpha=.5))
+kept_pos=subset(GLM_All,CHR==kCHR & kept_base_freq)$BP
+clust_with_Man_BetaNaCl=subset(clust_with_Man,is_sign_T16)
+points(subset(clust_with_Man_BetaNaCl,CHROM==cCHR & BP%in%kept_pos)$BP,subset(clust_with_Man_BetaNaCl,CHROM==cCHR & BP%in%kept_pos)$P,pch=16,col=adjustcolor("red",alpha=.3))
 
 # Convert data.frames to data.tables for speed
 all_cluster_merged <- as.data.table(all_cluster_merged)
-snps_positions_sync <- as.data.table(snps_positions.sync)
+snps_positions.sync.caendr <- as.data.table(snps_positions.sync.caendr)
 
 # Convert to data.table if not already
-all_cluster_merged <- as.data.table(all_cluster_merged)
 snps_positions_sync.kept=data.frame(rs=row.names(GA_af_changes))
 dim(snps_positions_sync.kept)
 snps_positions_sync.kept$CHROM = tstrsplit(snps_positions_sync.kept$rs,'[.]')[[1]]
@@ -231,7 +438,7 @@ snps_positions_sync.kept$rs = paste(snps_positions_sync.kept$CHROM,snps_position
 snps_positions_sync.kept <- as.data.table(snps_positions_sync.kept)
 
 GA_af_changes=data.frame(GA_af_changes)
-names(GA_af_changes)=paste("GA",1:4,"36",sep='')
+names(GA_af_changes)=paste("GA",c(1,2,4),"36",sep='')
 GA_af_changes$rs=snps_positions_sync.kept$rs
 GA_af_changes <- as.data.table(GA_af_changes) # Make sure all.af has column 'rs'
 
@@ -257,173 +464,152 @@ calc_group_af <- function(rs_vector) {
 # Apply across groups (no error)
 temp_GA_af <- lapply(group_rs, calc_group_af)
 clusters_af = do.call(rbind,temp_GA_af)
-colnames(clusters_af)=paste("GA",1:4,"36",sep='')
+colnames(clusters_af)=paste("GA",c(1,2,4),"50",sep='')
 
 clusters_af=data.frame(clusters_af)
 clusters_af$group=as.numeric(names(group_rs))
 
-heatmap(cor(na.omit(clusters_af[,1:4])))
+heatmap(cor(na.omit(clusters_af[,1:3])))
 
 ## Load GWAS results
-load("RData/GWAS_cluster_results_BLUE_concatenated_R8.RData")
-load(file="RData/GWAS_cluster_results_BLUE_concatenated_R8.RData")
-GWAS_with_clust <- read.table("txt_BLUEs/all_sign_GWAS_with_clusters_R8.txt",sep="\t",header=TRUE)
 
-gemma_pheno=read.table('data_BLUE/gemma_pheno.txt',sep='\t',h=FALSE)
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area")
+load(paste0("RData/GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
+vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
 vect_P_traits_bothEnv <- c(paste0(vect_P_traits,"_NGM"),paste0(vect_P_traits,"_NaCl"))
 
-all_GWAS_clusters$sign_overall <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",1:14)])
-all_GWAS_clusters$sign_NGM <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",1:7)])
-all_GWAS_clusters$sign_NaCl <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_T",8:14)])
+### Re-set the threshold to be more stringent ?
+for(i in vect_P_traits_bothEnv){
+  all_GWAS_clusters[,paste0("is_sign_",i)] = all_GWAS_clusters[,paste0("p_value_REML.cor_",i)]<0.05
+}
+
+all_GWAS_clusters$sign_overall <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv)])
+table(all_GWAS_clusters$sign_overall>=1)
+all_GWAS_clusters$sign_NGM <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv[1:8])])
+all_GWAS_clusters$sign_NaCl <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv[9:16])])
 
 ## We will merge the group ID from the clusters using the mean POS
-all_cluster_merged = read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clusters_R8.txt'),sep='\t',h=TRUE)
-all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
-all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
-all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
+#all_cluster_merged = read.table(paste0("txt_BLUEs_GridLMM_CHR//all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
+#all_cluster_merged$CHROM=factor(all_cluster_merged$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
+#all_cluster_merged$POS=as.numeric(all_cluster_merged$POS)
+#all_cluster_merged = all_cluster_merged[order(all_cluster_merged$CHROM,all_cluster_merged$POS),]
 
-df_clusters=read.table("data_BLUE_clusters/data_clusters_BLUE_R8.txt",h=TRUE)
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters)
 dim(all_GWAS_clusters)
 dim(merge(clusters_af,all_GWAS_clusters))
 
+
+## Add the allele frequency change to the significant clusters
 all_GWAS_clusters=merge(all_GWAS_clusters,clusters_af)
 head(all_GWAS_clusters)
 
-plot(all_GWAS_clusters$beta_T14,all_GWAS_clusters$GA136,pch=16,type="n")
+plot(all_GWAS_clusters$beta_area.F_NaCl,all_GWAS_clusters$GA150,pch=16,type="n")
 abline(h=0,lty=2,col="darkorange",lwd=2)
-points(all_GWAS_clusters$beta_T14[!all_GWAS_clusters$is_sign_T14],all_GWAS_clusters$GA136[!all_GWAS_clusters$is_sign_T14],pch=16)
-points(all_GWAS_clusters$beta_T14[all_GWAS_clusters$is_sign_T14],all_GWAS_clusters$GA136[all_GWAS_clusters$is_sign_T14],pch=16,col="red")
+points(all_GWAS_clusters$beta_area.F_NaCl[!all_GWAS_clusters$is_sign_area.F_NaCl],all_GWAS_clusters$GA150[!all_GWAS_clusters$is_sign_area.F_NaCl],pch=16)
+points(all_GWAS_clusters$beta_area.F_NaCl[all_GWAS_clusters$is_sign_area.F_NaCl],all_GWAS_clusters$GA150[all_GWAS_clusters$is_sign_area.F_NaCl],pch=16,col="red")
 
-
-plot(all_GWAS_clusters$beta_T7,all_GWAS_clusters$GA136,pch=16,type="n")
+plot(all_GWAS_clusters$beta_area.F_NGM,all_GWAS_clusters$GA150,pch=16,type="n")
 abline(h=0,lty=2,col="darkorange",lwd=2)
-points(all_GWAS_clusters$beta_T7[!all_GWAS_clusters$is_sign_T7],all_GWAS_clusters$GA136[!all_GWAS_clusters$is_sign_T7],pch=16)
-points(all_GWAS_clusters$beta_T7[all_GWAS_clusters$is_sign_T7],all_GWAS_clusters$GA136[all_GWAS_clusters$is_sign_T7],pch=16,col="red")
+points(all_GWAS_clusters$beta_area.F_NGM[!all_GWAS_clusters$is_sign_area.F_NGM],all_GWAS_clusters$GA150[!all_GWAS_clusters$is_sign_area.F_NGM],pch=16)
+points(all_GWAS_clusters$beta_area.F_NGM[all_GWAS_clusters$is_sign_area.F_NGM],all_GWAS_clusters$GA150[all_GWAS_clusters$is_sign_area.F_NGM],pch=16,col="red")
 
 
-test=subset(all_GWAS_clusters,is_sign_T14)
-test$GA_mean = (test$GA136 + test$GA236 + test$GA436)/3
-plot((test$GA_mean),test$beta_T14)
+test=subset(all_GWAS_clusters,is_sign_area.F_NaCl)
+test$GA_mean = (test$GA150 + test$GA250 + test$GA450)/3
+plot((test$GA_mean),test$beta_area.F_NaCl)
 abline(h=0)
 abline(v=0)
 
-test=subset(all_GWAS_clusters,is_sign_T7)
-test$GA_mean = (test$GA136 + test$GA236 + test$GA436)/3
-plot((test$GA_mean),test$beta_T7)
+test=subset(all_GWAS_clusters,is_sign_area.F_NGM)
+test$GA_mean = (test$GA150 + test$GA250 + test$GA450)/3
+plot((test$GA_mean),test$beta_area.F_NGM)
 abline(h=0)
 abline(v=0)
 
-sum((test$GA136)*test$beta_T14,na.rm=TRUE)
-sum((test$GA236)*test$beta_T14,na.rm=TRUE)
-sum((test$GA336)*test$beta_T14,na.rm=TRUE)
-sum((test$GA436)*test$beta_T14,na.rm=TRUE)
+sum((test$GA150)*test$beta_area.F_NaCl,na.rm=TRUE)
+sum((test$GA250)*test$beta_area.F_NaCl,na.rm=TRUE)
+sum((test$GA450)*test$beta_area.F_NaCl,na.rm=TRUE)
 
-sum((test$GA136)*test$beta_T7,na.rm=TRUE)
-sum((test$GA236)*test$beta_T7,na.rm=TRUE)
-sum((test$GA336)*test$beta_T7,na.rm=TRUE)
-sum((test$GA436)*test$beta_T7,na.rm=TRUE)
+sum((test$GA150)*test$beta_area.F_NGM,na.rm=TRUE)
+sum((test$GA250)*test$beta_area.F_NGM,na.rm=TRUE)
+sum((test$GA450)*test$beta_area.F_NGM,na.rm=TRUE)
 
 aa=0
 for(i in 1:10000){
-aa=aa+sum(rnorm(length(test$beta_T14),0,0.09)*test$beta_T14,na.rm=TRUE)
+aa=aa+sum(rnorm(length(test$beta_area.F_NaCl),0,0.09)*test$beta_area.F_NaCl,na.rm=TRUE)
 }
 aa/10000
 
-pdf("Trait_change_prediction_GA1.pdf")
+pdf("Trait_change_prediction_GA1_Q005.pdf")
 bb=list()
-for(k in 1:14){
-#k=14
-#test=subset(all_GWAS_clusters,all_GWAS_clusters[,paste0("is_sign_T",k)])
+for(k in 1:16){
+  print(k)
 test=all_GWAS_clusters
 
 bb_temp=NULL
 for(i in 1:10000){
-  bb_temp=c(bb_temp,sum(sample(test$GA136)*test[,paste0("beta_T",k)],na.rm=TRUE))
+  bb_temp=c(bb_temp,sum(sample(test$GA150)*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE))
 }
 bb[[k]]=bb_temp
 hist(bb_temp,main=paste("Trait Nb: ",k))
-abline(v=sum(test$GA136*test[,paste0("beta_T",k)],na.rm=TRUE),col='red')
+abline(v=sum(test$GA150*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE),col='red')
 }
 dev.off()
 
 
-for(k in 1:14){
+for(k in 1:16){
   print(k)
-  print(sum(test$GA136*test[,paste0("beta_T",k)],na.rm=TRUE)<sort(bb[[k]])[length(bb[[k]])*0.05] | sum(test$GA136*test[,paste0("beta_T",k)],na.rm=TRUE)>sort(bb[[k]])[length(bb[[k]])*0.95])
+  print(sum(test$GA150*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE)<sort(bb[[k]])[length(bb[[k]])*0.05] | sum(test$GA150*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE)>sort(bb[[k]])[length(bb[[k]])*0.95])
 }
 
 
-pdf("Trait_change_prediction_GA2.pdf")
+pdf("Trait_change_prediction_GA2_Q005.pdf")
 cc=list()
-for(k in 1:14){
+for(k in 1:16){
   test=all_GWAS_clusters
-  #test=subset(all_GWAS_clusters,all_GWAS_clusters[,paste0("is_sign_T",k)])
   cc_temp=NULL
   for(i in 1:10000){
-    cc_temp=c(cc_temp,sum(sample(test$GA236)*test[,paste0("beta_T",k)],na.rm=TRUE))
+    cc_temp=c(cc_temp,sum(sample(test$GA250)*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE))
   }
   cc[[k]]=cc_temp
-  hist(cc_temp,main=paste("Trait Nb: ",k))
-  abline(v=sum(test$GA236*test[,paste0("beta_T",k)],na.rm=TRUE),col='red')
+  hist(cc_temp,main=paste("Trait : ",vect_P_traits_bothEnv[k]))
+  abline(v=sum(test$GA250*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE),col='red')
 }
 dev.off()
 
 
-for(k in 1:14){
+for(k in 1:16){
   print(k)
-  print(sum(test$GA236*test[,paste0("beta_T",k)],na.rm=TRUE)<sort(cc[[k]])[length(cc[[k]])*0.05] | sum(test$GA236*test[,paste0("beta_T",k)],na.rm=TRUE)>sort(cc[[k]])[length(cc[[k]])*0.95])
+  print(sum(test$GA250*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE)<sort(cc[[k]])[length(cc[[k]])*0.05] | sum(test$GA250*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE)>sort(cc[[k]])[length(cc[[k]])*0.95])
 }
 
 ########
 
-pdf("Trait_change_prediction_GA3.pdf")
-dd=list()
-for(k in 1:14){
-  test=all_GWAS_clusters
-  dd_temp=NULL
-  for(i in 1:10000){
-    dd_temp=c(dd_temp,sum(sample(test$GA336)*test[,paste0("beta_T",k)],na.rm=TRUE))
-  }
-  dd[[k]]=dd_temp
-  hist(dd_temp,main=paste("Trait Nb: ",k))
-  abline(v=sum(test$GA336*test[,paste0("beta_T",k)],na.rm=TRUE),col='red')
-}
-dev.off()
 
-
-for(k in 1:14){
-  print(k)
-  print(sum(test$GA336*test[,paste0("beta_T",k)],na.rm=TRUE)<sort(dd[[k]])[length(dd[[k]])*0.05] | sum(test$GA336*test[,paste0("beta_T",k)],na.rm=TRUE)>sort(dd[[k]])[length(dd[[k]])*0.95])
-}
-
-pdf("Trait_change_prediction_GA4.pdf")
+pdf("Trait_change_prediction_GA4_Q005.pdf")
 ee=list()
-for(k in 1:14){
+for(k in 1:16){
   test=all_GWAS_clusters
   ee_temp=NULL
   for(i in 1:10000){
-    ee_temp=c(ee_temp,sum(sample(test$GA436)*test[,paste0("beta_T",k)],na.rm=TRUE))
+    ee_temp=c(ee_temp,sum(sample(test$GA450)*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE))
   }
   ee[[k]]=ee_temp
-  hist(ee_temp,main=paste("Trait Nb: ",k))
-  abline(v=sum(test$GA436*test[,paste0("beta_T",k)],na.rm=TRUE),col='red')
+  hist(ee_temp,main=paste("Trait : ",vect_P_traits_bothEnv[k]))
+  abline(v=sum(test$GA450*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE),col='red')
 }
 dev.off()
 
 
-for(k in 1:14){
+for(k in 1:16){
   print(k)
-  print(sum(test$GA436*test[,paste0("beta_T",k)],na.rm=TRUE)<sort(ee[[k]])[length(ee[[k]])*0.05] | sum(test$GA436*test[,paste0("beta_T",k)],na.rm=TRUE)>sort(ee[[k]])[length(ee[[k]])*0.95])
+  print(sum(test$GA450*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE)<sort(ee[[k]])[length(ee[[k]])*0.05] | sum(test$GA450*test[,paste0("beta_",vect_P_traits_bothEnv[k])],na.rm=TRUE)>sort(ee[[k]])[length(ee[[k]])*0.95])
 }
 
+
+### Save temp
+save(list=ls(),file='temp_Q005.RData')
+
 ### What explains whether a SNP/cluster increase ? effect (not really) ? pleiotropy ? position ? / neighbouring SNPs ?
-
-
-
-
-
 
 
 ### Add the tip/arm/center tag
