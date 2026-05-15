@@ -38,7 +38,7 @@ for(traitID in vect_P_traits){
 
     is.NA=colSums(is.na(genotype_matrix_CHR))
     
-    gwas.NGM.CHR = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
+    gwas.NGM.CHR = GridLMM_GWAS(formula = y ~ 1  + (1|pop_label) + (1|population),
                             test_formula = ~1, reduced_formula = ~0,
                             data = all_BLUEs_genotyped_NGM, X = genotype_matrix_CHR[,is.NA==0],
                             X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 10 ,method = 'REML')
@@ -46,7 +46,7 @@ for(traitID in vect_P_traits){
     NGM_results <- (gwas.NGM.CHR$results)
     write.table(NGM_results,paste0("GridLMM_results_mixed_perCHR_fertility/gwas_results_",traitID,"_CHR_",chrID,"_NGM.txt"),quote=FALSE,row.names=FALSE)
     
-    gwas.NaCl.CHR = GridLMM_GWAS(formula = y ~ 1 +logD + rel_humidity + temperature + (1|date_str) + (1|pop_label) + (1|session_id),
+    gwas.NaCl.CHR = GridLMM_GWAS(formula = y ~ 1  + (1|pop_label) + (1|population),
                              test_formula = ~1, reduced_formula = ~0,
                              data = all_BLUEs_genotyped_NaCl, X = genotype_matrix_CHR[,is.NA==0],
                              X_ID = 'pop_label', relmat = list(pop_label = GRM_CHR), mc.cores = 10 ,method = 'REML')
