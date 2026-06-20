@@ -3,7 +3,7 @@ library(data.table)
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
 vect_P_traits_bothEnv <- paste0(vect_P_traits,"_NaCl")
 
-threshold_clust = 0.2
+threshold_clust = 0.8
 load(paste0("RData_GridLMM_NaCl//GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
 genotypes <- read.table(file=paste0("data_BLUE_GridLMM_NaCl//genotypes_matrix_clusters_R",round(10*threshold_clust),".txt"))
 
@@ -25,7 +25,7 @@ table(rownames(pred_traits)==all_traits_corrected$pop_label)
 gemma_pheno=all_traits_corrected[,vect_P_traits_bothEnv]
 
 i=7
-pdf("Predicted_phen__NaCl_R2.pdf",h=4,w=4)
+pdf("Predicted_phen__NaCl_R8.pdf",h=4,w=4)
 plot(gemma_pheno[,i],pred_traits[,i],pch=16,xaxt="n",yaxt="n",xlab="Mean RILs phenotype",ylab="Predicted phenotype from sign. clusters",
      bty="n")
 abline(lm(pred_traits[,i]~gemma_pheno[,i]))
@@ -87,7 +87,7 @@ for(i in 1:8){
 }
 head(cor_df)
 
-pdf("Phenotypic_correlations_pleiotropy_NaCl_R2.pdf",h=5,w=5)
+pdf("Phenotypic_correlations_pleiotropy_NaCl_R8.pdf",h=5,w=5)
 plot(cor_df$cor_pheno,cor_df$cor_all,pch=16,xlab="Phenotypic correlations",ylab="Correlation between predicted phenotypes")
 abline(lm(cor_df$cor_all~cor_df$cor_pheno),col="black")
 points(cor_df$cor_pheno,cor_df$cor_noP,pch=16,col="green")

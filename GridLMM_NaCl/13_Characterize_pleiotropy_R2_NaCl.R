@@ -9,6 +9,8 @@ load(file="GridLMM_results_NaCl/All_Gwas.RData")
 vect_P_traits=paste0(c("SF",'SB','FS','FB','BS','BF',"area.F","beta"),"_NaCl")
 
 all_GWAS_clusters$sign_overall <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits)])
+dim(all_GWAS_clusters)
+table(all_GWAS_clusters$is_sign_area.F_NaCl)
 table(all_GWAS_clusters$sign_overall)
 
 ## We will merge the group ID from the clusters using the mean POS
@@ -91,8 +93,6 @@ model1 <- glm(sign_overall~log(nb_SNPs)+clust_length+chr_type2,
 summary(model1) # Yes, the more SNPs, the more pleiotropic
 
 boxplot(all_GWAS_clusters$clust_length+1~all_GWAS_clusters$sign_overall,log="y")
-boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NGM,log="y")
-boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NaCl,log="y")
 
 ### Add the pleiotropy
 #dim(merge(all_GWAS_sign,unique(all_GWAS_clusters[,c("group","sign_overall","sign_NaCl","sign_NGM")])))
@@ -102,7 +102,7 @@ boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NaCl,log="y")
 #gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
 
 # Clusters
-sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv)]
+sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits)]
 table(rowSums(sign_all_df_clust)>=1) # ~737 Clusters / 10 are no longer significant
 all_GWAS_clusters$sign_overall <- rowSums(sign_all_df_clust)>=1
 
@@ -160,8 +160,8 @@ heatmap(G_mat_all)
 ## For each cluster, compute a level of pleiotropy
 
 all_GWAS_clusters_sign_NaCl <- na.omit(all_GWAS_clusters[rowSums(all_GWAS_clusters[,paste0("is_sign_",vect_P_traits)])>0,])
-nb_sign_clust_NaCl <- nrow(all_GWAS_clusters_sign)
-
+nb_sign_clust_NaCl <- nrow(all_GWAS_clusters_sign_NaCl)
+all_GWAS_clusters_sign=all_GWAS_clusters_sign_NaCl
 pleiot.idx=data.frame(NaCl=rep(0,nb_sign_clust_NaCl))
 pleiot.idx$NaCl.cor=0
 

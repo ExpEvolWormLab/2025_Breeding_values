@@ -163,13 +163,35 @@ abline(v=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA1_diff[temp$
 cc=rep(0,10000)
 cc2=rep(0,10000)
 for(i in 1:10000){
-  cc[i]=sum(temp$beta_area.F_NaCl*sample(temp$GA1_diff))
+  cc[i]=sum(temp$beta_area.F_NaCl*sample(temp$GA2_diff))
   cc2[i]=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*sample(temp$GA2_diff)[temp$is_sign_area.F_NaCl])
 }
 hist(cc,xlim=c(-2.5,2.5))
 par(new=T);hist(cc2,xlim=c(-2.5,2.5),col="blue")
 abline(v=sum(temp$beta_area.F_NaCl*temp$GA1_diff),col="red",lwd=2)
 abline(v=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA2_diff[temp$is_sign_area.F_NaCl]),col="blue",lwd=2)
+
+
+pdf("Hist_change_GAs.pdf",h=5)
+
+hist(bb,main="",xlim=c(-2,2))
+abline(v=sum(temp$beta_area.F_NaCl*temp$GA1_diff),col="red",lwd=2)
+
+hist(cc,main="",xlim=c(-2,2))
+abline(v=sum(temp$beta_area.F_NaCl*temp$GA2_diff),col="red",lwd=2)
+
+hist(aa,main="",xlim=c(-2,2))
+abline(v=sum(temp$beta_area.F_NaCl*temp$GA4_diff),col="red",lwd=2)
+
+
+dev.off()
+
+
+table(sum(temp$beta_area.F_NaCl*temp$GA4_diff)>aa)
+table(sum(temp$beta_area.F_NaCl*temp$GA1_diff)>bb)
+table(sum(temp$beta_area.F_NaCl*temp$GA2_diff)>cc)
+
+
 
 table(sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA4_diff[temp$is_sign_area.F_NaCl])>aa2)
 table(sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA1_diff[temp$is_sign_area.F_NaCl])>bb2)
@@ -231,7 +253,7 @@ abline(v=sum(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl]*temp$GA1_diff[temp$is_s
 cc=rep(0,10000)
 cc2=rep(0,10000)
 for(i in 1:10000){
-  cc[i]=sum(temp$beta_beta_NaCl*sample(temp$GA1_diff))
+  cc[i]=sum(temp$beta_beta_NaCl*sample(temp$GA2_diff))
   cc2[i]=sum(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl]*sample(temp$GA2_diff)[temp$is_sign_beta_NaCl])
 }
 hist(cc,xlim=c(-2.5,2.5))
@@ -298,6 +320,13 @@ points((temp$beta_beta_NaCl[temp$is_sign_beta_NaCl]),((diff_GA1_50+diff_GA2_50+d
 abline(h=0,lty=2,col="red")
 dev.off()
 
+pdf("Area_change_NaCl_R8.pdf",h=4,w=5)
+plot((temp$beta_area.F_NaCl),(diff_GA1_50+diff_GA2_50+diff_GA4_50)/3,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change")
+points((temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]),((diff_GA1_50+diff_GA2_50+diff_GA4_50)/3)[temp$is_sign_area.F_NaCl],col="red",pch=16,cex=.8)
+abline(h=0,lty=2,col="red")
+dev.off()
+
+
 
 pdf("Beta_change_NaCl_per_replicate_R8.pdf",h=4,w=5)
 plot((temp$beta_beta_NaCl),diff_GA1_50,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change")
@@ -356,7 +385,7 @@ avg_contribution=(contributions_GA110+contributions_GA136+contributions_GA150)[t
 (contributions_GA410+contributions_GA436+contributions_GA450)[temp$is_sign_beta_NaCl]
 avg_contribution=avg_contribution/3
 
-pdf("Average_contribution_R2.pdf",h=5)
+pdf("Average_contribution_R8.pdf",h=5)
 plot(abs(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl]),avg_contribution,pch=16,cex=.8,
      col=colfunc(26)[1+floor(100*temp$pq)],las=1,bty="n",xlab="Absolute value of allelic effect on the trait",ylab="Contribution of allele effect on trait variation")
 abline(h=0,lty=2,col="red")
@@ -366,12 +395,38 @@ dev.off()
 ### Are the ones that are selected more/less pleiotropic ?
 ### In which environment ?
 
-selected_loci = (temp$group[temp$is_sign_beta_NaCl])[avg_contribution>0.01]
+selected_loci_idx = avg_contribution>0.015 & abs(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl])>0.15
+selected_loci = (temp$group[temp$is_sign_beta_NaCl])[selected_loci_idx]
 selected_QTL=subset(temp,group%in%selected_loci)
-dim(selected_QTL) # 32
+dim(selected_QTL) # 10
 
-plot(temp$beta_area.F_NaCl,temp$GA450-temp$A00,pch=16,col="grey")
-points(selected_QTL$beta_area.F_NaCl,selected_QTL$GA450-selected_QTL$A00,pch=16,col="red")
+top10_diff_GA1_50=selected_QTL$GA150-selected_QTL$GA1G36
+top10_diff_GA2_50=selected_QTL$GA250-selected_QTL$GA2G36
+top10_diff_GA4_50=selected_QTL$GA450-selected_QTL$GA4G36
+
+dim(subset(clusters_positions,group%in%selected_QTL$group))
+
+subset(clusters_positions,group%in%selected_QTL$group[1])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[2])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[3])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[4])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[5])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[6])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[7])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[8])[,1:3] # CHR I 3Mb
+subset(clusters_positions,group%in%selected_QTL$group[9])[,1:3] # CHR I 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[10])[,1:3] # CHR I 7Mb
+
+
+
+
+pdf("Top_Beta_Area_change_NaCl_R8.pdf",h=4,w=5)
+plot((temp$beta_area.F_NaCl),(diff_GA1_50+diff_GA2_50+diff_GA4_50)/3,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change")
+points((selected_QTL$beta_area.F_NaCl),((top10_diff_GA1_50+top10_diff_GA2_50+top10_diff_GA4_50)/3),col="orange",pch=16,cex=1)
+points((selected_QTL$beta_area.F_NaCl[selected_QTL$is_sign_area.F_NaCl]),((top10_diff_GA1_50+top10_diff_GA2_50+top10_diff_GA4_50)/3)[selected_QTL$is_sign_area.F_NaCl],col="red",pch=16)
+abline(h=0,lty=2,col="red")
+dev.off()
+
 
 
 pleio_NaCl = rowSums(selected_QTL[,paste0('is_sign_',vect_P_traits_bothEnv[1:7])])

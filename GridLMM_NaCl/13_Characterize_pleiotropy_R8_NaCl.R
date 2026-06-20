@@ -8,9 +8,13 @@ load(file="GridLMM_results_NaCl/All_Gwas.RData")
 
 vect_P_traits=paste0(c("SF",'SB','FS','FB','BS','BF',"area.F","beta"),"_NaCl")
 
+## Number of sign. for at least 1 trait
+sum(rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits[1:7])])>=1)
+sum(all_GWAS_clusters$is_sign_area.F_NaCl)
+
 all_GWAS_clusters$sign_overall <- rowSums(all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits)])
 table(all_GWAS_clusters$sign_overall)
-
+sum(all_GWAS_clusters$sign_overall>=1)
 ## We will merge the group ID from the clusters using the mean POS
 all_cluster_merged = read.table(paste0("txt_GridLMM_NaCl/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep="\t",header=TRUE)
   #read.table(file=paste0('txt_BLUEs//all_sign_GWAS_with_clusters.txt'),sep='\t',h=TRUE)
@@ -90,9 +94,8 @@ model1 <- glm(sign_overall~log(nb_SNPs)+clust_length+chr_type2,
               family="quasipoisson",data=subset(all_GWAS_clusters,sign_overall>0))
 summary(model1) # Yes, the more SNPs, the more pleiotropic
 
-boxplot(all_GWAS_clusters$clust_length+1~all_GWAS_clusters$sign_overall,log="y")
-boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NGM,log="y")
-boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NaCl,log="y")
+#boxplot(all_GWAS_clusters$clust_length+1~all_GWAS_clusters$sign_overall,log="y")
+#boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NaCl,log="y")
 
 ### Add the pleiotropy
 #dim(merge(all_GWAS_sign,unique(all_GWAS_clusters[,c("group","sign_overall","sign_NaCl","sign_NGM")])))
@@ -102,7 +105,7 @@ boxplot(all_GWAS_clusters$nb_SNPs~all_GWAS_clusters$sign_NaCl,log="y")
 #gemma_pheno=read.table('data_BLUE//gemma_pheno.txt',sep='\t',h=FALSE)
 
 # Clusters
-sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits_bothEnv)]
+sign_all_df_clust <- all_GWAS_clusters[,names(all_GWAS_clusters)%in%paste0("is_sign_",vect_P_traits)]
 table(rowSums(sign_all_df_clust)>=1) # ~737 Clusters / 10 are no longer significant
 all_GWAS_clusters$sign_overall <- rowSums(sign_all_df_clust)>=1
 
@@ -277,7 +280,7 @@ for(i in 1:8){
  
  lines(seq(1,12,0.1),seq(1,12,0.1)*coef(lm(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]))[2],lwd=3)
  
- legend(0,25,bty="n",lwd=4,c("All clusters","Chromosome arms","Chromosome centers","No synergistic pleiotropy (theor.)"),col=c("red","green","lightblue","black"))
+ legend(0,25,bty="n",lwd=4,c("All clusters","Chromosome arms","Chromosome centers","No synergistic pleiotropy (hypothetic)"),col=c("red","green","lightblue","black"))
  
 
  dev.off()

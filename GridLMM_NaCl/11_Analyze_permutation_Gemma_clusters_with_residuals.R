@@ -29,7 +29,7 @@ for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
       traitJ$p_value_REML.cor <- p.adjust(traitJ$p_value_REML,method="BH")
       
       ## We will use the top 5% as sign threshold - keep this even if less col
-      traitJ$is_sign <- traitJ$p_value_REML.cor<0.2
+      traitJ$is_sign <- traitJ$p_value_REML.cor<0.05
       table(traitJ$is_sign)
       
       concat_GWAS.temp=traitJ[,c("rs","chr","ps","beta.5","p_value_REML","p_value_REML.cor","is_sign","clusterID")] 
