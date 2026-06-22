@@ -418,6 +418,19 @@ subset(clusters_positions,group%in%selected_QTL$group[9])[,1:3] # CHR I 6Mb
 subset(clusters_positions,group%in%selected_QTL$group[10])[,1:3] # CHR I 7Mb
 
 
+### Plot allele frequencies of the SNPS in these top clusters ?
+
+af.temp.group=all.af.caendr.clust[merged_pos_clust$group==selected_QTL$group[7],]
+plot(populations$generations,af.temp.group[1,],pch=21,ylim=c(0,1),bg="grey",type='n')
+for(k in 1:nrow(af.temp.group)){
+#plot(populations$generations,af.temp.group[k,],pch=21,ylim=c(0,1),bg="grey",type='n')
+for(i in 3:6){
+  temp.idx=populations$replicate%in%c(1,2,i)
+  points(populations$generations[temp.idx],af.temp.group[k,temp.idx],pch=21,bg="grey",type='l')
+}
+}
+
+
 
 
 pdf("Top_Beta_Area_change_NaCl_R8.pdf",h=4,w=5)
@@ -428,26 +441,25 @@ abline(h=0,lty=2,col="red")
 dev.off()
 
 
-
 pleio_NaCl = rowSums(selected_QTL[,paste0('is_sign_',vect_P_traits_bothEnv[1:7])])
 pleio_NaCl_all = rowSums(temp[,paste0('is_sign_',vect_P_traits_bothEnv[1:7])])
 table(pleio_NaCl)
 
-pdf("Pleiotropy_selection_NaCl_R2.pdf",h=5)
-plot(c(0:7),as.numeric(table(pleio_NaCl_all))/nrow(temp),type="b",ylim=c(0,1),xlim=c(0,7),col="orange",ylab="Number of QTLs",xlab="Number of traits affected")
+pdf("Pleiotropy_selection_NaCl_R8.pdf",h=5)
+plot(c(0:6),as.numeric(table(pleio_NaCl_all))/nrow(temp),type="b",ylim=c(0,1),xlim=c(0,7),col="orange",ylab="Number of QTLs",xlab="Number of traits affected")
 dev.off()
 
 
-pdf("Pleiotropy_selection_R2.pdf",h=5)
-plot(c(0:7),as.numeric(table(pleio_NaCl_all))/nrow(temp),type="b",ylim=c(0,1),xlim=c(0,7),col="orange",ylab="Number of QTLs",xlab="Number of traits affected")
-points(c(1:5),as.numeric(table(pleio_NaCl))/nrow(selected_QTL),type="b",ylim=c(0,1),xlim=c(0,7),col="orange",pch=16)
+pdf("Pleiotropy_selection_R8.pdf",h=5)
+plot(c(0:6),as.numeric(table(pleio_NaCl_all))/nrow(temp),type="b",ylim=c(0,1),xlim=c(0,7),col="orange",ylab="Number of QTLs",xlab="Number of traits affected")
+points(c(2:5),as.numeric(table(pleio_NaCl))/nrow(selected_QTL),type="b",ylim=c(0,1),xlim=c(0,7),col="orange",pch=16)
 dev.off()
 
 
 
 
 
-
+### STOPPED HERE - 20/06
 
 
 

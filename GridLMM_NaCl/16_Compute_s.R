@@ -123,7 +123,7 @@ compute_s_from_counts <- function(i) {
 ncores <- 20
 
 res <- mclapply(
-seq_len(nrow(all.counts.caendr)),analyze_snp,mc.cores = ncores)
+seq_len(nrow(all.counts.caendr)),compute_s_from_counts,mc.cores = ncores)
 
 results <- do.call(rbind, res)
 results <- as.data.frame(results)
