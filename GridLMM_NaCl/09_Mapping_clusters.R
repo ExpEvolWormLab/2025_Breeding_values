@@ -24,7 +24,7 @@ CHR_genotype_matrix_pruned = tstrsplit(colnames(genotype_pruned_matrix),"_")[[1]
 
 ## Reduced the pruned genotype matrix
 for(threshold_clust in c(0.2,0.8,0.4,0.6,0.9,1)){
-  
+# for(threshold_clust in c(0.5)){ 
   # Load the genotype matrix
   genotyped_matrix <- read.table(paste0("data_BLUE_GridLMM_NaCl/genotypes_matrix_clusters_R",round(10*threshold_clust),".txt"))
   CHR_genotype_matrix = tstrsplit(rownames(genotyped_matrix),"_")[[2]]
