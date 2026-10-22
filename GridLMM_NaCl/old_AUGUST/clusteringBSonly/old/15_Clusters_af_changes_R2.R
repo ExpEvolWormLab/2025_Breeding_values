@@ -1,9 +1,8 @@
 rm(list=ls());gc()
-
 threshold_clust=0.2
-load(paste0("RData_GridLMM_NaCl//GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
+load(paste0("RData_GridLMM_NaCl/Area_GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
 rm(chrID,traitID)
-vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
+vect_P_traits=c("area.F")
 
 # load the poolseq data now
 poolseq_env=new.env()
@@ -23,18 +22,16 @@ rm(polarize)
 rm(poolseq_env);gc()
 
 ## Now we need to ensure the poolseq polarization match the cluster polarization
-temp.env=new.env()
-load('RData/Genotype_info_Cemee.RData',envir=temp.env)
-snp_positions=as.data.frame(temp.env$snp_positions)
-snp_positions$CHROM=factor(snp_positions$CHROM,levels=c("I","II","III","IV","V","X","MtDNA"))
-snp_positions$POS=as.numeric(as.character(snp_positions$POS))
-names(snp_positions)[3]="rs"
-rm(temp.env);gc()
+clust_pol=read.table("data_clustPolarisation_NaCl/Area_genotypes_clusters_pol_R2.txt",h=TRUE)
+head(clust_pol)
+names(clust_pol)[1]="rs"
+names(clust_pol)[2:3]=c("ref.GWAS","alt.GWAS")
 
-names(snp_positions)[4:5]=c("ref.GWAS","alt.GWAS")
+snps_positions.sync.caendr$rs=paste(snps_positions.sync.caendr$CHROM,snps_positions.sync.caendr$POS,sep='_')
 names(snps_positions.sync.caendr)[3:5]=c("ref.SYNC","major.SYNC","minor.SYNC")
 
-merged_pos = merge(snps_positions.sync.caendr,snp_positions)
+merged_pos = merge(snps_positions.sync.caendr,clust_pol)
+dim(merged_pos)
 
 pol_consistent = ((merged_pos$major.SYNC==merged_pos$ref.GWAS) & (merged_pos$minor.SYNC==merged_pos$alt.GWAS)) # Most are consistent
 pol_reversed = ((merged_pos$minor.SYNC==merged_pos$ref.GWAS) & (merged_pos$major.SYNC==merged_pos$alt.GWAS)) # 65k are reversed
@@ -64,13 +61,13 @@ all.counts.caendr[rownames(all.counts.caendr)%in%subset(merged_pos,pol_status=="
   all.cov.caendr[rownames(all.cov.caendr)%in%subset(merged_pos,pol_status=="reversed")$ID,]-
   all.counts.alt.caendr[rownames(all.counts.alt.caendr)%in%subset(merged_pos,pol_status=="reversed")$ID,]
 
-clusters_positions <- read.table(paste0("txt_GridLMM_NaCl/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
+clusters_positions <- read.table(paste0("txt_GridLMM_NaCl/Area_all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
 
 ## Add group to the merged_pos
 merged_pos_clust=merge(merged_pos,unique(clusters_positions[,c("rs","group")]))
-dim(merged_pos_clust) # 31k
-length(unique(merged_pos_clust$group)) # 1802
-length(unique(clusters_positions$group)) # 1955
+dim(merged_pos_clust) # 7k
+length(unique(merged_pos_clust$group)) # 178
+length(unique(clusters_positions$group)) # 187
 
 all.af.caendr.clust = all.af.caendr[rownames(all.af.caendr)%in%merged_pos_clust$ID,]
 all.af.caendr.clust=all.af.caendr.clust[order(rownames(all.af.caendr.clust)),]
@@ -85,38 +82,23 @@ clust.af=as.data.frame(clust.af)
 colnames(clust.af)=populations$population
 clust.af$group=names(tapply(all.af.caendr.clust[,i],merged_pos_clust$group,mean,na.rm=TRUE))
 
+clust_s_est=read.table("Area_clust_s_est_02.txt",h=TRUE,sep='\t')
+dim(clust_s_est)
+dim(clust.af)
+
+merged_gp <- (merge(clust.af,clust_s_est))
+merged_gp$GA4_diff = (merged_gp$GA450-merged_gp$A00)
+merged_gp$GA2_diff = (merged_gp$GA250-merged_gp$A00)
+merged_gp$GA1_diff = (merged_gp$GA150-merged_gp$A00)
+
+merged_gp$af.diff.mean= (merged_gp$GA1_diff+merged_gp$GA2_diff+merged_gp$GA4_diff)/3
+
+plot(merged_gp$s,merged_gp$af.diff.mean)
+subset(merged_gp,af.diff.mean>.3)
+
 GA4_diff = (clust.af$GA450-clust.af$A00)
 GA2_diff = (clust.af$GA250-clust.af$A00)
 GA1_diff = (clust.af$GA150-clust.af$A00)
-
-### Compute the s estimates from the allele frequency changes ?
-#dim(clust.af) # 553 clusters with AF
-#clust.af.logit=na.omit(clust.af)
-#clust.af2=na.omit(clust.af)
-#for(i in 1:(ncol(clust.af.logit)-1)){
-#clust.af.logit[,i]= log(clust.af2[,i]/(1-clust.af2[,i]))
-
-#infi=is.na(clust.af.logit[,i])
-#clust.af.logit[infi,i]=10
-
-#infi=(clust.af.logit[,i]<(-10))
-#clust.af.logit[infi,i]=(-10)
-
-#infi=(clust.af.logit[,i]>(10))
-#clust.af.logit[infi,i]=(10)
-
-#}
-
-#s_coef_clusters <- data.frame(slope=rep(0,nrow(clust.af.logit)),pval=rep(0,nrow(clust.af.logit)))
-
-#for(i in 1:nrow(clust.af.logit)){
-#test=glmer(as.numeric(clust.af.logit[i,1:13])~populations$generations+(1|populations$replicate_fact))
-#test2=glmer(as.numeric(clust.af.logit[i,1:13])~1+(1|populations$replicate_fact))
-#s_coef_clusters$slope[i]=coef(test)[[1]][1,2]
-#s_coef_clusters$pval[i]=anova(test,test2)$P[2]
-#  }
-
-#plot(s_coef_clusters$slope,-log10(s_coef_clusters$pval),pch=16)
 
 ##############################################################################
 hist(abs(GA1_diff))
@@ -127,7 +109,6 @@ table(-GA1_diff>0.2 & -GA2_diff>0.2 & -GA4_diff>0.2) # 10
 group_selected = (GA1_diff>0.2 & GA2_diff>0.2 & GA4_diff>0.2) | (-GA1_diff>0.2 & -GA2_diff>0.2 & -GA4_diff>0.2)
 group_selected <- clust.af[group_selected,]$group
 
-
 all_GWAS_clusters=merge(all_GWAS_clusters,df_clusters[,c("group","rs")])
 vect_P_traits_bothEnv=paste0(vect_P_traits,"_NaCl")
 ### Re-set the threshold to be more stringent ?
@@ -135,10 +116,21 @@ for(i in vect_P_traits_bothEnv){
   all_GWAS_clusters[,paste0("is_sign_",i)] = all_GWAS_clusters[,paste0("p_value_REML.cor_",i)]<0.05
 }
 
-subset(all_GWAS_clusters,group%in%group_selected)$is_sign_area.F_NaCl
+merged_gp_with_clust=merge(merged_gp,all_GWAS_clusters)
 
-colSums(subset(all_GWAS_clusters,group%in%group_selected)[,paste0("is_sign_",paste0(vect_P_traits,"_NaCl"))])
-colSums(all_GWAS_clusters[,paste0("is_sign_",paste0(vect_P_traits,"_NaCl"))])
+
+plot(merged_gp_with_clust$beta_area.F_NaCl,merged_gp_with_clust$s,pch=16,cex=.8)
+abline(h=0,lty=2,col="red",lwd=2)
+abline(lm(s~beta_area.F_NaCl,data=merged_gp_with_clust),lwd=3,col="red")
+summary(lm(s~beta_area.F_NaCl,data=merged_gp_with_clust))
+
+summary(lm(s_GA1~beta_area.F_NaCl,data=merged_gp_with_clust))
+summary(lm(s_GA2~beta_area.F_NaCl,data=merged_gp_with_clust))
+summary(lm(s_GA3~beta_area.F_NaCl,data=merged_gp_with_clust))
+summary(lm(s_GA4~beta_area.F_NaCl,data=merged_gp_with_clust))
+
+#colSums(subset(all_GWAS_clusters,group%in%group_selected)[,paste0("is_sign_",paste0(vect_P_traits,"_NaCl"))])
+#colSums(all_GWAS_clusters[,paste0("is_sign_",paste0(vect_P_traits,"_NaCl"))])
 
 temp=merge(clust.af,all_GWAS_clusters[,c("group","beta_area.F_NaCl","is_sign_area.F_NaCl")])
 temp$GA4_diff = (temp$GA450-temp$A00)
@@ -163,6 +155,49 @@ plot(temp$GA1_diff~temp$beta_area.F_NaCl,pch=16,cex=.8,col=adjustcolor("grey",al
 abline(h=0,lty=2,col="orange",lwd=2)
 points(temp$GA1_diff[!temp$is_sign_area.F_NaCl]~temp$beta_area.F_NaCl[!temp$is_sign_area.F_NaCl],pch=16,cex=.8,col=adjustcolor("grey",alpha=.8))
 points(temp$GA1_diff[temp$is_sign_area.F_NaCl]~temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl],pch=16,cex=.8,col=adjustcolor("red",alpha=.8))
+
+
+diff_GA1_10=temp$GA110-temp$A00
+diff_GA1_36=temp$GA1G36-temp$GA110
+diff_GA1_50=temp$GA150-temp$GA1G36
+
+diff_GA2_10=temp$GA210-temp$A00
+diff_GA2_36=temp$GA2G36-temp$GA210
+diff_GA2_50=temp$GA250-temp$GA2G36
+
+diff_GA4_10=temp$GA410-temp$A00
+diff_GA4_36=temp$GA4G36-temp$GA110
+diff_GA4_50=temp$GA450-temp$GA1G36
+
+
+selected_overall = as.numeric(subset(merged_gp_with_clust,P<0.05)$group)
+length(selected_overall) # 24 groups
+temp2=subset(temp,group%in%selected_overall)
+pdf("Area_change_NaCl_R2_with_regression.pdf",h=4,w=5)
+plot((temp$beta_area.F_NaCl),(diff_GA1_50+diff_GA2_50+diff_GA4_50)/3,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change")
+points((temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]),((diff_GA1_50+diff_GA2_50+diff_GA4_50)/3)[temp$is_sign_area.F_NaCl],col="red",pch=16,cex=.8)
+points(temp$beta_area.F_NaCl[temp$group%in%selected_overall],((diff_GA1_50+diff_GA2_50+diff_GA4_50)/3)[temp$group%in%selected_overall],col="blue",pch=16,cex=.8)
+abline(h=0,lty=2,col="red")
+resp.tmt=(diff_GA1_50+diff_GA2_50+diff_GA4_50)/3
+abline(lm(resp.tmt~temp$beta_area.F_NaCl),col="cornflowerblue",lwd=2)
+dev.off()
+
+plot(merged_gp_with_clust$beta_area.F_NaCl,merged_gp_with_clust$s,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change",type='n')
+points(merged_gp_with_clust$beta_area.F_NaCl[merged_gp_with_clust$group%in%selected_overall],merged_gp_with_clust$s[merged_gp_with_clust$group%in%selected_overall],col="blue",pch=16,cex=.8)
+abline(h=0,lty=2,col="red")
+abline(v=0,lty=2,col="red")
+
+summary(lm(merged_gp_with_clust$s[merged_gp_with_clust$group%in%selected_overall]~merged_gp_with_clust$beta_area.F_NaCl[merged_gp_with_clust$group%in%selected_overall]))
+
+
+data.frame()
+
+summary(lm(resp.tmt~temp$beta_area.F_NaCl))
+
+
+
+
+
 
 aa=rep(0,10000);aa2=rep(0,10000)
 for(i in 1:10000){
@@ -189,7 +224,6 @@ par(new=T);hist(bb2,xlim=c(-2.5,2.5),col="blue")
 abline(v=sum(temp$beta_area.F_NaCl*temp$GA1_diff),col="red",lwd=2)
 abline(v=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA1_diff[temp$is_sign_area.F_NaCl]),col="blue",lwd=2)
 
-
 cc=rep(0,10000)
 cc2=rep(0,10000)
 for(i in 1:10000){
@@ -213,19 +247,25 @@ abline(v=sum(temp$beta_area.F_NaCl*temp$GA2_diff),col="red",lwd=2)
 hist(aa,main="",xlim=c(-2,2))
 abline(v=sum(temp$beta_area.F_NaCl*temp$GA4_diff),col="red",lwd=2)
 
+####################################
+hist(bb2,main="",xlim=c(-2,2))
+abline(v=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA1_diff[temp$is_sign_area.F_NaCl]),col="red",lwd=2)
+
+hist(cc2,main="",xlim=c(-2,2))
+abline(v=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA2_diff[temp$is_sign_area.F_NaCl]),col="red",lwd=2)
+
+hist(aa2,main="",xlim=c(-2,2))
+abline(v=sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA4_diff[temp$is_sign_area.F_NaCl]),col="red",lwd=2)
 
 dev.off()
 
-
-table(sum(temp$beta_area.F_NaCl*temp$GA4_diff)>aa)
 table(sum(temp$beta_area.F_NaCl*temp$GA1_diff)>bb)
 table(sum(temp$beta_area.F_NaCl*temp$GA2_diff)>cc)
+table(sum(temp$beta_area.F_NaCl*temp$GA4_diff)>aa)
 
-
-
-table(sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA4_diff[temp$is_sign_area.F_NaCl])>aa2)
 table(sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA1_diff[temp$is_sign_area.F_NaCl])>bb2)
 table(sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA2_diff[temp$is_sign_area.F_NaCl])>cc2)
+table(sum(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]*temp$GA4_diff[temp$is_sign_area.F_NaCl])>aa2)
 
 #### Now with the trait beta ####
 
@@ -238,10 +278,6 @@ sum(temp$beta_beta_NaCl*temp$GA4_diff)
 sum(temp$beta_beta_NaCl*temp$GA2_diff)
 sum(temp$beta_beta_NaCl*temp$GA1_diff)
 
-plot(temp$GA4_diff~temp$beta_beta_NaCl,pch=16,cex=.8,col=adjustcolor("grey",alpha=.8),las=1,bty="n",xlab="Effect on the trait",ylab="Allele frequency change",type='n')
-abline(h=0,lty=2,col="orange",lwd=2)
-points(temp$GA4_diff[!temp$is_sign_beta_NaCl]~temp$beta_beta_NaCl[!temp$is_sign_beta_NaCl],pch=16,cex=.8,col=adjustcolor("grey",alpha=.8))
-points(temp$GA4_diff[temp$is_sign_beta_NaCl]~temp$beta_beta_NaCl[temp$is_sign_beta_NaCl],pch=16,cex=.8,col=adjustcolor("red",alpha=.8))
 
 plot(temp$GA1_diff~temp$beta_beta_NaCl,pch=16,cex=.8,col=adjustcolor("grey",alpha=.8),las=1,bty="n",xlab="Effect on the trait",ylab="Allele frequency change",type='n')
 abline(h=0,lty=2,col="orange",lwd=2)
@@ -252,6 +288,11 @@ plot(temp$GA2_diff~temp$beta_beta_NaCl,pch=16,cex=.8,col=adjustcolor("grey",alph
 abline(h=0,lty=2,col="orange",lwd=2)
 points(temp$GA2_diff[!temp$is_sign_beta_NaCl]~temp$beta_beta_NaCl[!temp$is_sign_beta_NaCl],pch=16,cex=.8,col=adjustcolor("grey",alpha=.8))
 points(temp$GA2_diff[temp$is_sign_beta_NaCl]~temp$beta_beta_NaCl[temp$is_sign_beta_NaCl],pch=16,cex=.8,col=adjustcolor("red",alpha=.8))
+
+plot(temp$GA4_diff~temp$beta_beta_NaCl,pch=16,cex=.8,col=adjustcolor("grey",alpha=.8),las=1,bty="n",xlab="Effect on the trait",ylab="Allele frequency change",type='n')
+abline(h=0,lty=2,col="orange",lwd=2)
+points(temp$GA4_diff[!temp$is_sign_beta_NaCl]~temp$beta_beta_NaCl[!temp$is_sign_beta_NaCl],pch=16,cex=.8,col=adjustcolor("grey",alpha=.8))
+points(temp$GA4_diff[temp$is_sign_beta_NaCl]~temp$beta_beta_NaCl[temp$is_sign_beta_NaCl],pch=16,cex=.8,col=adjustcolor("red",alpha=.8))
 
 temp$A00_v1=temp$A00
 temp$A00_v1[temp$A00_v1>0.5]=1-temp$A00_v1[temp$A00_v1>0.5]
@@ -302,6 +343,8 @@ vect_P_traits_bothEnv=paste0(vect_P_traits,"_NaCl")
 #temp=merge(clust.af,all_GWAS_clusters[,c("group","beta_beta_NaCl","is_sign_beta_NaCl","beta_beta_NGM","is_sign_beta_NGM")])
 temp=merge(clust.af,all_GWAS_clusters[,c("group",paste0("beta_",vect_P_traits_bothEnv),paste0("is_sign_",vect_P_traits_bothEnv))])
 temp$pq_A00 = temp$A00*(1-temp$A00)
+
+
 plot(temp$pq_A00[temp$is_sign_beta_NaCl],I(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl]^2),pch=16)
 
 plot(temp$pq_A00[temp$is_sign_area.F_NaCl],I(temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]^2),pch=16)
@@ -355,8 +398,6 @@ plot((temp$beta_area.F_NaCl),(diff_GA1_50+diff_GA2_50+diff_GA4_50)/3,pch=16,cex=
 points((temp$beta_area.F_NaCl[temp$is_sign_area.F_NaCl]),((diff_GA1_50+diff_GA2_50+diff_GA4_50)/3)[temp$is_sign_area.F_NaCl],col="red",pch=16,cex=.8)
 abline(h=0,lty=2,col="red")
 dev.off()
-
-
 
 pdf("Beta_change_NaCl_per_replicate_R2.pdf",h=4,w=5)
 plot((temp$beta_beta_NaCl),diff_GA1_50,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change")
@@ -426,11 +467,14 @@ dev.off()
 ### In which environment ?
 temp$group=as.numeric(as.character(temp$group))
 selected_loci_idx = avg_contribution>0.015 & abs(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl])>0.15
+### ALT
+#selected_loci_idx = avg_contribution>0.01 & abs(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl])>0.1
 selected_loci = (temp$group[temp$is_sign_beta_NaCl])[selected_loci_idx]
 selected_QTL=subset(temp,group%in%selected_loci)
 dim(selected_QTL) # 7
 
-diff_GA1_50[selected_loci_idx]
+#plot(diff_GA1_50[temp$is_sign_beta_NaCl][selected_loci_idx],diff_GA4_50[temp$is_sign_beta_NaCl][selected_loci_idx],asp=1)
+#abline(v=0);abline(h=0);abline(a=0,b=1)
 
 top10_diff_GA1_50=selected_QTL$GA150-selected_QTL$GA1G36
 top10_diff_GA2_50=selected_QTL$GA250-selected_QTL$GA2G36
@@ -445,16 +489,18 @@ subset(clusters_positions,group%in%selected_QTL$group[4])[,1:3] # CHR V 6Mb
 subset(clusters_positions,group%in%selected_QTL$group[5])[,1:3] # CHR V 6Mb
 subset(clusters_positions,group%in%selected_QTL$group[6])[,1:3] # CHR V 6Mb
 subset(clusters_positions,group%in%selected_QTL$group[7])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[8])[,1:3] # CHR V 6Mb
+subset(clusters_positions,group%in%selected_QTL$group[9])[,1:3] # CHR V 6Mb
 
 
 pdf("Top_Beta_Area_change_NaCl_R2.pdf",h=4,w=5)
 plot((temp$beta_area.F_NaCl),(diff_GA1_50+diff_GA2_50+diff_GA4_50)/3,pch=16,cex=.8,bty="n",las=1,xlab="cluster effect on the trait",ylab="Allele frequency change")
+#points((selected_QTL$beta_area.F_NaCl)[1],((top10_diff_GA1_50+top10_diff_GA2_50+top10_diff_GA4_50)[1]/3),col="orange",pch=16,cex=1)
+#points((selected_QTL$beta_area.F_NaCl)[9],((top10_diff_GA1_50+top10_diff_GA2_50+top10_diff_GA4_50)[9]/3),col="orange",pch=16,cex=1)
 points((selected_QTL$beta_area.F_NaCl),((top10_diff_GA1_50+top10_diff_GA2_50+top10_diff_GA4_50)/3),col="orange",pch=16,cex=1)
 points((selected_QTL$beta_area.F_NaCl[selected_QTL$is_sign_area.F_NaCl]),((top10_diff_GA1_50+top10_diff_GA2_50+top10_diff_GA4_50)/3)[selected_QTL$is_sign_area.F_NaCl],col="red",pch=16)
 abline(h=0,lty=2,col="red")
 dev.off()
-
-
 
 pleio_NaCl = rowSums(selected_QTL[,paste0('is_sign_',vect_P_traits_bothEnv[1:7])])
 pleio_NaCl_all = rowSums(temp[,paste0('is_sign_',vect_P_traits_bothEnv[1:7])])

@@ -275,7 +275,6 @@ dev.off()
 
 ### STOPPED HERE - 11/06/2026
 
-
 subset(GLM_GA1,P>30 & is.finite(P) & kept_base_freq)
 int_freq <- all.af.caendr[snps_positions.sync.caendr$CHROM=='V' 
                           & as.numeric(snps_positions.sync.caendr$POS)==15966464,]

@@ -78,7 +78,20 @@ gp_type=unlist(gp_type)
 gp_length=data.frame(group=names(gp_min),clust_length=as.numeric(gp_max-gp_min),nb_SNPs=as.numeric(gp_nbSNPs),chr_type=gp_type)
 head(gp_length)
 
-plot(gp_length$nb_SNPs,gp_length$clust_length,pch=16,cex=.8,col=c("red","cornflowerblue","lightgreen","lightgreen","cornflowerblue")[as.numeric(as.factor(gp_length$chr_type))])
+pdf("Cluster_description_R2.pdf",h=5,w=5)
+plot(gp_length$nb_SNPs,gp_length$clust_length,pch=16,cex=.8,col=c("red","cornflowerblue","lightgreen","lightgreen","cornflowerblue")[as.numeric(as.factor(gp_length$chr_type))],
+     log="xy",xlab="Number of SNPs in QTL",ylab="QTL length (bp)")
+legend(50,100,c("center","arm","tip"),pch=16,col=c("red","cornflowerblue","lightgreen"))
+dev.off()
+pdf("Cluster_nbSNPs_R2.pdf",h=3,w=4)
+hist(log10(gp_length$nb_SNPs),xlab="Nb SNPs (log10)",main='')
+dev.off()
+pdf("Cluster_length_R2.pdf",h=3,w=4)
+hist(log10(gp_length$clust_length),xlab="Cluster length (log10 bp)",main='')
+dev.off()
+
+
+
 
 ## ClusterID & group are the same thing
 all_GWAS_clusters=merge(all_GWAS_clusters,gp_length)
@@ -182,8 +195,7 @@ for(i in 1:nrow(pleiot.idx)){
   
 }
 
-##### Now compute the summed effect of the top SNP of each signicant cluster ? ####
-
+##### Now compute the summed effect of the top SNP of each signicant cluster ####
 ### We need to compute the standardized allelic effect ###
 all_effects <- all_GWAS_clusters_sign[,paste0('beta_',vect_P_traits)]
 all_effects_std <- NULL
@@ -256,30 +268,57 @@ for(i in 1:8){
  
  dev.off()
  
+ # pdf("Extra_synergistic_NaCl_R2.pdf",h=5,w=5)
+ # temp.NaCl <- manh_NaCl>0
+ # temp=pleiot.idx$NaCl.cor[temp.NaCl]
+ # coefs_man.NaCl <- coef(nls(manh_NaCl[temp.NaCl]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ # temp=pleiot.idx$NaCl.cor[temp.NaCl & is_arm]
+ # coefs_man.NaCl.arm <- coef(nls(manh_NaCl[temp.NaCl & is_arm]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ # temp=pleiot.idx$NaCl.cor[temp.NaCl & is_center]
+ # coefs_man.NaCl.center <- coef(nls(manh_NaCl[temp.NaCl & is_center]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ # 
+ # plot(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl],pch=16,ylab='Euclidian summed effect',xlab="Neff (number of trait affected)",main='NaCl',
+ #      xlim=c(0,5),ylim=c(0,25),type='n',bty="n",las=1)
+ # points(manh_NaCl[temp.NaCl & is_arm]~pleiot.idx$NaCl.cor[temp.NaCl & is_arm],pch=21,ylab='TM ',xlab="Neff",bg=adjustcolor('green',alpha=.6))
+ # points(manh_NaCl[temp.NaCl & is_center]~pleiot.idx$NaCl.cor[temp.NaCl & is_center],pch=21,ylab='TM ',xlab="Neff",bg=adjustcolor('lightblue',alpha=.6))
+ # 
+ # lines(seq(1,12,0.1),seq(1,12,0.1)*coef(lm(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]))[2],lwd=3) 
+ # lines(seq(1,12,0.1),I(coefs_man.NaCl[1]+(coefs_man.NaCl[2])*(seq(1,12,0.1)^coefs_man.NaCl[3])),col="red",lwd=3)
+ # lines(seq(1,12,0.1),I(coefs_man.NaCl.arm[1]+(coefs_man.NaCl.arm[2])*(seq(1,12,0.1)^coefs_man.NaCl.arm[3])),col="green",lwd=3)
+ # lines(seq(1,12,0.1),I(coefs_man.NaCl.center[1]+(coefs_man.NaCl.center[2])*(seq(1,12,0.1)^coefs_man.NaCl.center[3])),col="lightblue",lwd=3)
+ # 
+ # legend(0,25,bty="n",lwd=4,c("All clusters","Chromosome arms","Chromosome centers","No synergistic pleiotropy (hypothetic)"),col=c("red","green","lightblue","black"))
+ # 
+ # 
+ # dev.off()
+ # 
+ 
+ 
  pdf("Extra_synergistic_NaCl_R2.pdf",h=5,w=5)
- temp.NaCl <- manh_NaCl>0
- temp=pleiot.idx$NaCl.cor[temp.NaCl]
- coefs_man.NaCl <- coef(nls(manh_NaCl[temp.NaCl]~a+b*temp^c,start=list(a=0,b=1,c=1)))
+ 
+ temp=pleiot.idx$NaCl.cor
+ coefs_man.NaCl <- coef(nls(manh_NaCl~a+b*temp^c,start=list(a=0,b=1,c=1)))
  temp=pleiot.idx$NaCl.cor[temp.NaCl & is_arm]
  coefs_man.NaCl.arm <- coef(nls(manh_NaCl[temp.NaCl & is_arm]~a+b*temp^c,start=list(a=0,b=1,c=1)))
  temp=pleiot.idx$NaCl.cor[temp.NaCl & is_center]
  coefs_man.NaCl.center <- coef(nls(manh_NaCl[temp.NaCl & is_center]~a+b*temp^c,start=list(a=0,b=1,c=1)))
  
- plot(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl],pch=16,ylab='Euclidian summed effect',xlab="Neff (number of trait affected)",main='NaCl',xlim=c(0,7),ylim=c(0,25),type='n',bty="n",las=1)
+ plot(manh_NaCl~pleiot.idx$NaCl.cor,pch=16,ylab='Euclidian summed effect',xlab="Neff (number of trait affected)",main='NaCl',
+      xlim=c(0,5),ylim=c(0,25),type='n',bty="n",las=1)
  points(manh_NaCl[temp.NaCl & is_arm]~pleiot.idx$NaCl.cor[temp.NaCl & is_arm],pch=21,ylab='TM ',xlab="Neff",bg=adjustcolor('green',alpha=.6))
  points(manh_NaCl[temp.NaCl & is_center]~pleiot.idx$NaCl.cor[temp.NaCl & is_center],pch=21,ylab='TM ',xlab="Neff",bg=adjustcolor('lightblue',alpha=.6))
  
+ lines(seq(1,12,0.1),seq(1,12,0.1)*coef(lm(manh_NaCl~pleiot.idx$NaCl.cor))[2],lwd=3) 
  lines(seq(1,12,0.1),I(coefs_man.NaCl[1]+(coefs_man.NaCl[2])*(seq(1,12,0.1)^coefs_man.NaCl[3])),col="red",lwd=3)
  lines(seq(1,12,0.1),I(coefs_man.NaCl.arm[1]+(coefs_man.NaCl.arm[2])*(seq(1,12,0.1)^coefs_man.NaCl.arm[3])),col="green",lwd=3)
  lines(seq(1,12,0.1),I(coefs_man.NaCl.center[1]+(coefs_man.NaCl.center[2])*(seq(1,12,0.1)^coefs_man.NaCl.center[3])),col="lightblue",lwd=3)
  
+ legend(0,25,bty="n",lwd=4,c("All clusters","Chromosome arms","Chromosome centers","No synergistic pleiotropy (hypothetic)"),col=c("red","green","lightblue","black"))
  
- lines(seq(1,12,0.1),seq(1,12,0.1)*coef(lm(manh_NaCl[temp.NaCl]~pleiot.idx$NaCl.cor[temp.NaCl]))[2],lwd=3)
  
- legend(0,25,bty="n",lwd=4,c("All clusters","Chromosome arms","Chromosome centers","No synergistic pleiotropy (theor.)"),col=c("red","green","lightblue","black"))
- 
-
  dev.off()
+ 
+ 
  
 # #################
 # 

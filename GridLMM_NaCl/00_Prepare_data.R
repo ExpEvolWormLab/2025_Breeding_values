@@ -158,6 +158,46 @@ rownames(GRM_sub)=rownames(genotype_matrix)
 is.NA=colSums(is.na(genotype_matrix))
 table(is.NA)
 
+######## Update - Betas and Gammas ## August 2026 ->> SHOULD REDO THE BLUPS HERE
+
+### We will scale them to compute gamma
+#####################################################################################
+#####################################################################################
+#Load the fertility table from Noble 2017
+load("data/fertility.rda")
+fertility_NaCl <- subset(ecoefs,env=="NaCl")
+BLUE_NaCl <- read.table("RData_BLUEs/BLUES_NaCl.txt",sep='\t',h=TRUE)
+phen_NaCl = data.frame(line=BLUE_NaCl$pop_label,SF=NA,SB=NA,FS=NA,FB=NA,BS=NA,BF=NA,area.F=NA)
+for(i in 1:nrow(phen_NaCl)){
+  phen_NaCl[i,2:8]=as.numeric(subset(BLUE_NaCl,pop_label==phen_NaCl$line[i])$BLUE)
+}
+phen_NaCl=unique(phen_NaCl)
+
+phen_NaCl_with_fitness = merge(phen_NaCl,fertility_NaCl[,1:2])
+dim(phen_NaCl_with_fitness) # 251 measurements
+
+phen_NaCl_with_fitness$rel_fit = exp(phen_NaCl_with_fitness$fertility)/mean(exp(phen_NaCl_with_fitness$fertility),na.rm=TRUE)
+for(i in vect_P_traits){
+  phen_NaCl_with_fitness[,i]=scale(phen_NaCl_with_fitness[,i])
+}
+model_beta <- lm(rel_fit ~ SF+SB+FS+FB+BS+BF+area.F, data = phen_NaCl_with_fitness)
+summary(model_beta)
+
+vect_P_traits_labels=vect_P_traits
+vect_P_traits_labels[7]="Area"
+
+beta <- coef(model_beta)[vect_P_traits]
+confint_betas <- confint(model_beta)
+pdf("Selection_gradient.pdf",w=4,h=5)
+plot(1:7,as.numeric(beta),type="n",ylim=c(-.75,.75),xaxt="n",las=1,bty="n",xlab="",ylab="Selection gradient")
+axis(side=1,at=1:7,vect_P_traits_labels)
+abline(h=0,lwd=2,col="firebrick3",lty=2)
+arrows(1:7,confint_betas[2:8,1],1:7,confint_betas[2:8,2],code=3,angle=90,length=.05)
+points(1:7,as.numeric(beta),pch=21,bg="grey")
+dev.off()
+#write.table(beta,file="txt_BLUEs/betas_NaCl.txt",sep='\t',col.names=FALSE,quote=FALSE)
+## Ok they are the same !
+
 ### Load the beta coefficients to also add the two beta traits
 
 beta_NaCl=read.table("GridLMM_results_mixed/beta_NaCl.txt",sep='\t',h=TRUE)$x

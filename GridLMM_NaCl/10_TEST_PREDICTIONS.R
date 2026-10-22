@@ -3,11 +3,11 @@ library(data.table)
 vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area.F","beta")
 vect_P_traits_bothEnv <- paste0(vect_P_traits,"_NaCl")
 
-threshold_clust = 0.8
+threshold_clust = 0.2
 load(paste0("RData_GridLMM_NaCl//GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
 genotypes <- read.table(file=paste0("data_BLUE_GridLMM_NaCl//genotypes_matrix_clusters_R",round(10*threshold_clust),".txt"))
 
-table(row.names(genotypes)==all_GWAS_clusters$rs) # OK
+table(row.names(genotypes)==all_GWAS_clusters$rs) # OK ?
 genotypes=genotypes[order(row.names(genotypes)),]
 all_GWAS_clusters=all_GWAS_clusters[order(all_GWAS_clusters$rs),]
 table(row.names(genotypes)==all_GWAS_clusters$rs)  # Fixed
@@ -25,10 +25,10 @@ table(rownames(pred_traits)==all_traits_corrected$pop_label)
 gemma_pheno=all_traits_corrected[,vect_P_traits_bothEnv]
 
 i=7
-pdf("Predicted_phen__NaCl_R8.pdf",h=4,w=4)
-plot(gemma_pheno[,i],pred_traits[,i],pch=16,xaxt="n",yaxt="n",xlab="Mean RILs phenotype",ylab="Predicted phenotype from sign. clusters",
-     bty="n")
-abline(lm(pred_traits[,i]~gemma_pheno[,i]))
+pdf("Predicted_phen__NaCl_R2_withAxis.pdf",h=4,w=4)
+plot(gemma_pheno[,i],pred_traits[,i],pch=16,xlab="Mean RILs phenotype",ylab="Predicted phenotype from sign. clusters",
+     bty="n",main='Body Area')
+abline(lm(pred_traits[,i]~gemma_pheno[,i]),lwd=2)
 dev.off()
 
 df.lm=NULL
@@ -87,7 +87,7 @@ for(i in 1:8){
 }
 head(cor_df)
 
-pdf("Phenotypic_correlations_pleiotropy_NaCl_R8.pdf",h=5,w=5)
+pdf("Phenotypic_correlations_pleiotropy_NaCl_R2.pdf",h=5,w=5)
 plot(cor_df$cor_pheno,cor_df$cor_all,pch=16,xlab="Phenotypic correlations",ylab="Correlation between predicted phenotypes")
 abline(lm(cor_df$cor_all~cor_df$cor_pheno),col="black")
 points(cor_df$cor_pheno,cor_df$cor_noP,pch=16,col="green")
@@ -109,54 +109,3 @@ cor_df_betNaCl$ratio = cor_df_betNaCl$cor_onlyP/cor_df_betNaCl$cor_all
 
 all_GWAS_clusters_betaNaCl=subset(all_GWAS_clusters,is_sign_beta_NaCl)
 dim(all_GWAS_clusters_betaNaCl) # 37
-
-# library(gplots)
-# library(limma) 
-# vennDiagram(vennCounts(
-#   cbind(as.numeric(all_GWAS_clusters$is_sign_beta_NaCl),
-#         as.numeric(all_GWAS_clusters$is_sign_area.F_NGM),
-#         as.numeric(all_GWAS_clusters$is_sign_area.F_NaCl))),
-#   names=c("beta","Trait NGM","Trait NaCl"),main='All')
-# 
-# vennDiagram(vennCounts(
-#   cbind(as.numeric(all_GWAS_clusters$is_sign_beta_NaCl),
-#         as.numeric(all_GWAS_clusters$is_sign_SF_NGM),
-#         as.numeric(all_GWAS_clusters$is_sign_SF_NaCl))),
-#   names=c("beta","Trait NGM","Trait NaCl"),main='All')
-# 
-# sum(all_GWAS_clusters$is_sign_area.F_NGM)
-# sum(all_GWAS_clusters$is_sign_area.F_NaCl)
-# 
-# sum(all_GWAS_clusters$is_sign_area.F_NGM & all_GWAS_clusters$is_sign_beta_NaCl)/sum(all_GWAS_clusters$is_sign_area.F_NGM)
-# sum(all_GWAS_clusters$is_sign_area.F_NaCl & all_GWAS_clusters$is_sign_beta_NaCl)/sum(all_GWAS_clusters$is_sign_area.F_NaCl)
-# 
-# sum(all_GWAS_clusters$is_sign_area.F_NGM & all_GWAS_clusters$is_sign_beta_NGM)/sum(all_GWAS_clusters$is_sign_area.F_NGM)
-# sum(all_GWAS_clusters$is_sign_area.F_NaCl & all_GWAS_clusters$is_sign_beta_NGM)/sum(all_GWAS_clusters$is_sign_area.F_NaCl)
-# 
-# ### SF
-# sum(all_GWAS_clusters$is_sign_SF_NGM & all_GWAS_clusters$is_sign_beta_NaCl)/sum(all_GWAS_clusters$is_sign_SF_NGM)
-# sum(all_GWAS_clusters$is_sign_SF_NaCl & all_GWAS_clusters$is_sign_beta_NaCl)/sum(all_GWAS_clusters$is_sign_SF_NaCl)
-# 
-# sum(all_GWAS_clusters$is_sign_SF_NGM & all_GWAS_clusters$is_sign_beta_NGM)/sum(all_GWAS_clusters$is_sign_SF_NGM)
-# sum(all_GWAS_clusters$is_sign_SF_NaCl & all_GWAS_clusters$is_sign_beta_NGM)/sum(all_GWAS_clusters$is_sign_SF_NaCl)
-# 
-# ### SB
-# sum(all_GWAS_clusters$is_sign_SB_NGM & all_GWAS_clusters$is_sign_beta_NaCl)/sum(all_GWAS_clusters$is_sign_SB_NGM)
-# sum(all_GWAS_clusters$is_sign_SB_NaCl & all_GWAS_clusters$is_sign_beta_NaCl)/sum(all_GWAS_clusters$is_sign_SB_NaCl)
-# 
-# sum(all_GWAS_clusters$is_sign_SB_NGM & all_GWAS_clusters$is_sign_beta_NGM)/sum(all_GWAS_clusters$is_sign_SB_NGM)
-# sum(all_GWAS_clusters$is_sign_SB_NaCl & all_GWAS_clusters$is_sign_beta_NGM)/sum(all_GWAS_clusters$is_sign_SB_NaCl)
-# 
-# 
-# plot(density(all_GWAS_clusters$beta_beta_NGM[all_GWAS_clusters$is_sign_beta_NGM]))
-# lines(density(all_GWAS_clusters$beta_beta_NaCl[all_GWAS_clusters$is_sign_beta_NaCl]),col="red")
-# 
-# 
-# plot(density(all_GWAS_clusters$beta_area.F_NGM[all_GWAS_clusters$is_sign_area.F_NGM]))
-# lines(density(all_GWAS_clusters$beta_area.F_NaCl[all_GWAS_clusters$is_sign_area.F_NaCl]),col="red")
-# 
-# plot(density(all_GWAS_clusters$beta_SF_NGM[all_GWAS_clusters$is_sign_SF_NGM]))
-# lines(density(all_GWAS_clusters$beta_SF_NaCl[all_GWAS_clusters$is_sign_SF_NaCl]),col="red")
-
-
-

@@ -3,8 +3,10 @@
 selected_loci_idx = avg_contribution>0.01 & abs(temp$beta_beta_NaCl[temp$is_sign_beta_NaCl])>0.1
 selected_loci = (temp$group[temp$is_sign_beta_NaCl])[selected_loci_idx]
 selected_QTL=subset(temp,group%in%selected_loci)
-dim(selected_QTL) # 21 QTLs now 
+dim(selected_QTL) # 21 QTLs / 9 if r2=0.2
 
+genotyped_matrix <- read.table(paste0("data_BLUE_GridLMM_NaCl/genotypes_matrix_clusters_R",round(10*threshold_clust),".txt"))
+#load('RData/Preparatory_GLMM_NaCl_only_withBeta.RData.RData')
 gp_gmat = tstrsplit(rownames(genotyped_matrix),"_")[[1]]
 
 heatmap(cor(t(genotyped_matrix[as.numeric(gp_gmat)%in%selected_QTL$group,])))

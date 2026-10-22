@@ -33,7 +33,7 @@ vect_P_traits=c("SF",'SB','FS','FB','BS','BF',"area","beta")
 #rm(env_Grid,genotypes_gemma2);gc()
 genotypes_gemma <- read.table(file="data_BLUE_clusters_CHR/genotypes_for_gemma.txt",h=TRUE)
 
-for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
+for(threshold_clust in c(0.2,0.4,0.5,0.6,0.8,0.9,1)){
 print(threshold_clust)
 ## Load cluster data
 all_cluster_merged=read.table(paste0("txt_GridLMM_NaCl/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)

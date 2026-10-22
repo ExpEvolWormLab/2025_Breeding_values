@@ -131,8 +131,8 @@ ld_snps <- read.table("data_BLUE_GridLMM_NaCl/ld_window_100.hap.ld",h=TRUE)
 dim(ld_snps)
 
 ### Create clusters from these
-for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
-
+for(threshold_clust in c(0.2,0.4,0.5,0.6,0.8,0.9,0.99)){
+  
 
 ########################################################################
 ########## RUN ALL CODE IN A FUNCTION WITH MULTIPLE THRESHOLD ##########

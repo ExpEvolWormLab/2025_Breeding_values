@@ -67,17 +67,6 @@ all.counts.caendr[rownames(all.counts.caendr)%in%subset(merged_pos,pol_status=="
 ### We can compute a global s and a s per replicate
 i=1
 
-
-library(lme4)
-library(parallel)
-
-# Precompute indices once
-idx_list <- lapply(3:6, function(j)
-  populations$replicate %in% c(1, 2, j))
-
-pop_list <- lapply(idx_list, function(idx)
-  populations[idx, ])
-
 library(lme4)
 library(parallel)
 
@@ -92,10 +81,10 @@ compute_s_from_counts <- function(i) {
   
   # Mixed model
   mod1 <- glmer(cbind(all.counts.caendr[i, ],all.counts.alt.caendr[i, ]) ~
-      populations$generations +(1 | populations$replicate_fact),family = binomial())
+      generations +(1 | replicate_fact),data=populations,family = binomial())
   
   mod2 <- glmer(cbind(all.counts.caendr[i, ],all.counts.alt.caendr[i, ]) ~
-                  1 +(1 | populations$replicate_fact),family = binomial())
+                  1 +(1 | replicate_fact),data=populations,family = binomial())
   
   lrt <- 2 * (logLik(mod1) - logLik(mod2))
   
@@ -114,8 +103,8 @@ compute_s_from_counts <- function(i) {
     lrt <- 2 * (logLik(mod1) - logLik(mod2))
     out <- c(out,pchisq(lrt, df = 1, lower.tail = FALSE),coef(mod1)[2])
   }
-  
-  names(out) <- c("P","s","P_GA1","s_GA1","P_GA2","s_GA2","P_GA3","s_GA3","P_GA4","s_GA4")
+  out=c(row.names(all.counts.caendr)[i],out)
+  names(out) <- c("rs","P","s","P_GA1","s_GA1","P_GA2","s_GA2","P_GA3","s_GA3","P_GA4","s_GA4")
   return(out)
 }
 
@@ -127,4 +116,7 @@ seq_len(nrow(all.counts.caendr)),compute_s_from_counts,mc.cores = ncores)
 
 results <- do.call(rbind, res)
 results <- as.data.frame(results)
-save(list=ls(),file='Compute_S_parallel.RData')
+
+save(list=ls(),file='RData_GridLMM_NaCl/Compute_S_parallel.RData')
+write.table(results,file='RData_GridLMM_NaCl/Estimates_s.txt',sep='\t',quote=FALSE,row.names=FALSE)
+
