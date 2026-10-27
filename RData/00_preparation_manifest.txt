@@ -1,5 +1,5 @@
 Preparation script: 00_Prepare_data_reviewed.R
-NaCl observations: 
+NaCl observations: 2034
 RILs: 960
 Full SNPs: 317611
 Pruned SNPs: 2112

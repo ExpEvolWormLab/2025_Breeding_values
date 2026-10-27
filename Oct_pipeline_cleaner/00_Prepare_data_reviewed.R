@@ -384,7 +384,7 @@ save(data_for_GWAS_NaCl_genotyped_NaCl, genotype_matrix, genotype_pruned_matrix,
      BLUE_NaCl, phen_NaCl,
      file = output_file)
 writeLines(c("Preparation script: 00_Prepare_data_reviewed.R",
-             paste("NaCl observations:", nrow(all_BLUEs_genotyped_NaCl)),
+             paste("NaCl observations:", nrow(data_for_GWAS_NaCl_genotyped_NaCl)),
              paste("RILs:", nrow(genotype_matrix)),
              paste("Full SNPs:", ncol(genotype_matrix)),
              paste("Pruned SNPs:", ncol(genotype_pruned_matrix)),
