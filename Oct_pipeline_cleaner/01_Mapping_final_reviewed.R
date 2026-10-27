@@ -1,7 +1,6 @@
+
 ## 01_Mapping_final.R - reviewed version
 ## Run from project root, after 00_Prepare_data_reviewed.R.
-## Same phenotype model, LOCO kinship, traits and result filenames as before.
-## Kinship is computed ONCE per chromosome instead of once per trait.
 
 library(AGHmatrix)
 library(GridLMM)
@@ -43,7 +42,7 @@ genotype_pruned_matrix <- genotype_pruned_matrix[ril_ids, , drop = FALSE]
 CHR_genotype_matrix <- sub("_.*$", "", colnames(genotype_matrix))
 CHR_genotype_matrix_pruned <- sub("_.*$", "", colnames(genotype_pruned_matrix))
 
-output_dir <- "results_dir"
+output_dir <- "results_mapping"
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 
