@@ -9,7 +9,7 @@ all_traits_corrected=all_traits_corrected[order(all_traits_corrected$pop_label),
 #table(rownames(pred_traits)==all_traits_corrected$pop_label)
 gemma_pheno=all_traits_corrected[,vect_P_traits_bothEnv]
 all.trait.pred=NULL
-for(threshold_clust in c(0.2,0.8,0.4,0.6,0.9,1)){
+for(threshold_clust in c(0.2,0.8,0.4,0.5,0.6,0.9,1)){
   #threshold_clust = 0.2
   load(paste0("RData_GridLMM_NaCl//GWAS_cluster_results_BLUE_concatenated_R",round(10*threshold_clust),"_with_residuals.RData"))
   genotypes <- read.table(file=paste0("data_BLUE_GridLMM_NaCl//genotypes_matrix_clusters_R",round(10*threshold_clust),".txt"))
@@ -30,20 +30,34 @@ for(threshold_clust in c(0.2,0.8,0.4,0.6,0.9,1)){
     df.lm=rbind(df.lm,c(coef(temp.lm),summary(temp.lm)$r.squared))
   }
   df.lm=data.frame(df.lm)
-  names(df.lm)=c("Intercept","Slope")
+  names(df.lm)=c("Intercept","Slope","r2")
   df.lm$thresh=threshold_clust
   df.lm$trait=paste0("T",1:8)
   
   all.trait.pred=rbind(all.trait.pred,df.lm)
 }
 
-boxplot(all.trait.pred$Slope~all.trait.pred$thresh)
-abline(h=1,lwd=2,col="red")
+boxplot(all.trait.pred$Slope~all.trait.pred$thresh,xlab='R2 threshold for SNP clustering',ylab="Slope of the regression predicted/observed phenotypes")
+abline(h=1,lwd=2,col="red",lty=2)
 
-area.pred = subset(all.trait.pred,trait=="T7")
-area.pred=area.pred[order(area.pred$thresh),]
-plot(area.pred$thresh,area.pred$Slope,type='b')
-abline(h=1,lwd=2,col="red")
+boxplot(all.trait.pred$r2~all.trait.pred$thresh,xlab='R2 threshold for SNP clustering',ylab="R2 of the regression predicted/observed phenotypes")
+abline(h=1,lwd=2,col="red",lty=2)
+
+tapply(all.trait.pred$r2,all.trait.pred$thresh,mean)
+tapply(all.trait.pred$r2,all.trait.pred$thresh,median)
+
 tapply(all.trait.pred$Slope,all.trait.pred$thresh,median)
 tapply(all.trait.pred$Slope,all.trait.pred$thresh,mean)
+
+area.pred = subset(all.trait.pred,trait=="T2")
+area.pred=area.pred[order(area.pred$thresh),]
+plot(area.pred$thresh,area.pred$Slope,type='n')
+
+for(i in 1:7){
+  area.pred = subset(all.trait.pred,trait==paste0("T",i))
+  area.pred=area.pred[order(area.pred$thresh),]
+  lines(area.pred$thresh,area.pred$Slope,type='l')
+}
+abline(h=1,lwd=1,col="orange",lty=2)
+lines(area.pred$thresh,tapply(all.trait.pred$Slope,all.trait.pred$thresh,median),type="l",col="red",lwd=3)
 

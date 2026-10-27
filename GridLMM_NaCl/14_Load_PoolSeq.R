@@ -24,6 +24,11 @@ populations$generations = c(0,0,10,50,36,10,50,36,10,36,10,50,36)
 populations$replicate = c(1:2,3,3,3,4,4,4,5,5,6,6,6)
 rm(a)
 
+## Output a file for the haplotype pipeline
+pools = data.frame(sample_id=populations$population,sync_file="GA_populations_polymorphisms_v2.sync",
+                   sync_column=4:(nrow(populations)+3),generation=populations$generations,replicate=populations$replicate)
+write.table(pools,file="pools.tsv",sep='\t',row.names=FALSE,quote=FALSE)
+
 ### Load allele frequencies from PoolSeq data ###
 ### Load the sync file
 GA.sync=read.sync('Poolseq_GA_2026/GA_populations_polymorphisms_v2.sync',gen=populations$generations,repl=populations$replicate)

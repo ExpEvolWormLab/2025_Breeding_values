@@ -2,7 +2,7 @@ rm(list=ls());gc()
 
 all_cluster_merged=NULL
 summary_clust=NULL
-for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
+for(threshold_clust in c(0.2,0.4,0.5,0.6,0.8,0.9,1)){
 print(threshold_clust)
 all_cluster_merged=read.table(paste0("txt_GridLMM_NaCl/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
 
@@ -32,7 +32,7 @@ rm(list=ls());gc()
 
 all_cluster_merged=NULL
 summary_clust=NULL
-for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,1)){
+for(threshold_clust in c(0.2,0.4,0.5,0.6,0.8,0.9,1)){
   print(threshold_clust)
   all_cluster_merged=read.table(paste0("txt_GridLMM_NaCl/all_sign_GWAS_with_clusters_R",round(10*threshold_clust),".txt"),sep='\t',h=TRUE)
 for(kk in 1:8){
