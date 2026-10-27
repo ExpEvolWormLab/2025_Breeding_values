@@ -1,6 +1,12 @@
 Preparation script: 00_Prepare_data_reviewed.R
-NaCl observations: 2034
+NaCl observations: 
 RILs: 960
 Full SNPs: 317611
 Pruned SNPs: 2112
+Selection gradient RILs: 262
+BLUE generation: seven univariate lmer models, pop_label fixed
+BLUE predictions: logD=rel_humidity=temperature=0, re.form=NA
+BLUE input: all eligible NaCl replicate phenotypes, original trait scales
+Fitness scale: exp(log-fecundity) / mean(exp(log-fecundity))
+Composite index: BLUE-standardized gradients converted to replicate scale
 Selection beta traits: SF, SB, FS, FB, BS, BF, area.F

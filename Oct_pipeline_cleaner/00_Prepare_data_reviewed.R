@@ -1,5 +1,6 @@
 library(vcfR)
 library(AGHmatrix)
+library(lme4)
 
 ## ------------------------------------------------------------
 ## 1. Phenotypes and environmental covariates
@@ -88,7 +89,7 @@ data_for_GWAS_NaCl$pop_label[replace] <- replaced_iso$Representant_line[ix[repla
 cat("Isotype labels replaced:", sum(replace), "observations\n")
 
 ## ------------------------------------------------------------
-## 3. Full genotypes: keep the same SNP and line identifiers
+## 3. Full genotypes
 ## ------------------------------------------------------------
 geno_file <- "RData/Genotype_info_Cemee.RData"
 stopifnot(file.exists(geno_file))
@@ -121,7 +122,7 @@ genotyped_lines <- colnames(genotype_info)
 data_for_GWAS_NaCl_genotyped <- subset(data_for_GWAS_NaCl, pop_label %in% genotyped_lines)
 if (!nrow(data_for_GWAS_NaCl_genotyped)) stop("No phenotype/genotype line overlap")
 
-## Match explicitly using identifiers, never positional assumptions
+## Match explicitly using identifiers
 phenotyped_lines <- unique(data_for_GWAS_NaCl_genotyped$pop_label)
 genotype_info_kept <- genotype_info[, match(phenotyped_lines, genotyped_lines),
                                      drop = FALSE]
@@ -136,7 +137,7 @@ cat("Genotyped NaCl observations:", nrow(data_for_GWAS_NaCl_genotyped), "\n")
 cat("Genotyped RILs:", nrow(genotype_matrix), "\n")
 
 ## ------------------------------------------------------------
-## 4. Pruned genotypes and kinship: explicit RIL alignment
+## 4. Pruned genotypes and kinship
 ## ------------------------------------------------------------
 pruned_file <- "plink_pruning/pruning01/CeMEE.pruned.0.1.vcf.gz"
 stopifnot(file.exists(pruned_file))
@@ -186,51 +187,213 @@ is.NA <- colSums(is.na(genotype_matrix))
 cat("Unusable full-genotype SNPs (any NA):", sum(is.NA > 0), "\n")
 
 ## ------------------------------------------------------------
-## 5. Composite selection phenotype (beta): existing weights
+## 5. Estimate adjusted RIL BLUEs directly from replicate phenotypes
 ## ------------------------------------------------------------
 
-beta_file <- "GridLMM_results_mixed/beta_NaCl.txt"
-beta_tab <- read.table(beta_file, header = TRUE, stringsAsFactors = FALSE)
+fit_BLUE <- function(trait) {
+  
+  cols <- c(trait, "pop_label", "logD", "rel_humidity", "temperature",
+            "date_str", "session_id")
+  dat <- data_for_GWAS_NaCl[, cols, drop = FALSE]
+  dat <- dat[complete.cases(dat), , drop = FALSE]
+  
+  dat$y <- as.numeric(as.character(dat[[trait]]))
 
-if (all(c("trait", "beta") %in% names(beta_tab))) {
-  if (anyDuplicated(beta_tab$trait) ||
-      !setequal(as.character(beta_tab$trait), traits))
-    stop("Selection-gradient table must name the seven traits exactly once")
-  beta_NaCl <- setNames(as.numeric(beta_tab$beta), as.character(beta_tab$trait))[traits]
-} else if ("x" %in% names(beta_tab)) {
-  ## Backward compatible with the original unnamed 'x' column
-  if (nrow(beta_tab) != length(traits))
-    stop("Expected exactly seven selection gradients in beta_NaCl.txt")
-  beta_NaCl <- setNames(as.numeric(beta_tab$x), traits)
-  message("Selection gradients loaded from 'x' in trait order: ",
-          paste(traits, collapse = ", "))
-} else {
-  stop("Selection gradient file needs trait/beta columns or legacy x column")
+  dat$pop_label <- factor(dat$pop_label)
+  dat$date_str <- factor(dat$date_str)
+  dat$session_id <- factor(dat$session_id)
+
+  mod <- lmer(
+    y ~ logD + rel_humidity + temperature + pop_label +
+      (1 | date_str) + (1 | session_id),
+    data = dat, REML = TRUE
+  )
+  
+  ## Rank deficiency can make some line means non-identifiable.
+  if (length(attr(lme4::getME(mod, "X"), "col.dropped")))
+    stop("Rank-deficient fixed effects for trait: ", trait)
+  
+  line_names <- levels(dat$pop_label)
+  newdata <- data.frame(
+    pop_label = factor(line_names, levels = line_names),
+    logD = 0, rel_humidity = 0, temperature = 0
+  )
+  
+  blue <- as.numeric(predict(mod, newdata = newdata, re.form = NA))
+  cat(trait, ": ", nrow(dat), " measurements, ", length(line_names),
+      " RILs", if (lme4::isSingular(mod)) " (singular random effects)" else "",
+      "\n", sep = "")
+  
+  data.frame(pop_label = line_names, trait = trait, BLUE = blue,
+             stringsAsFactors = FALSE)
 }
 
-for (i in traits) {
-  if (sum(is.finite(data_for_GWAS_NaCl_genotyped_NaCl[[i]])) < 2)
-    stop("Insufficient phenotypes for: ", i)
-  data_for_GWAS_NaCl_genotyped_NaCl[[i]] <- as.numeric(scale(data_for_GWAS_NaCl_genotyped_NaCl[[i]]))
+## Compute each trait once; predictions are line means adjusted to the
+## same reference environmental conditions.
+BLUE_by_trait <- lapply(traits, fit_BLUE)
+BLUE_NaCl <- do.call(rbind, BLUE_by_trait)
+rownames(BLUE_NaCl) <- NULL
+
+## Write an explicit long-format table
+dir.create("RData", recursive = TRUE, showWarnings = FALSE)
+write.table(BLUE_NaCl, "RData/BLUES_NaCl_lme4.txt", sep = "\t",
+            row.names = FALSE, quote = FALSE)
+
+## One row per RIL, one column per phenotype (NA if that RIL lacks a trait).
+phen_NaCl <- reshape(BLUE_NaCl, idvar = "pop_label", timevar = "trait",
+                     direction = "wide")
+blue_names <- paste0("BLUE.", traits)
+phen_NaCl <- phen_NaCl[, c("pop_label", blue_names), drop = FALSE]
+names(phen_NaCl)[-1] <- traits
+if (anyDuplicated(phen_NaCl$pop_label))
+  stop("Duplicate RIL after constructing BLUE phenotype table")
+write.csv(phen_NaCl, "RData/BLUES_NaCl_wide.csv", row.names = FALSE)
+
+## ------------------------------------------------------------
+## 5a. Estimate selection gradients from RIL BLUEs and fecundity
+## ------------------------------------------------------------
+## Fecundity is log absolute fecundity. Fit relative fitness against the
+## seven BLUE-standardized traits, using one observation per RIL.
+fitness_file <- "data/fertility.rda"
+stopifnot(file.exists(fitness_file))
+
+## Fitness identifiers need the same isotype normalization as phenotype data.
+normalize_RIL <- function(x) {
+  x <- clean_iso(as.character(x))
+  ix <- match(x, replaced_iso$Line)
+  x[!is.na(ix)] <- replaced_iso$Representant_line[ix[!is.na(ix)]]
+  x
 }
 
-data_for_GWAS_NaCl_genotyped_NaCl$beta <- as.numeric(
-  as.matrix(data_for_GWAS_NaCl_genotyped_NaCl[, traits, drop = FALSE]) %*% beta_NaCl
+fitness_env <- new.env(parent = baseenv())
+load(fitness_file, envir = fitness_env)
+ecoef <- fitness_env$ecoefs
+fertility_NaCl <- ecoef[!is.na(ecoef$env) & ecoef$env == "NaCl",
+                        c("line", "fertility"), drop = FALSE]
+names(fertility_NaCl)[1] <- "pop_label"
+fertility_NaCl$pop_label <- normalize_RIL(fertility_NaCl$pop_label)
+fertility_NaCl$fertility <- suppressWarnings(
+  as.numeric(as.character(fertility_NaCl$fertility)))
+
+## One row per RIL; don't duplicate fitness across phenotype replicates.
+phen_NaCl_with_fitness <- merge(phen_NaCl, fertility_NaCl,
+                                by = "pop_label", sort = FALSE)
+phen_NaCl_with_fitness <- phen_NaCl_with_fitness[
+  complete.cases(phen_NaCl_with_fitness[, c(traits, "fertility")]) &
+    apply(phen_NaCl_with_fitness[, c(traits, "fertility"), drop = FALSE],
+          1, function(row) all(is.finite(as.numeric(row)))),
+  , drop = FALSE]
+
+cat("RILs used to estimate selection gradients:",
+    nrow(phen_NaCl_with_fitness), "\n")
+
+## Stable back-transformation of log absolute fecundity to relative fitness.
+lf <- phen_NaCl_with_fitness$fertility
+absolute_scaled <- exp(lf - max(lf))
+phen_NaCl_with_fitness$rel_fit <- absolute_scaled / mean(absolute_scaled)
+
+## Standardize each RIL BLUE across the COMPLETE fitness-matched RILs.
+## Preserve the raw BLUE mean/SD for the GWAS-index scale conversion.
+BLUE_mean <- vapply(phen_NaCl_with_fitness[, traits, drop = FALSE],
+                    mean, numeric(1))
+BLUE_sd <- vapply(phen_NaCl_with_fitness[, traits, drop = FALSE],
+                  sd, numeric(1))
+for (i in traits){
+  phen_NaCl_with_fitness[[i]] <-
+  (phen_NaCl_with_fitness[[i]] - BLUE_mean[i]) / BLUE_sd[i]
+}
+## Lande-Arnold multivariate directional selection gradients.
+model_beta <- lm(reformulate(traits, response = "rel_fit"),
+                 data = phen_NaCl_with_fitness)
+
+beta_NaCl <- coef(model_beta)[traits]
+
+## ------------------------------------------------------------
+## 5b. Construct the selection-index phenotype for GWAS
+## ------------------------------------------------------------
+## The seven GWAS phenotypes are standardized across
+## replicate observations, not across adjusted RIL BLUEs. Convert the
+## regression gradients to that scale; otherwise a one-unit increase
+## in z_replicate is mistaken for one SD of among-RIL BLUE variation.
+
+replicate_mean <- vapply(data_for_GWAS_NaCl_genotyped_NaCl[, traits, drop = FALSE],
+                         function(x) mean(x, na.rm = TRUE), numeric(1))
+replicate_sd <- vapply(data_for_GWAS_NaCl_genotyped_NaCl[, traits, drop = FALSE],
+                       function(x) sd(x, na.rm = TRUE), numeric(1))
+
+## These are the weights to use on replicate-standardized phenotypes.
+## Equivalent (up to an additive constant) to the linear predictor
+## formed from the original trait values and unstandardized gradients.
+beta_for_mapping <- beta_NaCl * replicate_sd[traits] / BLUE_sd[traits]
+
+for (i in traits){
+  data_for_GWAS_NaCl_genotyped_NaCl[[i]] <-
+  (data_for_GWAS_NaCl_genotyped_NaCl[[i]] - replicate_mean[i]) / replicate_sd[i]
+}
+data_for_GWAS_NaCl_genotyped_NaCl$beta <- drop(
+  as.matrix(data_for_GWAS_NaCl_genotyped_NaCl[, traits, drop = FALSE]) %*%
+    beta_for_mapping[traits]
 )
+
+## ------------------------------------------------------------
+## 5c. Save gradients, uncertainty, and a selection-gradient figure
+## ------------------------------------------------------------
+beta_summary <- coef(summary(model_beta))[traits, , drop = FALSE]
+beta_CI <- confint(model_beta)[traits, , drop = FALSE]
+selection_gradients <- data.frame(
+  trait = traits,
+  beta = as.numeric(beta_NaCl[traits]),
+  SE = as.numeric(beta_summary[, "Std. Error"]),
+  lower95 = as.numeric(beta_CI[, 1]),
+  upper95 = as.numeric(beta_CI[, 2]),
+  p_value = as.numeric(beta_summary[, "Pr(>|t|)"]),
+  BLUE_sd = as.numeric(BLUE_sd[traits]),
+  replicate_sd = as.numeric(replicate_sd[traits]),
+  beta_for_mapping = as.numeric(beta_for_mapping[traits]),
+  stringsAsFactors = FALSE
+)
+
+dir.create("RData", recursive = TRUE, showWarnings = FALSE)
+write.csv(selection_gradients, "RData/selection_gradients_NaCl.csv",
+          row.names = FALSE)
+
+pdf("Selection_gradient_v2.pdf", width = 5.5, height = 4.5)
+ci_range <- range(c(selection_gradients$lower95,
+                    selection_gradients$upper95, 0), finite = TRUE)
+plot(seq_along(traits), selection_gradients$beta, type = "n",
+     xaxt = "n", xlab = "Trait", ylab = "Directional selection gradient",
+     ylim = ci_range, bty = "n", las = 1)
+axis(1, at = seq_along(traits), labels = traits)
+abline(h = 0, col = "firebrick3", lty = 2)
+arrows(seq_along(traits), selection_gradients$lower95,
+       seq_along(traits), selection_gradients$upper95,
+       code = 3, angle = 90, length = 0.05)
+points(seq_along(traits), selection_gradients$beta,
+       pch = 21, bg = "grey75")
+dev.off()
+
 
 ## ------------------------------------------------------------
 ## 6. Save only objects consumed by downstream scripts
 ## ------------------------------------------------------------
-
 dir.create("RData", showWarnings = FALSE, recursive = TRUE)
 output_file <- "RData/Preparatory_GLMM_NaCl_only_withBeta.RData"
 save(data_for_GWAS_NaCl_genotyped_NaCl, genotype_matrix, genotype_pruned_matrix,
-     is.NA, GRM_sub, file = output_file)
+     is.NA, GRM_sub, beta_NaCl, beta_for_mapping, selection_gradients,
+     model_beta, BLUE_mean, BLUE_sd, replicate_mean, replicate_sd,
+     BLUE_NaCl, phen_NaCl,
+     file = output_file)
 writeLines(c("Preparation script: 00_Prepare_data_reviewed.R",
-             paste("NaCl observations:", nrow(data_for_GWAS_NaCl_genotyped_NaCl)),
+             paste("NaCl observations:", nrow(all_BLUEs_genotyped_NaCl)),
              paste("RILs:", nrow(genotype_matrix)),
              paste("Full SNPs:", ncol(genotype_matrix)),
              paste("Pruned SNPs:", ncol(genotype_pruned_matrix)),
+             paste("Selection gradient RILs:", nrow(phen_NaCl_with_fitness)),
+             paste("BLUE generation: seven univariate lmer models, pop_label fixed"),
+             "BLUE predictions: logD=rel_humidity=temperature=0, re.form=NA",
+             "BLUE input: all eligible NaCl replicate phenotypes, original trait scales",
+             paste("Fitness scale: exp(log-fecundity) / mean(exp(log-fecundity))"),
+             paste("Composite index: BLUE-standardized gradients converted to replicate scale"),
              paste("Selection beta traits:", paste(names(beta_NaCl), collapse = ", "))),
            con = "RData/00_preparation_manifest.txt")
 capture.output(sessionInfo(), file = "RData/00_sessionInfo.txt")

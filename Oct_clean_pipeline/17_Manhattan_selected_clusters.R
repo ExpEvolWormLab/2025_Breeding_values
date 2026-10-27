@@ -72,7 +72,7 @@ results$POS=as.numeric(tstrsplit(results$rs,"[.]")[[2]])
 results$ID=paste(results$CHROM,results$POS,sep='_')
 results_sign = subset(results,ID%in%subset(data_manhattan, P<0.00001)$ID)
 ### Create clusters from these
-for(threshold_clust in c(0.2,0.4,0.6,0.8,0.9,0.99)){
+for(threshold_clust in c(0.2,0.4,0.5,0.6,0.8,0.9,0.99)){
   
   
   ########################################################################
