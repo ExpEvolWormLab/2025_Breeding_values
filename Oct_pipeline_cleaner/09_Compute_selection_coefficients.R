@@ -11,7 +11,7 @@ pool_file <- "RData_GridLMM_NaCl/08_PoolSeq_prepared.RData"
 snp_file <- "RData/Genotype_info_Cemee.RData"
 out_dir <- "selection_results"
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
-mc_cores <- 8L
+mc_cores <- 20L
 chunk_size <- 500L
 also_fit_within_replicate <- TRUE
 
