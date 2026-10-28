@@ -36,7 +36,7 @@ for (j in idx) {
   if (any(flipped)) dosage[flipped, ] <- dosage_max - dosage[flipped, , drop = FALSE]
   expected <- colMeans(dosage, na.rm = TRUE)
   expected[is.nan(expected)] <- NA_real_
-  actual <- G[metadata$clusterID[j], colnames(X)]
+  actual <- G[metadata$clusterID[j], rownames(X)]
   stopifnot(isTRUE(all.equal(unname(actual), unname(expected),
                              tolerance = 1e-9, check.attributes = FALSE)))
 }

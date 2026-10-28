@@ -122,6 +122,11 @@ for (threshold_clust in thresholds_clust) {
 
   for (k in names(comp_rows)) {
     snps <- ids[comp_rows[[k]]]
+    # A singleton LD component has no edges and needs no phase correction.
+    if (length(snps) == 1L) {
+      phase[snps] <- 1L
+      next
+    }
     eidx <- edge_rows[[k]]
     if (is.null(eidx)) stop("Missing LD edges for component ", k)
     phase[snps] <- phase_one_component(snps, ed[eidx, , drop = FALSE])[snps]
