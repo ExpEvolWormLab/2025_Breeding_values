@@ -1,0 +1,3 @@
+GWAS ALT allele matching: 69251 156728 47733 
+Fitting 204461 SNPs in 409 chunks
+Finished selection-trajectory summary: 204461 matched SNPs
