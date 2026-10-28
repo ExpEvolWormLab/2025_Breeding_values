@@ -1,0 +1,8 @@
+"threshold","n_SNPs","n_clusters","n_singletons","median_SNPs_per_cluster","max_SNPs_per_cluster","median_span_bp","p95_span_bp","n_clusters_over_100kb","n_clusters_with_missing_genotypes","n_clusters_monomorphic","n_clusters_tested","n_clusters_excluded_missing","n_clusters_excluded_monomorphic","is_primary"
+0.2,37851,582,185,4,5081,7861,475201.15,120,0,0,582,0,0,FALSE
+0.4,37851,906,312,3,5049,3423.5,249150.5,108,0,0,906,0,0,FALSE
+0.5,37851,1089,392,3,3640,2613,193285.999999999,102,0,0,1089,0,0,TRUE
+0.6,37851,1330,497,3,3648,1884.5,159601.15,107,0,0,1330,0,0,FALSE
+0.8,37851,2138,928,2,3631,132.5,95377.5999999999,105,0,0,2138,0,0,FALSE
+0.9,37851,3257,1520,2,3554,12,55635.9999999999,82,0,0,3257,0,0,FALSE
+0.99,37851,9948,5815,1,2735,0,9053.09999999999,10,0,0,9948,0,0,FALSE

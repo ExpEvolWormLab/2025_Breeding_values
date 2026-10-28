@@ -1,0 +1,7 @@
+"threshold","chromosome","n_clusters","excluded_missing","excluded_no_variation","n_tested"
+0.8,"I",189,0,0,189
+0.8,"II",540,0,0,540
+0.8,"III",452,0,0,452
+0.8,"IV",375,0,0,375
+0.8,"V",381,0,0,381
+0.8,"X",201,0,0,201
