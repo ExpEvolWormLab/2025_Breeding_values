@@ -1,0 +1,446 @@
+
+Mapping chromosome I 
+Initial data: 
+	Number of Individuals: 960 
+	Number of Markers: 1881 
+
+Missing data check: 
+	Total SNPs: 1881 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1881  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1881 SNPs 
+	Final:  1881  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.417  seconds 
+  Trait: beta 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 1"
+[1] "step_size: 0.125, num_to_test: 13"
+[1] "step_size: 0.125, num_to_test: 10"
+[1] "step_size: 0.125, num_to_test: 9"
+[1] "step_size: 0.0625, num_to_test: 26"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 13"
+[1] "step_size: 0.0625, num_to_test: 7"
+[1] "step_size: 0.03125, num_to_test: 43"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 13"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.015625, num_to_test: 20"
+[1] "step_size: 0.0078125, num_to_test: 52"
+[1] "step_size: 0.00390625, num_to_test: 52"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 12"
+[1] "step_size: 0.001953125, num_to_test: 13"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "GridLMM_posterior h2s:"
+     pop_label   date_str session_id
+[1,] 0.1523438 0.02539062    0.65625
+[1] "step: 1, num_h2s: 1, num active: 26311"
+[1] "step: 2, num_h2s: 26, num active: 26311"
+[1] "step: 3, num_h2s: 24, num active: 96"
+[1] "step: 4, num_h2s: 9, num active: 72"
+
+Mapping chromosome II 
+Initial data: 
+	Number of Individuals: 960 
+	Number of Markers: 1638 
+
+Missing data check: 
+	Total SNPs: 1638 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1638  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1638 SNPs 
+	Final:  1638  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.546  seconds 
+  Trait: beta 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 1"
+[1] "step_size: 0.125, num_to_test: 13"
+[1] "step_size: 0.125, num_to_test: 5"
+[1] "step_size: 0.0625, num_to_test: 17"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 13"
+[1] "step_size: 0.0625, num_to_test: 5"
+[1] "step_size: 0.0625, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 13"
+[1] "step_size: 0.03125, num_to_test: 5"
+[1] "step_size: 0.03125, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 7"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.015625, num_to_test: 8"
+[1] "step_size: 0.0078125, num_to_test: 43"
+[1] "step_size: 0.00390625, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 8"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 12"
+[1] "step_size: 0.001953125, num_to_test: 16"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "GridLMM_posterior h2s:"
+     pop_label   date_str session_id
+[1,] 0.1328125 0.02539062  0.6640625
+[1] "step: 1, num_h2s: 1, num active: 69884"
+[1] "step: 2, num_h2s: 26, num active: 69884"
+[1] "step: 3, num_h2s: 33, num active: 41"
+[1] "step: 4, num_h2s: 18, num active: 8"
+
+Mapping chromosome III 
+Initial data: 
+	Number of Individuals: 960 
+	Number of Markers: 1758 
+
+Missing data check: 
+	Total SNPs: 1758 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1758  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1758 SNPs 
+	Final:  1758  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.229  seconds 
+  Trait: beta 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 1"
+[1] "step_size: 0.125, num_to_test: 13"
+[1] "step_size: 0.125, num_to_test: 10"
+[1] "step_size: 0.125, num_to_test: 9"
+[1] "step_size: 0.0625, num_to_test: 26"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 13"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.015625, num_to_test: 12"
+[1] "step_size: 0.015625, num_to_test: 9"
+[1] "step_size: 0.0078125, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 16"
+[1] "step_size: 0.00390625, num_to_test: 8"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 12"
+[1] "step_size: 0.001953125, num_to_test: 13"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "GridLMM_posterior h2s:"
+     pop_label   date_str session_id
+[1,] 0.1425781 0.02539062  0.6621094
+[1] "step: 1, num_h2s: 1, num active: 56179"
+[1] "step: 2, num_h2s: 26, num active: 56179"
+[1] "step: 3, num_h2s: 27, num active: 210"
+[1] "step: 4, num_h2s: 9, num active: 26"
+
+Mapping chromosome IV 
+Initial data: 
+	Number of Individuals: 960 
+	Number of Markers: 1808 
+
+Missing data check: 
+	Total SNPs: 1808 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1808  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1808 SNPs 
+	Final:  1808  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.664  seconds 
+  Trait: beta 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 1"
+[1] "step_size: 0.125, num_to_test: 13"
+[1] "step_size: 0.125, num_to_test: 10"
+[1] "step_size: 0.125, num_to_test: 9"
+[1] "step_size: 0.0625, num_to_test: 26"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 13"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 13"
+[1] "step_size: 0.03125, num_to_test: 8"
+[1] "step_size: 0.03125, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 14"
+[1] "step_size: 0.015625, num_to_test: 52"
+[1] "step_size: 0.015625, num_to_test: 15"
+[1] "step_size: 0.0078125, num_to_test: 52"
+[1] "step_size: 0.00390625, num_to_test: 52"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 13"
+[1] "step_size: 0.00390625, num_to_test: 8"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 26"
+[1] "step_size: 0.001953125, num_to_test: 12"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 24"
+[1] "step_size: 0.001953125, num_to_test: 14"
+[1] "step_size: 0.001953125, num_to_test: 11"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "GridLMM_posterior h2s:"
+     pop_label   date_str session_id
+[1,] 0.1484375 0.02539062  0.6621094
+[1] "step: 1, num_h2s: 1, num active: 45793"
+[1] "step: 2, num_h2s: 26, num active: 45793"
+[1] "step: 3, num_h2s: 30, num active: 3"
+
+Mapping chromosome V 
+Initial data: 
+	Number of Individuals: 960 
+	Number of Markers: 1532 
+
+Missing data check: 
+	Total SNPs: 1532 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1532  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1532 SNPs 
+	Final:  1532  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.161  seconds 
+  Trait: beta 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 1"
+[1] "step_size: 0.125, num_to_test: 13"
+[1] "step_size: 0.125, num_to_test: 10"
+[1] "step_size: 0.125, num_to_test: 9"
+[1] "step_size: 0.0625, num_to_test: 26"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 15"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 14"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.015625, num_to_test: 8"
+[1] "step_size: 0.0078125, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 8"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 14"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 21"
+[1] "step_size: 0.001953125, num_to_test: 13"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "step_size: 0.001953125, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 9"
+[1] "GridLMM_posterior h2s:"
+     pop_label   date_str session_id
+[1,] 0.1328125 0.02539062   0.671875
+[1] "step: 1, num_h2s: 1, num active: 91261"
+[1] "step: 2, num_h2s: 26, num active: 91261"
+[1] "step: 3, num_h2s: 30, num active: 2725"
+[1] "step: 4, num_h2s: 18, num active: 279"
+[1] "step: 5, num_h2s: 9, num active: 1"
+
+Mapping chromosome X 
+Initial data: 
+	Number of Individuals: 960 
+	Number of Markers: 1945 
+
+Missing data check: 
+	Total SNPs: 1945 
+	 0 SNPs dropped due to missing data threshold of 0.5 
+	Total of: 1945  SNPs 
+
+MAF check: 
+	No SNPs with MAF below 0 
+
+Heterozigosity data check: 
+	No SNPs with heterozygosity, missing threshold of =  0 
+
+Summary check: 
+	Initial:  1945 SNPs 
+	Final:  1945  SNPs ( 0  SNPs removed) 
+ 
+Completed! Time = 1.396  seconds 
+  Trait: beta 
+[1] "Estimating h2_start via null model"
+[1] "step_size: 0.5, num_to_test: 4"
+[1] "step_size: 0.25, num_to_test: 7"
+[1] "step_size: 0.25, num_to_test: 1"
+[1] "step_size: 0.125, num_to_test: 13"
+[1] "step_size: 0.0625, num_to_test: 17"
+[1] "step_size: 0.0625, num_to_test: 12"
+[1] "step_size: 0.0625, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 26"
+[1] "step_size: 0.03125, num_to_test: 12"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.03125, num_to_test: 13"
+[1] "step_size: 0.03125, num_to_test: 9"
+[1] "step_size: 0.015625, num_to_test: 26"
+[1] "step_size: 0.0078125, num_to_test: 26"
+[1] "step_size: 0.0078125, num_to_test: 12"
+[1] "step_size: 0.0078125, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 26"
+[1] "step_size: 0.00390625, num_to_test: 12"
+[1] "step_size: 0.00390625, num_to_test: 16"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 18"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.00390625, num_to_test: 9"
+[1] "step_size: 0.00390625, num_to_test: 15"
+[1] "step_size: 0.001953125, num_to_test: 52"
+[1] "step_size: 0.001953125, num_to_test: 8"
+[1] "GridLMM_posterior h2s:"
+     pop_label  date_str session_id
+[1,]  0.140625 0.0234375  0.6699219
+[1] "step: 1, num_h2s: 1, num active: 26549"
+[1] "step: 2, num_h2s: 26, num active: 26549"
+[1] "step: 3, num_h2s: 24, num active: 170"
+[1] "step: 4, num_h2s: 9, num active: 29"
+GWAS completed; files in: results_mapping 

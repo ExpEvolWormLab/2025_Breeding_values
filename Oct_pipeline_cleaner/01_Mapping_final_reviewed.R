@@ -20,8 +20,9 @@ data_for_GWAS_NaCl_genotyped_NaCl <- prep$data_for_GWAS_NaCl_genotyped_NaCl
 genotype_matrix <- prep$genotype_matrix
 genotype_pruned_matrix <- prep$genotype_pruned_matrix
 
-vect_P_traits <- c("SF", "SB", "FS", "FB", "BS", "BF", "area.F", "beta")
-chromosomes <- c("I", "II", "III", "IV", "V", "X")
+#vect_P_traits <- c("SF", "SB", "FS", "FB", "BS", "BF", "area.F")
+vect_P_traits = "beta"
+chromosomes <- c("I","II", "III", "IV", "V", "X")
 allowed_chromosomes <- c(chromosomes, "MtDNA")
 chromosomes_to_run <- chromosomes
 traits_to_run <- vect_P_traits
