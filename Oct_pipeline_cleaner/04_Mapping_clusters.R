@@ -8,7 +8,8 @@ library(GridLMM)
 
 vect_P_traits <- c("SF", "SB", "FS", "FB", "BS", "BF", "area.F", "beta")
 chromosomes <- c("I", "II", "III", "IV", "V", "X")
-thresholds_clust <- c(0.2, 0.4, 0.5, 0.6, 0.8, 0.9, 0.99)
+#thresholds_clust <- c(0.2, 0.4, 0.5, 0.6, 0.8, 0.9, 0.99)
+thresholds_clust=0.9
 threshold_label <- function(x) paste0("R", round(10 * x))
 mc_cores <- 10L
 overwrite_results <- TRUE
