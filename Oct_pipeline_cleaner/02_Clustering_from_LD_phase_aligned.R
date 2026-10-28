@@ -203,12 +203,6 @@ if (phase_align_effects) {
   invisible(gc())
 }
 
-## OPTIONAL: Align SNP effect signs within one LD connected component.
-## Use only AFTER confirming sign(D) matches signed correlations from the
-## exact GWAS genotype_matrix (see 02_LD_sign_diagnostic.R).
-## Uses the strongest-LD spanning tree so chains need not all correlate
-## directly with one lead SNP. Reports phase inconsistencies on extra edges.
-
 align_component_signs <- function(component_data, component_edges, beta_cols) {
   ids <- as.character(component_data$rs)
   if (length(ids) <= 1L) {

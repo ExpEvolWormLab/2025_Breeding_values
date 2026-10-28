@@ -1,0 +1,8 @@
+LD_R2_threshold,number_of_clusters,number_of_singleton_clusters,number_of_multi_SNP_clusters
+0.2,582,185,397
+0.4,906,312,594
+0.5,1089,392,697
+0.6,1330,497,833
+0.8,2138,928,1210
+0.9,3257,1520,1737
+0.99,9948,5815,4133
