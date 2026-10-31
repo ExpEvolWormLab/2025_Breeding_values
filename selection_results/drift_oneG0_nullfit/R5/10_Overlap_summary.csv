@@ -1,0 +1,2 @@
+"LD_threshold","label","Ne","retained_G0","excluded_G0","SNPs_tested_genomewide","SNPs_tested_common_genomewide","SNPs_selected_common_q01_genomewide","SNPs_selected_common_q05_genomewide","GWAS_SNPs_total","GWAS_SNPs_poolseq_covered","GWAS_SNPs_tested_common","GWAS_SNPs_selected_common_q01","GWAS_SNPs_selected_common_q05","GWAS_clusters_total","GWAS_clusters_tested_common","GWAS_clusters_with_selected_common_q01","GWAS_clusters_with_selected_common_q05"
+0.5,"R5",1000,"A00","A6G140",204456,167983,1869,7243,37851,25348,22233,536,1903,1089,675,37,79

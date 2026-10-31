@@ -1,0 +1,8 @@
+"metric","value"
+"R5_GWAS_total",1089
+"R5_with_any_Poolseq",804
+"R5_response_eligible",802
+"R5_with_calibrated_tag_test",802
+"R5_selected_BY_q05",12
+"R5_zero_A00_ALT_test_tags",9
+"R5_non_selected_but_in_prediction",790

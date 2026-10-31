@@ -1,0 +1,16 @@
+"level","cohort","n","Pearson_r","Spearman_r","sign_agreement"
+"SNP_old_logit_vs_new_freq","common",22233,0.779558255568117,0.778624924378637,0.790716502496289
+"SNP_old_local_freq_vs_new_freq","common",22233,0.799997232063436,0.78201128093037,0.790716502496289
+"SNP_old_logistic50_freq_vs_new_freq","common",22233,0.79275430077489,0.778876405266124,0.790716502496289
+"cluster_old_logit_vs_new_freq_median","all",675,0.724087920457221,0.773682354065828,0.801481481481481
+"cluster_old_local_freq_vs_new_freq_median","all",675,0.796756150752329,0.785648009957528,0.802962962962963
+"cluster_old_logistic50_freq_vs_new_freq_median","all",675,0.74478217271864,0.780030707581495,0.801481481481481
+"cluster_old_logit_vs_new_freq_mean","all",675,0.731370241205022,0.784933385618161,0.801481481481481
+"cluster_old_local_freq_vs_new_freq_mean","all",675,0.80404070833888,0.795936571480968,0.801481481481481
+"cluster_old_logistic50_freq_vs_new_freq_mean","all",675,0.749904644387135,0.789562699848023,0.798518518518519
+"cluster_old_logit_vs_new_freq_median","composite_GWAS_q05",288,0.699324317504485,0.768331364109489,0.784722222222222
+"cluster_old_local_freq_vs_new_freq_median","composite_GWAS_q05",288,0.799832034779803,0.78300810998718,0.784722222222222
+"cluster_old_logistic50_freq_vs_new_freq_median","composite_GWAS_q05",288,0.71455939230294,0.776184648895426,0.784722222222222
+"cluster_old_logit_vs_new_freq_mean","composite_GWAS_q05",288,0.708608575866031,0.788177824931982,0.788194444444444
+"cluster_old_local_freq_vs_new_freq_mean","composite_GWAS_q05",288,0.810817536807851,0.803327787355976,0.788194444444444
+"cluster_old_logistic50_freq_vs_new_freq_mean","composite_GWAS_q05",288,0.720882051029612,0.794441162404704,0.784722222222222

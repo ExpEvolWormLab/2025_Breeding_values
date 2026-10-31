@@ -1,0 +1,2 @@
+"threshold","label","selected_snps_genomewide","selected_snps_strict","gwas_snps_total","gwas_snps_poolseq_covered","gwas_snps_selected","gwas_clusters_total","gwas_clusters_poolseq_covered","gwas_clusters_with_selected_snp","gwas_clusters_with_strict_snp"
+0.5,"R5",0,0,37851,25348,0,1089,800,0,0

@@ -1,0 +1,7 @@
+RILs analyzed in genotype table: 960
+CB4856 background available: TRUE
+Mutation genotype marker IDs: IV_8892663, IV_10499135
+Mutation dose is ALT allele count divided by two; use homozygote contrast.
+Kinship excluded chromosome IV. P-values are approximate BLUE-level GLS tests.
+An interaction that is collinear with founder ancestry is not estimable.
+SB, area.F and beta are outcomes, NOT proof of mechanistic trait mediation.

@@ -1,0 +1,3 @@
+"scenario","n_unique_clusters","n_unique_group_ids","all_bins_disjoint","n_blocks"
+"retained_GA",563,563,TRUE,51
+"all_GA",563,563,TRUE,51

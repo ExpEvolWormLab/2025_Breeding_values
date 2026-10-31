@@ -1,0 +1,3 @@
+NO_DETECTED_INFLATION: limited power; extreme genomic tail still unvalidated
+n_outer= 400
+n_inner= 2500

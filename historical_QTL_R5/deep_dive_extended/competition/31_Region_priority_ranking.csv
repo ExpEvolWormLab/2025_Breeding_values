@@ -1,0 +1,10 @@
+"region","top_pair","top_label","top_competition_score","top_fraction_opposite","top_corr","n_tested_pairs","best_interaction_q"
+"area_II_1","R5_127 vs R5_128","mixed_or_unclear",0.5,0.5,0.396870233544055,1,0.882750189958253
+"area_II_2","R5_314 vs R5_317","mixed_or_unclear",0.625,0.125,0.703870256882206,1,0.882750189958253
+"area_III","R5_590 vs R5_598","opposite_beta_directions",2.375,0.875,-0.795710737885097,10,0.27193026055562
+"area_X","R5_1083 vs R5_1087","opposite_beta_directions",2,0.5,-0.0222230765066799,6,0.882750189958253
+"beta_I","F7491656 vs R5_54","opposite_beta_directions",2.375,0.875,-0.480255685967602,10,0.882750189958253
+"beta_III_pair","H_506 vs R5_504","opposite_beta_directions",1.375,0.375,0.08162686632798,1,0.882750189958253
+"beta_V","F6637695 vs R5_844","opposite_beta_directions",2.5,1,-0.893775143243148,10,0.882750189958253
+"beta_V_886","H_886 vs R5_886","different_trait_axes",1.125,0.625,0.22565583207445,1,NA
+"chrIV_CB4856","F10499135 vs F8892663","opposite_beta_directions",2.25,0.75,-0.508959985480188,28,0.882750189958253

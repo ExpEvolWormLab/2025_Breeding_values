@@ -1,0 +1,9 @@
+region,CHROM,POS,hypothesis
+beta_I,I,7167738,PX174_RC301_shared
+beta_I,I,7491656,RC301_specific
+beta_I,I,7596359,RC301_specific
+beta_V,V,6322080,ALT_absent_16_founders
+beta_V,V,6637695,CB4507
+beta_V,V,6826421,CB4507
+chrIV_CB4856,IV,8892663,post_founder_mutation
+chrIV_CB4856,IV,10499135,post_founder_mutation

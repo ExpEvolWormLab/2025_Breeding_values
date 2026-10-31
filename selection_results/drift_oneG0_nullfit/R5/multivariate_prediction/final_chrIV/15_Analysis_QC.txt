@@ -1,0 +1,9 @@
+R5 clusters: 675; chromosome IV: 106
+Overall full-vs-three held-out difference in MSE: 3.4256e-08
+Chromosome IV full-vs-three held-out difference in MSE: -3.5263e-09
+Non-IV full-vs-three held-out difference in MSE: 4.1294e-08
+Candidate mutation positions verified in same assembly: FALSE
+Independent candidate mutation trajectories provided: FALSE
+The one-chromosome-out comparison is a genomic sensitivity analysis, not independent experimental replication.
+Mutation-localization window and placebo analyses are exploratory; neither proves mutation causality.
+Do not interpret founder-SNP slope estimates as direct tests of novel mutation trajectories.

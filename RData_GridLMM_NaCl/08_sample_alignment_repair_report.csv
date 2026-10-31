@@ -1,0 +1,14 @@
+"stored_column_position","previous_INCORRECT_label","true_sample_in_stored_column","actual_generation","actual_replicate","label_was_wrong"
+1,"A00","A00",0,1,FALSE
+2,"A6G140","A6G140",0,2,FALSE
+3,"GA110","GA110",10,3,FALSE
+4,"GA150","GA1G36",36,3,TRUE
+5,"GA1G36","GA150",50,3,TRUE
+6,"GA210","GA210",10,4,FALSE
+7,"GA250","GA2G36",36,4,TRUE
+8,"GA2G36","GA250",50,4,TRUE
+9,"GA310","GA310",10,5,FALSE
+10,"GA3G36","GA3G36",36,5,FALSE
+11,"GA410","GA410",10,6,FALSE
+12,"GA450","GA4G36",36,6,TRUE
+13,"GA4G36","GA450",50,6,TRUE

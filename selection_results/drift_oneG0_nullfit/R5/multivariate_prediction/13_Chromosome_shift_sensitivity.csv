@@ -1,0 +1,7 @@
+"cohort","predictor","n","r","p_chrom_shift_exploratory"
+"all_common","full_mapped",675,0.223849892297402,5e-04
+"all_common","full_reconstructed",675,0.246074742892717,5e-04
+"all_common","three_trait",675,0.211857503898395,5e-04
+"beta_GWAS_q05","full_mapped",288,0.287555744910269,5e-04
+"beta_GWAS_q05","full_reconstructed",288,0.30641954309422,5e-04
+"beta_GWAS_q05","three_trait",288,0.27044345604877,5e-04

@@ -1,0 +1,5 @@
+"replicate","population","status","basis","final_generation_sample"
+3,"GA1","survived","observed_G50_sample_verify_biological_survival","GA150"
+4,"GA2","survived","observed_G50_sample_verify_biological_survival","GA250"
+5,"GA3","extinct","no_G50_sample_extinction_not_independently_verified","GA336"
+6,"GA4","survived","observed_G50_sample_verify_biological_survival","GA450"
