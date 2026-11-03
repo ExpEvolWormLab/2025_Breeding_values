@@ -1,0 +1,23 @@
+Loading required package: Matrix
+Loading required package: coda
+Loading required package: ape
+Warning message:
+In as.numeric(as.character(phen[[v]])) : NAs introduced by coercion
+NaCl records: 2335 ; RILs: 1121 ; dates: 284 ; sessions: 5 
+Fitting MCMC chain 1 of 3 
+SAVED chain 1 to RData_G_NaCl/07a_final_unstructured_chain01.rds 
+Fitting MCMC chain 2 of 3 
+SAVED chain 2 to RData_G_NaCl/07a_final_unstructured_chain02.rds 
+Fitting MCMC chain 3 of 3 
+SAVED chain 3 to RData_G_NaCl/07a_final_unstructured_chain03.rds 
+Reconstructed pop_label (49 VCV columns, 7x7 matrix)
+Reconstructed pop_label (49 VCV columns, 7x7 matrix)
+Reconstructed pop_label (49 VCV columns, 7x7 matrix)
+Reconstructed units (49 VCV columns, 7x7 matrix)
+Reconstructed units (49 VCV columns, 7x7 matrix)
+Reconstructed units (49 VCV columns, 7x7 matrix)
+G eigenvalues: 0.26, 0.116, 0.0572, 0.0312, 0.0112, 0.00492, 1.07e-05 
+Maximum Rhat: 1.003004 ; minimum ESS: 5383.484 
+null device 
+          1 
+Saved multivariate RIL G in RData_G_NaCl 

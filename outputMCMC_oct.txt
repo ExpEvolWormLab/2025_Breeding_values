@@ -1,0 +1,13 @@
+Loading required package: Matrix
+Loading required package: coda
+Loading required package: ape
+Warning message:
+In as.numeric(as.character(phen[[v]])) : NAs introduced by coercion
+NaCl records: 2335 ; RILs: 1121 ; dates: 284 ; sessions: 5 
+Fitting MCMC chain 1 of 3 
+Fitting MCMC chain 2 of 3 
+Fitting MCMC chain 3 of 3 
+Error in FUN(X[[i]], ...) : 
+  Expected 28 covariance terms for 'pop_label', found 49. Available names: traitSF:traitSF.pop_label, traitSB:traitSF.pop_label, traitFS:traitSF.pop_label, traitFB:traitSF.pop_label, traitBS:traitSF.pop_label, traitBF:traitSF.pop_label, traitarea.F:traitSF.pop_label, traitSF:traitSB.pop_label, traitSB:traitSB.pop_label, traitFS:traitSB.pop_label, traitFB:traitSB.pop_label, traitBS:traitSB.pop_label, traitBF:traitSB.pop_label, traitarea.F:traitSB.pop_label, traitSF:traitFS.pop_label, traitSB:traitFS.pop_label, traitFS:traitFS.pop_label, traitFB:traitFS.pop_label, traitBS:traitFS.pop_label, traitBF:traitFS.pop_label, traitarea.F:traitFS.pop_label, traitSF:traitFB.pop_label, traitSB:traitFB.pop_label, traitFS:traitFB.pop_label, traitFB:traitFB.pop_label
+Calls: concat_draws -> lapply -> FUN
+Execution halted
