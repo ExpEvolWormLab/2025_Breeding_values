@@ -1,6 +1,0 @@
-SNP_ID,R5_cluster,cluster_start_bp,cluster_end_bp,R5_SNP_count,raw_SYNC_samples,raw_A00_depth,raw_A00_ALT_reads,present_in_script33_founder_filtered_set,R5_genotypic_GWAS_locus
-IV_8892663,727,8892663,8892663,1,13,108,1,False,True
-IV_10499135,731,10499135,10499135,1,13,128,0,False,True
-V_6322080,848,6300718,6333821,4,13,81,6,False,True
-V_6637695,851,6637695,6637695,1,13,97,8,False,True
-V_6826421,853,6826421,6826421,1,13,124,11,False,True
