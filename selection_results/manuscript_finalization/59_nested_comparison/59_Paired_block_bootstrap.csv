@@ -1,0 +1,4 @@
+"comparator","positive_means_beta_better","CI_low","CI_high","fraction_bootstrap_positive","n_boot","interpretation"
+"SB",1.71720886997182e-08,-1.0081769501959e-07,1.74811047294623e-07,0.5655,4000,"conditional block bootstrap; nested selection not refitted in bootstrap"
+"nested_single",5.60004710428744e-08,-5.17309848818394e-08,2.10571157429822e-07,0.803,4000,"conditional block bootstrap; nested selection not refitted in bootstrap"
+"training_null",1.84840291287686e-07,5.27726227948314e-08,3.82309707193624e-07,0.99875,4000,"conditional block bootstrap; nested selection not refitted in bootstrap"

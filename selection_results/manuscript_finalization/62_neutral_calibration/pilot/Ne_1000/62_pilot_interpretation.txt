@@ -1,0 +1,5 @@
+INCONCLUSIVE: no detected inflation at tested levels; the extreme genome-wide significance tail remains UNVALIDATED.
+This script does not replace the original 43b/44 testing gate.
+This test includes A00 read sampling at fixed true p0.
+Non-estimable outer simulations counted as non-rejections (p=1).
+N_outer=400, N_inner=2500, MC minimum attainable p=0.00039984
