@@ -1,0 +1,10 @@
+"check","value"
+"n_matched",802
+"n_chrV",127
+"n_V_3",12
+"beta_raw_max_abs_difference",4.16333634234434e-16
+"beta_LOCO_max_abs_difference_chrV",4.11996825544492e-18
+"PC1_cov_LOCO_max_abs_difference_chrV",5.42101086242752e-19
+"PCA_fraction_of_GWAS_variance",0.648585100014607
+"train_beta_calibration_slope",0.00785175225687892
+"train_PC1_calibration_slope",0.00371935550063324

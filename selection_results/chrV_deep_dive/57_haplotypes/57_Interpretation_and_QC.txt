@@ -1,0 +1,8 @@
+RIL four-tag patterns are unphased only at homozygous sites.
+Heterozygous or missing calls are excluded from complete haplotype assignments.
+Rare-allele orientation uses exactly one shared A00 Pool-seq baseline.
+Common patterns in inbred lines can proxy haplotypes; recombination and phase remain possible.
+Trait association tests are exploratory on adjusted BLUEs, not causal or mixed-model fine-mapping.
+Ancestry is NOT assigned; external founder genotype comparisons would be required.
+resolved_RIL 960
+common_haplotype_classes 6

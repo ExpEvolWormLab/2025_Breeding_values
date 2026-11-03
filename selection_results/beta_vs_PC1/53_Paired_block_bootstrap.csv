@@ -1,0 +1,4 @@
+"input_kind","comparator","n_clusters","n_blocks","delta_MSE_beta_advantage","CI_low","CI_high","bootstrap_sign_p_exploratory"
+"full_R5","SB",802,51,1.71720886997182e-08,-9.83046674314022e-08,1.76680731650546e-07,0.8595
+"full_R5","PC1_cov",802,51,6.88846692903721e-08,-8.2966227089813e-08,3.16643202928839e-07,0.5805
+"full_R5","PC1_corr",802,51,6.82362160314734e-08,-9.27317577956954e-08,3.06220455262441e-07,0.6025

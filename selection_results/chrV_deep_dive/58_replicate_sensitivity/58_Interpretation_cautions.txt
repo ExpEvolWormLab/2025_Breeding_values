@@ -1,0 +1,10 @@
+Sensitivity uses EXACT original script-43 eligible SNPs, phase, and R5 groups.
+Each two-population outcome is a new 09f neutral-covariance GLS slope.
+All population subsets reuse one shared A00 baseline, not independent baselines.
+PCA and effect-outcome regression are trained on the other five chromosomes.
+The target outcome and fitted calibration change with population omission.
+This is a robustness analysis of a genome-wide signal; TWO evolved replicates do not
+constitute robust independent prospective validation.
+Neither the 802 clusters nor the four chromosome-V groups are independent selected mutations.
+Do not use replicate omission to recalibrate candidate selection p-values.
+GA3 remains excluded because it is confirmed extinct.

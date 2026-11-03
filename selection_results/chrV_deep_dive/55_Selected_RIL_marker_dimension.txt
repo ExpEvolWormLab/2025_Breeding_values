@@ -1,0 +1,5 @@
+n_RIL 960
+n_markers_total 44
+n_polymorphic_markers 44
+effective_dimension_of_selected_RIL_dosages 6.504
+This dimensionality depends on marker sampling, NOT causal independent sites.

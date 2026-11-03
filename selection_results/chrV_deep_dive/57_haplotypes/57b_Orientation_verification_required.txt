@@ -1,0 +1,4 @@
+FOUNDER SIGNATURES NOT JOINED TO RIL HAPLOTYPES:
+confirm_identical_ALT_allele_coding is FALSE.
+Check REF/ALT identities for each SNP in genotype_matrix and Pool-seq input
+against VCF_REF/VCF_ALT, then explicitly set TRUE if they are consistent.
