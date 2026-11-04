@@ -1,0 +1,7 @@
+Panels A: primary 802-R5 catalogue, phase-aligned median responses and LOCO beta predictions.
+Panels B: conditionally estimated *RIL associations* in trait SD units, not variant causation.
+Asterisks: q_BH_all_regional_terms<0.05, not significance after all possible follow-up analyses.
+Panels C: historical exact-site counts, G0/G10/G36/G50; exclude A6G140 and extinct GA3.
+MISSING IV panel C is a data-availability gap, not no evolutionary response.
+Do not infer gene consequence from physical proximity or unvalidated online gene predictions.
+Selection candidates remain conditional on unresolved extreme-tail neutral-test calibration.

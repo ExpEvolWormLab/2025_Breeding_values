@@ -1,0 +1,27 @@
+Read this before using the evidence table:
+REF/ALT alleles MUST pass script 64 reference verification.
+Protein coding consequences depend on the transcript and isoform.
+Trait associations belong to linked R5 clusters, not automatically the exact mutation.
+A mutation inside a known gene is not necessarily the cause of the observed phenotype.
+Post-domestication origin of IV:10499135 and V:6322080 is supplied by prior independent history.
+Do not infer a mutation origin from non-detection in only 16 sampled founders.
+If the phase registry is absent, exact membership is not established.
+R version 4.5.2 (2025-10-31)
+Platform: x86_64-apple-darwin20
+Running under: macOS Sequoia 15.7.9
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/Paris
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.5.2    tools_4.5.2       rstudioapi_0.19.0

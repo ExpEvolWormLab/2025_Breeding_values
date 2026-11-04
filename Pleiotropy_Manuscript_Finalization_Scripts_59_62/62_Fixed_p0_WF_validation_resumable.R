@@ -90,8 +90,22 @@ for(Ne in CONFIG$Ne_grid){
      set.seed(as.integer(CONFIG$seed+Ne*17+round(pp*1e6)+tt*100003L))
      Y<-simulate_wf_site(p0=pp,depths=depths,pop=pop,Ne=Ne,n_sim=n,
                          pool_individuals=NA_real_)
-     K<-round(sweep(Y,2,depths,'*'))
-     K<-pmax(0,pmin(K,matrix(rep(depths,each=n),nrow=n)))
+     K <- round(sweep(Y, 2, depths, '*'))
+
+depth_matrix <- matrix(
+  rep(depths, each = n),
+  nrow = n,
+  ncol = length(depths)
+)
+
+K[K < 0] <- 0
+K[K > depth_matrix] <- depth_matrix[K > depth_matrix]
+
+stopifnot(
+  is.matrix(K),
+  nrow(K) == n,
+  ncol(K) == length(depths)
+)
      outp<-rep(1,n);valid_fit<-rep(FALSE,n)
      for(rr in seq_len(n)){
        k<-as.numeric(K[rr,]);d<-depths

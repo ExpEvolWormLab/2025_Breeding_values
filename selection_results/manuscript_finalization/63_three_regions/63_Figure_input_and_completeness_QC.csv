@@ -1,0 +1,4 @@
+"chr","region_start","region_end","n_R5_groups","n_eligible","n_response_finite","n_exact_focal_sites","plot_ready_trajectories"
+"I",5883574,7996414,7,7,7,3,TRUE
+"IV",8650000,10600000,6,5,5,0,FALSE
+"V",6046042,7278103,13,11,11,3,TRUE

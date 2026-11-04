@@ -1,0 +1,4 @@
+"chr","n_R5_finite","n_exact_sites","n_trajectories","has_exact_counts"
+"I",7,3,30,TRUE
+"IV",5,0,0,FALSE
+"V",11,3,30,TRUE

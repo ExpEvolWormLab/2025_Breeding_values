@@ -1,0 +1,4 @@
+Supplemental founder backgrounds: allele 0/1 after diploid homozygote coding.
+Do not equate VCF allele presence with ancestry if allele orientation differs.
+27 conditionals are kinship-adjusted but depend on chosen founder proxy and variant terms.
+Unidentifiable interactions should not be inferred.

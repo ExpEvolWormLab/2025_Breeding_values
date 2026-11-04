@@ -1,0 +1,8 @@
+"SNP_ID","gene","transcript_id","strand","genomic_REF","genomic_ALT","fasta_ref_validated","CDS_len","CDS_position","reference_codon","alternate_codon","reference_AA","alternate_AA","reference_codon_index","CDS_phase_consistent","predicted_effect"
+"I_7167738","K07G5.4","Transcript:K07G5.4.1","-","A","T",TRUE,1044,489,"GAT","GAA","D","E",163,TRUE,"missense_variant"
+"IV_10499135","tax-6","Transcript:C02F4.2a.1","-","A","G",TRUE,1608,658,"TTC","CTC","F","L",220,TRUE,"missense_variant"
+"IV_10499135","tax-6","Transcript:C02F4.2a.2","-","A","G",TRUE,1608,658,"TTC","CTC","F","L",220,TRUE,"missense_variant"
+"IV_10499135","tax-6","Transcript:C02F4.2b.1","-","A","G",TRUE,1638,658,"TTC","CTC","F","L",220,TRUE,"missense_variant"
+"IV_10499135","tax-6","Transcript:C02F4.2c.1","-","A","G",TRUE,1629,658,"TTC","CTC","F","L",220,TRUE,"missense_variant"
+"IV_10499135","tax-6","Transcript:C02F4.2c.2","-","A","G",TRUE,1629,658,"TTC","CTC","F","L",220,TRUE,"missense_variant"
+"V_6637695","scd-2","Transcript:T10H9.2.1","+","G","A",TRUE,4266,2953,"GGA","AGA","G","R",985,TRUE,"missense_variant"

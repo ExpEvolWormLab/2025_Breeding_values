@@ -1,0 +1,4 @@
+This tool uses the actual WS283 GFF3 annotation supplied locally.
+It does not resolve alternative transcript-specific consequences, CDS codon changes, synonymous/missense calls or strand-specific splice effects.
+A variant inside a gene is not proof of causality. Do not infer functional impact from nearest gene.
+When VEP returns, compare against the identical WS283 assembly/transcript versions.

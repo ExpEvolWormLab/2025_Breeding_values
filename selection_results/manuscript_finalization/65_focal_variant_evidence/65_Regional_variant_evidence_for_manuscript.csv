@@ -1,0 +1,9 @@
+"chr","pos","region","hypothesis","candidate_gene","SNP_ID","REF","ALT","QC","R5_group","membership_status","n_VEP_transcripts","VEP_effects_all_transcripts","VEP_genes_all_transcripts"
+"I",7167738,"I_RC301_PX174","RC301_PX174_shared","","I_7167738","A","T","EXACT_REF_VALIDATED","53","EXACT_MEMBER",NA,NA,NA
+"I",7491656,"I_RC301_PX174","RC301_private","","I_7491656","G","A","EXACT_REF_VALIDATED","54","EXACT_MEMBER",NA,NA,NA
+"I",7596359,"I_RC301_PX174","RC301_private","","I_7596359","C","T","EXACT_REF_VALIDATED","54","EXACT_MEMBER",NA,NA,NA
+"IV",8892663,"IV_CB4856","post_founder_candidate","","IV_8892663","C","T","EXACT_REF_VALIDATED","727","EXACT_MEMBER",NA,NA,NA
+"IV",10499135,"IV_CB4856","confirmed_domestication_mutation","tax-6","IV_10499135","A","G","EXACT_REF_VALIDATED","731","EXACT_MEMBER",NA,NA,NA
+"V",6322080,"V_multilocus","confirmed_domestication_mutation","cest-24","V_6322080","T","C","EXACT_REF_VALIDATED","848","EXACT_MEMBER",NA,NA,NA
+"V",6637695,"V_multilocus","CB4507_linked","","V_6637695","G","A","EXACT_REF_VALIDATED","851","EXACT_MEMBER",NA,NA,NA
+"V",6826421,"V_multilocus","CB4507_linked","","V_6826421","T","A","EXACT_REF_VALIDATED","853","EXACT_MEMBER",NA,NA,NA
